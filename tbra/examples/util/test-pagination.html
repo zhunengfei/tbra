@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>Untitled Document</title>
+		<style type="text/css" media="screen">
+			@import url('../../assets/tbra.css');
+		</style>
+		<script type="text/javascript" src="../../yui-utilities.js"></script>
+		<script type="text/javascript" src="../../tbra-debug.js"></script>
+	</head>
+	<body>
+		
+	<style>
+		#PageDataPlaceHolder {
+			height: 300px;
+			border: 1px solid red;
+		}
+		#PageBar {
+			border: 1px solid blue;
+			height: 25px;
+		}
+		
+		#PageBar ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			float:right;
+		}
+		#PageBar ul li {
+			float:left;
+			font-family:Arial;
+			font-size:13px;
+			height:18px;
+			line-height:18px;
+			margin:0pt 1px;
+			text-align:center;
+		}
+		#PageBar ul li.CurrPage a {
+			background:#91AAED none repeat scroll 0%;
+			border:1px solid #91AAED;
+			color:#FFFFFF;
+			font-weight:bold;
+			height:18px;
+			padding:0pt 6px;
+		}
+		#PageBar a {
+			border:1px solid #CCCCCC;
+			display:block;
+			float:left;
+			font-size:13px;
+			padding:0pt 6px;
+			text-align:center;
+			text-decoration:none !important;
+		}
+		#PageBar li.PrevPage a {
+			background:transparent url(http://pics.taobao.com/space/arrow_left.gif) no-repeat scroll center;
+			overflow:hidden;
+			padding:0pt;
+			text-indent:-9999px;
+			width:20px;
+		}
+		#PageBar li.NextPage a {
+			background:transparent url(http://pics.taobao.com/space/arrow_right.gif) no-repeat scroll 50px center;
+			padding-left:8px;
+			padding-right:20px;
+			width:auto;
+		}
+		#PageBar li.NoPrev a {
+			background:transparent url(http://pics.taobao.com/space/arrow_left_gray.gif) no-repeat scroll center;
+			color:gray !important;
+		}
+		#PageBar li.NoNext a {
+			background:transparent url(http://pics.taobao.com/space/arrow_right_gray.gif) no-repeat scroll 50px center;
+			color:gray !important;
+		}		
+		
+	</style>
+	
+
+	<div id="Content">
+		
+		
+		PgaeData:
+		<div id="PageDataPlaceHolder">
+			
+			
+		</div>
+		
+		PageBar: 
+		<div id="PageBar"></div>
+		
+		
+	</div>		
+		
+	<script>
+	var pageTool = TB.util.Pagination.attach('PageBar','PageDataPlaceHolder',{
+		pageUrl: 'data.js'
+	});
+	pageTool.gotoPage(1);
+	</script>		
+		
+	</body>
+</html>

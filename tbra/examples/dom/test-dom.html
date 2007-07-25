@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="../../yui-utilities.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+</head>
+
+<div class="demoDiv">
+	<ul id="demoUl">
+		<li>test1</li>
+		<li id="demoLi">test2</li>
+		<li>test3</li>
+	</ul>
+</div>
+
+<hr />
+
+<h2>TB.dom.insertAfter</h2> 
+<script type="text/javascript">
+var testLi = document.createElement('li');
+testLi.innerHTML = 'test1.5';
+TB.dom.insertAfter(testLi, 'demoLi')
+document.write(TB.dom.getNextSibling('demoLi').innerHTML);		
+//@TODO
+</script>
+
+<h2>TB.dom.getAncestorByTagName</h2> 
+<script type="text/javascript">
+document.write(TB.dom.getAncestorByTagName('demoLi', 'div').className);		
+//@TODO
+</script>
+
+<h2>TB.dom.getAncestorByClassName</h2> 
+<script type="text/javascript">
+document.write(TB.dom.getAncestorByClassName('demoLi', 'demoDiv').tagName);		
+//@TODO
+</script>
+
+
+<h2>TB.dom.getNextSibling</h2> 
+<script type="text/javascript">
+
+document.write(TB.dom.getNextSibling('demoLi').innerHTML);		
+//@TODO
+
+</script>
+
+<h2>TB.dom.getPreviousSibling</h2> 
+<script type="text/javascript">
+
+document.write(TB.dom.getPreviousSibling('demoLi').innerHTML);		
+//@TODO
+
+</script>
+
+<body>
+</body>
+</html>
