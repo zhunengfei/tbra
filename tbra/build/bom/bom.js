@@ -8,15 +8,15 @@
 		_isSafari = ua.indexOf('safari') != -1,
 		_isGecko = !_isOpera && !_isSafari && ua.indexOf('gecko') > -1,
 		_isIE = !_isOpera && ua.indexOf('msie') != -1, 
-		_isIE6 = !_isOpera && ua.indexOf('msie 6') != -1;
-		
+		_isIE6 = !_isOpera && ua.indexOf('msie 6') != -1,
+		_isIE7 = !_isOpera && ua.indexOf('msie 7') != -1;
 	TB.bom = {
 		isOpera: _isOpera,
 		isSafari: _isSafari,
 		isGecko: _isGecko,
 		isIE: _isIE,
 		isIE6: _isIE6,
-			
+		isIE7: _isIE7,
 		/**
 	     * ªÒ»°cookie
 	     * @method getCookie
