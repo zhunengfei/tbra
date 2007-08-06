@@ -154,3 +154,12 @@ if (!String.prototype.trim) {
 	    return function(){ return this.replace(re, ""); };
 	}();
 }
+
+
+if (!String.prototype.replaceAll) {
+	String.prototype.replaceAll =function(from,to){
+    var re = eval("/" + from + "/g");
+    return(this.replace(re, to));
+};
+}
+
