@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<script type="text/javascript" src="../../yui-utilities.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+<title>无标题文档</title>
+</head>
+
+<body>
+<style>
+#demo {
+	border: 1px solid red;
+	width: 500px;
+	background: url(http://pics.taobao.com/space/profile_bg.gif) repeat-x 0 0;
+}
+</style>	
+<div id="doc">
+   <h1>Animation Example - Highlight</h1>
+   <p>This example demonstrates how to animate an element's font, border, and background color.</p>
+   <p>Click anywhere to start animation.</p>
+
+   <div id="demo">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat </div>
+     
+</div>
+
+<script type="text/javascript">
+YAHOO.example.init = function() {   
+	var anim = new TB.anim.Highlight('demo');
+	anim.onComplete.subscribe(function() {
+   		alert(1);
+	});
+	YAHOO.util.Event.on(document, 'click', anim.animate);
+};
+
+YAHOO.util.Event.onAvailable('demo', YAHOO.example.init);
+</script>
+	
+</body>
+</html>
+

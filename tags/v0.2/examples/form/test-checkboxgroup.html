@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="../../yui-utilities.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+<style>
+table td {
+	text-align: center;
+}
+
+table tr.H {
+	background: #ffff99;
+}
+</style>
+</head>
+<body>
+	<h1>CheckboxGroup Demo1</h1>
+	<form name="testform">
+
+	<button id="LikeCheckAll" disabled="disabled">全选时激活</button>
+	<button id="LikeCheckNone">全不选时激活</button>
+	<button id="LikeCheckSingle" disabled="disabled">只选中一个时激活</button>
+	<button id="LikeCheckMulti" disabled="disabled">同时选中多个时激活</button>
+	
+	<table border="1" width="500">
+		
+		<thead>
+			<tr>
+				<th><input type="checkbox" id="CheckAll"></th>
+				<th>Title</th>
+			</tr>
+			
+		</thead>
+		
+		<tbody>
+			<tr>
+				<td><input type="checkbox" name="c"></td>
+				<td>1111111111111111111111111111111111</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c"></td>
+				<td>2222222222222222222222222222222222</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c"></td>
+				<td>3333333333333333333333333333333333</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c"></td>
+				<td>4444444444444444444444444444444444</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c"></td>
+				<td>5555555555555555555555555555555555</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c" id="testcb"></td>
+				<td>6666666666666666666666666666666666</td>
+			</tr>
+		</tbody>			
+		
+	</table>
+	</form>
+	<script type="text/javascript">
+		var handle = TB.form.CheckboxGroup.attach(document.testform.c, {checkAllBox:'CheckAll', checkOnInit:false});
+		handle.onCheck(function(checkbox) {
+			if (checkbox.checked) {
+				YAHOO.util.Dom.addClass(checkbox.parentNode.parentNode, 'H');
+			} else {
+				YAHOO.util.Dom.removeClass(checkbox.parentNode.parentNode, 'H');
+			}	
+			if(this.isCheckNone()) {
+				YAHOO.util.Dom.get('LikeCheckAll').disabled = 1;
+				YAHOO.util.Dom.get('LikeCheckNone').disabled = 0;
+				YAHOO.util.Dom.get('LikeCheckSingle').disabled = 1;
+				YAHOO.util.Dom.get('LikeCheckMulti').disabled = 1;
+			} else {
+				YAHOO.util.Dom.get('LikeCheckNone').disabled = 1;
+				if (this.isCheckAll()) {
+					YAHOO.util.Dom.get('LikeCheckAll').disabled = 0;
+					YAHOO.util.Dom.get('LikeCheckNone').disabled = 1;
+					YAHOO.util.Dom.get('LikeCheckSingle').disabled = 1;	
+					YAHOO.util.Dom.get('LikeCheckMulti').disabled = 1;		
+				} 
+				
+				if (this.isCheckSingle()) {
+					YAHOO.util.Dom.get('LikeCheckSingle').disabled = 0;
+					YAHOO.util.Dom.get('LikeCheckMulti').disabled = 1;
+				} else if (this.isCheckMulti()) {
+					YAHOO.util.Dom.get('LikeCheckMulti').disabled = 0;
+					YAHOO.util.Dom.get('LikeCheckSingle').disabled = 1;
+				}
+			}
+		});
+
+		handle.toggleChecked(document.getElementById('testcb'));
+		
+	</script>
+	
+	
+	<h1>CheckboxGroup Demo1</h1>
+	<form name="testform2">
+
+	<button id="CheckAllButton" type="button">全选</button>
+	
+	<table border="1" width="500">
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th>Title</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr>
+				<td><input type="checkbox" name="c" ></td>
+				<td>1111111111111111111111111111111111</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c" ></td>
+				<td>2222222222222222222222222222222222</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c" ></td>
+				<td>3333333333333333333333333333333333</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c" ></td>
+				<td>4444444444444444444444444444444444</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c" ></td>
+				<td>5555555555555555555555555555555555</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="c" checked></td>
+				<td>6666666666666666666666666666666666</td>
+			</tr>
+		</tbody>			
+		
+	</table>
+	</form>
+	<script type="text/javascript">
+		var h2 = TB.form.CheckboxGroup.attach(document.testform2.c, {
+			checkAllBox: 'CheckAllButton',
+			onCheck: function(o) {
+						if (this.isCheckAll())
+							YAHOO.util.Dom.get('CheckAllButton').innerHTML = '取消全选';
+						else
+							YAHOO.util.Dom.get('CheckAllButton').innerHTML = '全选';	
+					} 
+			});
+	
+	</script>	
+</body>
+</html>
