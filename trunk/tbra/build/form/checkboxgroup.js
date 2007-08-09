@@ -13,7 +13,7 @@ TB.form.CheckboxGroup = new function() {
 	
 	this.attach = function(checkboxGroup, config) {
 		config = TB.applyIf(config || {}, defConfig);
-		//返回给调用者的控制器，只包含对调用者可见的方法/属性	
+		/*返回给调用者的控制器，只包含对调用者可见的方法/属性*/	
 		var handle = {};
 		var onCheckEvent = new Y.CustomEvent('onCheck', handle, false, Y.CustomEvent.FLAT);			
 	
@@ -22,7 +22,7 @@ TB.form.CheckboxGroup = new function() {
 			if(checkboxGroup.length)
 				checkboxes = TB.common.toArray(checkboxGroup);
 			else
-				checkboxes[0] = checkboxGroup; //如果只有一个checkbox		
+				checkboxes[0] = checkboxGroup; /*如果只有一个checkbox*/		
 		}
 
 		var checkAllBox = $(config.checkAllBox);
@@ -55,7 +55,7 @@ TB.form.CheckboxGroup = new function() {
 				return this._checkedBoxCount == checkboxes.length;				
 			},
 			isCheckNone: function() {
-				return this._checkedBoxCount == 0;				
+				return this._checkedBoxCount == 0;
 			},
 			isCheckSome: function() {
 				return this._checkedBoxCount != 0;

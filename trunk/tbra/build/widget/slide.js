@@ -12,7 +12,7 @@
 	TB.widget.Slide = function(container, config) {
 		this.init(container, config);
 	}
-	//默认参数配置 
+	/* 默认参数配置 */ 
 	TB.widget.Slide.defConfig = {
 		slidesClass: 'Slides',			/* 幻灯影片ul的className */
 		triggersClass: 'SlideTriggers',		/* 触点的className */
@@ -241,7 +241,7 @@
 		 * @param {Object} n
 		 */
 		slide: function(n) {
-			//第一次运行
+			/* 第一次运行 */
 			if (this.curSlide == -1) {
 				$D.setStyle(this.slides[n], 'display', 'block');
 			} else {

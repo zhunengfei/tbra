@@ -155,11 +155,16 @@ if (!String.prototype.trim) {
 	}();
 }
 
-
 if (!String.prototype.replaceAll) {
-	String.prototype.replaceAll =function(from,to){
-    var re = eval("/" + from + "/g");
-    return(this.replace(re, to));
-};
+	String.prototype.replaceAll = function(from, to){
+		return this.replace(new RegExp(from, 'gm'), to);
+	}
 }
 
+/**
+ * 取随机整数
+ * @param {Object} n 最大整数
+ */
+Math.randomInt = function(n) {
+	return Math.floor(Math.random() * (n + 1));	
+}

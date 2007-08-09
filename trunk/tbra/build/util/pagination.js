@@ -1,22 +1,22 @@
 TB.util.Pagination = new function() {
 	
-	var PAGE_SEPARATOR = '...'; //页省略符号	
+	var PAGE_SEPARATOR = '...'; /*页省略符号*/	
 
-	//默认配置参数	
+	/* 默认配置参数 */	
 	var defConfig = {
 		pageUrl: '',
-		prevPageClass: 'PrevPage',  //上一页<li>的className
-		noPrevClass: 'NoPrev',       //上一页不可用时<li>的className
+		prevPageClass: 'PrevPage',  /*上一页<li>的className*/
+		noPrevClass: 'NoPrev',       /*上一页不可用时<li>的className*/
 		prevPageText: 'prevPageText',
-		nextPageClass: 'NextPage',  //下一页<li>的className
+		nextPageClass: 'NextPage',  /*下一页<li>的className*/
 		nextPageText: 'nextPageText',
-		noNextClass: 'NoNext',       //下一页不可用时<li>的className		
-		currPageClass: 'CurrPage',  //当前页<li>的className
-		pageParamName: 'page',		//标识页数的参数名
-		appendParams: '',   //附带其他的参数
-		pageBarMode: 'bound',  //分页条的样式  bound | eye | line
-		showIndicator: true,   //显示加载提示图标,
-		cachePageData: false  //缓存分页数据
+		noNextClass: 'NoNext',       /*下一页不可用时<li>的className*/		
+		currPageClass: 'CurrPage',  /*当前页<li>的className*/
+		pageParamName: 'page',		/*标识页数的参数名*/
+		appendParams: '',   /*附带其他的参数*/
+		pageBarMode: 'bound',  /*分页条的样式  bound | eye | line*/
+		showIndicator: true,   /*显示加载提示图标*/
+		cachePageData: false  /*缓存分页数据*/
 	}
 	
 	/**
@@ -105,7 +105,7 @@ TB.util.Pagination = new function() {
 			aEl.innerHTML = (idx=='prev')?$M(config.prevPageText):(idx=='next')?$M(config.nextPageText):idx;
 			liEl.appendChild(aEl);
 		} else {
-			//如果是分页省略分隔符，直接显示省略号
+			/*如果是分页省略分隔符，直接显示省略号*/
 			liEl.innerHTML = PAGE_SEPARATOR;
 		}
 		return liEl;
@@ -134,7 +134,7 @@ TB.util.Pagination = new function() {
 		pageDataContainer = $(pageDataContainer);
 		config = TB.applyIf(config||{}, defConfig);
 		
-		//数据缓存对象
+		/*数据缓存对象*/
 		if (config.cachePageData) {
 			var pageDataCache = {};
 		}
@@ -169,13 +169,13 @@ TB.util.Pagination = new function() {
 				this.pageSize = parseInt(pageObj.PageSize);
 			}
 			
-			//清除page UL 内容并重新构造
+			/* 清除page UL 内容并重新构造 */
 			ulEl.innerHTML = '';
 			
-			//获取分页页码列表
+			/* 获取分页页码列表 */
 			var list = this.repaginate();
 
-			//上一页导航单元
+			/* 上一页导航单元 */
 			var prevLiEl = buildPageEntry('prev', config);
 			if (!this.isPrevPageAvailable()) {
 				$D.addClass(prevLiEl, config.noPrevClass);
@@ -185,7 +185,7 @@ TB.util.Pagination = new function() {
 			}
 			ulEl.appendChild(prevLiEl);			
 			
-			//循环构造分页符
+			/* 循环构造分页符 */
 			for (var i = 0; i < list.length; i++) {
 				var liEl = buildPageEntry(list[i], config);
 				if (list[i] == this.pageIndex) {
@@ -197,7 +197,7 @@ TB.util.Pagination = new function() {
 				ulEl.appendChild(liEl);
 			}
 			
-			//下一页导航单元
+			/* 下一页导航单元 */
 			var nextLiEl = buildPageEntry('next', config);
 			if (!this.isNextPageAvailable()) {
 				$D.addClass(nextLiEl, config.noNextClass);
@@ -214,17 +214,17 @@ TB.util.Pagination = new function() {
 		handle.repaginate = function() {
 			var mode = config.pageBarMode;
 			if (mode == 'bound') {
-				//返回 bound 形式的分页条，间断性的显示页码
+				/* 返回 bound 形式的分页条，间断性的显示页码 */
 				return buildBoundPageList(parseInt(this.pageIndex), parseInt(this.pageCount));
 			} else if (mode == 'line') {
-				//返回 line 形式的分页条，显示所有页码
+				/* 返回 line 形式的分页条，显示所有页码 */
 				var l = [];
 				for (var i = 1; i <= this.pageCount; i++) {
 					l.push(i);
 				}
 				return l;
 			} else if (mode == 'eye') {
-				//返回 eye 形式的分页条,只有向前向后的分页形式
+				/* 返回 eye 形式的分页条,只有向前向后的分页形式 */
 				return [];
 			}
 		}
@@ -242,7 +242,7 @@ TB.util.Pagination = new function() {
 			}
 			var url = buildPageUrl(idx, config);
 			
-			//如果设置了数据缓存，而发现缓存数据已存在，直接显示缓存中的数据
+			/* 如果设置了数据缓存，而发现缓存数据已存在，直接显示缓存中的数据 */
 			if (config.cachePageData) {
 				if (pageDataCache[url]) {
 					handle.showPage(pageDataCache[url]);
@@ -300,7 +300,7 @@ TB.util.Pagination = new function() {
 		 */
 		handle.disablePageBar = function() {
 			$D.addClass(pageBarContainer, 'Disabled');
-			//先重置所有onclick event handler
+			/* 先重置所有onclick event handler */
 			$E.purgeElement(pageBarContainer, true, 'click');
 			var els = TB.common.toArray(pageBarContainer.getElementsByTagName('a'));
 			els.forEach(function(el, i){

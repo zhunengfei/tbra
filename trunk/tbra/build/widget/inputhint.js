@@ -36,15 +36,15 @@ TB.widget.InputHint = new function() {
 			}
 		}
 
-		//初始化
+		/* 初始化 */
 		inputField.setAttribute("title", hintMessage);
 		$E.on(inputField, 'focus', focusHandler, handle);
-		$E.on(inputField, 'drop', focusHandler, handle); //for ie/safari
+		$E.on(inputField, 'drop', focusHandler, handle); /* for ie/safari */
 		
 		if (!config.appearOnce)
 			$E.on(inputField, 'blur', blurHandler, handle);
 		
-		//默认先显示
+		/* 默认先显示 */
 		handle.appear();
 		return handle;
 	}

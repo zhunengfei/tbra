@@ -6,10 +6,10 @@
 TB.widget.SimpleRating = new function() {
 	
 	var defConfig = {
-		rateUrl: '',  //评分数据发送给的URL
-		rateParams: '',  //其他参数，格式k1=v1&k2=v2
-		scoreParamName: 'score', //评论参数名
-		topScore: 5,  //最高分
+		rateUrl: '',  /* 评分数据发送给的URL */
+		rateParams: '',  /* 其他参数，格式k1=v1&k2=v2 */
+		scoreParamName: 'score', /* 评论参数名 */
+		topScore: 5,  /* 最高分 */
 		currentRatingClass: 'current-rating'
 	};
 
@@ -30,7 +30,7 @@ TB.widget.SimpleRating = new function() {
 	} 
 		
 	this.decorate = function(ratingContainer, config) {
-		ratingContainer = $(ratingContainer);  //一个<ul>
+		ratingContainer = $(ratingContainer);  /* 一个<ul> */
 		config = TB.applyIf(config || {}, defConfig);
 		var currentRatingLi = $D.getElementsByClassName(config.currentRatingClass, 'li', ratingContainer)[0];
 		
@@ -40,7 +40,7 @@ TB.widget.SimpleRating = new function() {
 		var handle = {};
 		
 		handle.init = function(avg) {
-			//检查看是否需要显示当前的分数
+			/* 检查看是否需要显示当前的分数 */
 			updateCurrentRating(currentRatingLi, avg, config);
 		}
 		
@@ -48,9 +48,9 @@ TB.widget.SimpleRating = new function() {
 			if (ret && ret.Average && currentRatingLi) {
 				updateCurrentRating(currentRatingLi, ret.Average, config);
 			}
-			//只能评分一次
+			/* 只能评分一次 */
 			$E.purgeElement(ratingContainer, true, 'click');
-			//移除其他的li
+			/* 移除其他的li */
 			for (var lis = ratingContainer.getElementsByTagName('li'), i = lis.length-1; i > 0; i--) {
 				ratingContainer.removeChild(lis[i]);		
 			}
