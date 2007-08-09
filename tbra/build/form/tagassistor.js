@@ -7,7 +7,7 @@ TB.form.TagAssistor = new function() {
 	 * 默认配置参数
 	 */
 	var defConfig = {
-		separator: ' ', //默认分隔符是空格
+		separator: ' ', /*默认分隔符是空格*/
 		selectedClass: 'Selected'
 	}
 	
@@ -21,7 +21,7 @@ TB.form.TagAssistor = new function() {
 	}
 	
 	var value2TagArray = function(textField, separator) {
-		//将连续的空格替换为单个空格，并去除首尾的空格
+		/*将连续的空格替换为单个空格，并去除首尾的空格*/
 		var val = textField.value.replace(/\s+/g, ' ').trim();
 		if (val.length > 0)
 			return val.split(separator);
@@ -50,7 +50,7 @@ TB.form.TagAssistor = new function() {
 		var clickHandler = function(ev) {
 			var tagArray = value2TagArray(textField, config.separator);
 			var target = $E.getTarget(ev);
-			//tag已选中
+			/* tag已选中 */
 			if (tagExists(tagArray, target)) {
 				tagArray.remove(TB.common.trim(target.innerHTML));
 			} else {
@@ -77,7 +77,7 @@ TB.form.TagAssistor = new function() {
 		handle.init = function() {
 			var tagArray = value2TagArray(textField, config.separator);
 
-			// 给每个	备选tag的<a> 注册事件处理程序
+			/* 给每个	备选tag的<a> 注册事件处理程序 */
 			triggers.forEach(function(o, i){
 				if (tagExists(tagArray, o)) {
 					$D.addClass(o, config.selectedClass);
@@ -85,7 +85,7 @@ TB.form.TagAssistor = new function() {
 				$E.on(o, 'click', clickHandler);
 			});
 			
-			// 监测每次的键盘动作，如果发现匹配或者不匹配的tag文字，增加或取消着重效果
+			/* 监测每次的键盘动作，如果发现匹配或者不匹配的tag文字，增加或取消着重效果 */
 			$E.on(textField, 'keyup', function(ev){
 				var tagArray = value2TagArray(textField, config.separator);
 				updateClass(tagArray);				

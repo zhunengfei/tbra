@@ -8,6 +8,7 @@
 </head>
 <body>
 
+
 <style type="text/css">
 .tb-dropdown {
 	overflow: visible !important;
@@ -18,13 +19,6 @@
 
 .tb-dropdown:hover .tb-dropdownitem, .hover .tb-dropdownitem{
 	display: block;
-}
-
-* html .tb-dropdown {
-	fake-hover: expression(this.onmouseover = function(){
-		this.className += ' hover';},
-		this.onmouseout = function(){this.className = this.className.replace('hover','');}
-	);
 }
 
 #outer {
@@ -42,7 +36,7 @@
 ul {
 	margin: 0;
 	padding: 0;
-	list-style: none;	
+	list-style: none;
 }
 
 .menu {
@@ -69,6 +63,14 @@ ul {
 			config = TB.applyIf(config||{}, defConfig);
 			$D.addClass(dropdown, config.dropDownClass);
 			$D.addClass(dropdownItem, config.dropDownItemClass);
+			if (TB.bom.isIE6) {
+				$E.on(dropdown, 'mouseover', function(){
+					$D.addClass(this, 'hover');	
+				})
+				$E.on(dropdown, 'mouseout', function(){
+					$D.removeClass(this, 'hover');	
+				})
+			}
 		}
 	}
 </script>
@@ -79,7 +81,7 @@ ul {
 
 <h2>Demo 1</h2>
 <div id="outer">
-	Move to here:
+	<a href="#">Move to here:</a> 
 	<div id="inner">
 		taobao taobao taobao taobao taobao taobao
 		taobao taobao taobao taobao taobao taobao

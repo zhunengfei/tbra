@@ -1,6 +1,5 @@
 /*
- * tbra
- * Copyright(c) 2007, taobao.com.
+ * TBra
  * 
  * Taobao JavaScript Framework base on YUI
  * T-Bra or TB-ra whatever you like name it...
@@ -164,7 +163,7 @@ if (!String.prototype.trim) {
 	}();
 }
 
-$D = YAHOO.util.Dom;$E = YAHOO.util.Event;$ = $D.get;TB = {};TB.namespace = function() {    var a=arguments, o=null, i, j, d;    for (i=0; i<a.length; i=i+1) {        d=a[i].split(".");        o=TB;        for (j=(d[0] == "TB") ? 1 : 0; j<d.length; j=j+1) {            o[d[j]]=o[d[j]] || {};            o=o[d[j]];        }    }    return o;};TB.namespace('env');TB.env = {	hostname: 'taobao.com',	scriptName: 'tbra-debug.js',	debug: true,	lang: (navigator.userLanguage?navigator.userLanguage.toLowerCase():navigator.language.toLowerCase())};TB.namespace('locale');TB.locale = {	Messages: {},	getMessage: function(key) {		return TB.locale.Messages[key] || key;	},	setMessage: function(key, value) {		TB.locale.Messages[key] = value;	}	}$M = TB.locale.getMessage;TB.trace = function(msg) {	if (!TB.env.debug) return;	if (window.console) {		window.console.debug(msg);	} else {		alert(msg);	}}TB.init = function() {	this.namespace('widget', 'dom', 'bom', 'util', 'form', 'anim');	//����	var scripts = document.getElementsByTagName("script");	var idx, urlPrefix;	for (var i = 0; i < scripts.length; i++) {		if ((idx = scripts[i].src.indexOf(TB.env.scriptName)) > 0) {			urlPrefix = scripts[i].src.substring(0, idx);			var matchs = scripts[i].src.match(/\?(.*)$/);			if (matchs) {				var params = matchs[1].toQueryParams();				for (n in params) {					if (n=='t') n = 'timestamp';					TB.env[n] = params[n];				}							}		}	}	document.write( '<script type="text/javascript" src="' + urlPrefix + 'locale/' + TB.env.lang.toLowerCase() + '.js"><\/script>' );	document.write('<link type="text/css" rel="stylesheet" href="' + urlPrefix + 'assets/tbra.css" />');	}TB.init();
+$D = YAHOO.util.Dom;$E = YAHOO.util.Event;$ = $D.get;TB = {};TB.namespace = function() {    var a=arguments, o=null, i, j, d;    for (i=0; i<a.length; i=i+1) {        d=a[i].split(".");        o=TB;        for (j=(d[0] == "TB") ? 1 : 0; j<d.length; j=j+1) {            o[d[j]]=o[d[j]] || {};            o=o[d[j]];        }    }    return o;};TB.namespace('env');TB.env = {	hostname: 'taobao.com',	scriptName: 'tbra-debug.js',	debug: true,	lang: (navigator.userLanguage?navigator.userLanguage.toLowerCase():navigator.language.toLowerCase())};TB.namespace('locale');TB.locale = {	Messages: {},	getMessage: function(key) {		return TB.locale.Messages[key] || key;	},	setMessage: function(key, value) {		TB.locale.Messages[key] = value;	}	}$M = TB.locale.getMessage;TB.trace = function(msg) {	if (!TB.env.debug) return;	if (window.console) {		window.console.debug(msg);	} else {		alert(msg);	}}TB.init = function() {	this.namespace('widget', 'dom', 'bom', 'util', 'form', 'anim');	var scripts = document.getElementsByTagName("script");	var idx, urlPrefix;	for (var i = 0; i < scripts.length; i++) {		if ((idx = scripts[i].src.indexOf(TB.env.scriptName)) > 0) {			urlPrefix = scripts[i].src.substring(0, idx);			var matchs = scripts[i].src.match(/\?(.*)$/);			if (matchs) {				var params = matchs[1].toQueryParams();				for (n in params) {					if (n=='t') n = 'timestamp';					TB.env[n] = params[n];				}							}		}	}	document.write( '<script type="text/javascript" src="' + urlPrefix + 'locale/' + TB.env.lang.toLowerCase() + '.js"><\/script>' );	document.write('<link type="text/css" rel="stylesheet" href="' + urlPrefix + 'assets/tbra.css" />');	}TB.init();
 
 TB.common = {
 	
@@ -396,7 +395,7 @@ TB.widget.SimpleTab = new function() {
 	this.decorate = function(container, config) {
 		container = $(container);
 		config = TB.applyIf(config||{}, defConfig);
-		//���ظ������ߵĿ�������ֻ�����Ե����߿ɼ��ķ���/����		
+				
 		var handle = {};
 	
 		var tabPanels = getImmediateDescendants(container);
@@ -406,7 +405,7 @@ TB.widget.SimpleTab = new function() {
 		if (config.tabClass) {
 			tabTriggers = $D.getElementsByClassName(config.tabClass, '*', container);
 		} else {
-			tabTriggers = TB.common.toArray(tab.getElementsByTagName('a')); //Ĭ��ȡtab�µ�<a>
+			tabTriggers = TB.common.toArray(tab.getElementsByTagName('a')); 
 		}
 		var onSwitchEvent = new Y.CustomEvent("onSwitch", null, false, Y.CustomEvent.FLAT);
 		if (config.onSwitch) {
@@ -423,7 +422,7 @@ TB.widget.SimpleTab = new function() {
 				try {
 					$E.stopEvent(ev);
 				}catch (e) {
-					//ignore
+					
 				}
 			}
 			return !config.stopEvent;
@@ -451,7 +450,7 @@ TB.widget.SimpleTab = new function() {
 			}
 		}
 
-		//���幫���ķ���
+		
 		TB.apply(handle, {
 			switchTab: function(idx) {
 				$D.setStyle(tabPanels, 'display', 'none');
@@ -482,7 +481,7 @@ TB.widget.SimpleTab = new function() {
 	TB.widget.Slide = function(container, config) {
 		this.init(container, config);
 	}
-	//Ĭ�ϲ������� 
+	 
 	TB.widget.Slide.defConfig = {
 		slidesClass: 'Slides',			
 		triggersClass: 'SlideTriggers',		
@@ -662,7 +661,7 @@ TB.widget.SimpleTab = new function() {
 		
 		
 		slide: function(n) {
-			//��һ������
+			
 			if (this.curSlide == -1) {
 				$D.setStyle(this.slides[n], 'display', 'block');
 			} else {
@@ -727,7 +726,7 @@ TB.widget.SimpleScroll = new function() {
 	this.decorate = function(container, config) {
 		container = $(container);
 		config = TB.applyIf(config||{}, defConfig);
-		//���ظ������ߵĿ�������ֻ�����Ե����߿ɼ��ķ���/����	
+			
 		var handle = {};
 		
 		var scrollTimeId = null, pause = false;
@@ -806,15 +805,15 @@ TB.widget.SimplePopup = new function() {
 	}
 	
 		
-	var triggerClickHandler = function tch(ev) {
+	var triggerClickHandler = function(ev) {
 		var target = $E.getTarget(ev);
-		if (tch._target == target) {
+		if (triggerClickHandler._target == target) {
 			this.popup.style.display == 'block'? this.hide() : this.show();
 		} else {
 			this.show();
 		}
 		$E.stopEvent(ev);
-		tch._target = target;
+		triggerClickHandler._target = target;
 	}
 	var triggerMouseOverHandler = function(ev) {
 		clearTimeout(popupHideTimeId);
@@ -844,7 +843,7 @@ TB.widget.SimplePopup = new function() {
 	
 	this.decorate = function(trigger, popup, config) {
 		if (YAHOO.lang.isArray(trigger) || (YAHOO.lang.isObject(trigger) && trigger.length)) {
-			//batch����ʱ���ڼ򵥿��ǣ�������handle object
+			
 			for (var i = 0; i < trigger.length; i++) {
 				this.decorate(trigger[i], popup, config);
 			}
@@ -855,7 +854,7 @@ TB.widget.SimplePopup = new function() {
 		popup = $(popup);
 		if (!trigger || !popup) return;
 		config = TB.applyIf(config||{}, defConfig);
-		//���ظ������ߵĿ�������ֻ�����Ե����߿ɼ��ķ���/����		
+				
 		var handle = {};		
 
 		var onShowEvent = new Y.CustomEvent("onShow", handle, false, Y.CustomEvent.FLAT);
@@ -870,7 +869,7 @@ TB.widget.SimplePopup = new function() {
 		if (config.eventType == 'mouse') {
 			$E.on(trigger, 'mouseover', triggerMouseOverHandler, handle, true);
 			$E.on(trigger, 'mouseout', mouseOutHandler, handle, true);
-			//batch ����ʱ��Popup ������¼�ֻע��һ�ￄ1�7
+			
 			if (!$E.getListeners(popup, 'mouseover')) {
 				$E.on(popup, 'mouseover', popupMouseOverHandler);
 			}
@@ -914,7 +913,7 @@ TB.widget.SimplePopup = new function() {
 				
 				if(this.config.autoFit) {
 					if (t-st+ph > dh) {
-						t = dh-ph+st-2; //2px ƫ��
+						t = dh-ph+st-2; 
 						if (t < 0) {
 							t = 0;
 						}
@@ -960,10 +959,10 @@ TB.widget.SimplePopup = new function() {
 TB.widget.SimpleRating = new function() {
 	
 	var defConfig = {
-		rateUrl: '',  //�������ݷ��͸���URL
-		rateParams: '',  //������������ʽk1=v1&k2=v2
-		scoreParamName: 'score', //���۲�����
-		topScore: 5,  //��߷ￄ1�7
+		rateUrl: '',  
+		rateParams: '',  
+		scoreParamName: 'score', 
+		topScore: 5,  
 		currentRatingClass: 'current-rating'
 	};
 
@@ -984,7 +983,7 @@ TB.widget.SimpleRating = new function() {
 	} 
 		
 	this.decorate = function(ratingContainer, config) {
-		ratingContainer = $(ratingContainer);  //һ��<ul>
+		ratingContainer = $(ratingContainer);  
 		config = TB.applyIf(config || {}, defConfig);
 		var currentRatingLi = $D.getElementsByClassName(config.currentRatingClass, 'li', ratingContainer)[0];
 		
@@ -994,7 +993,7 @@ TB.widget.SimpleRating = new function() {
 		var handle = {};
 		
 		handle.init = function(avg) {
-			//��鿴�Ƿ���Ҫ��ʾ��ǰ�ķ��ￄ1�7
+			
 			updateCurrentRating(currentRatingLi, avg, config);
 		}
 		
@@ -1002,9 +1001,9 @@ TB.widget.SimpleRating = new function() {
 			if (ret && ret.Average && currentRatingLi) {
 				updateCurrentRating(currentRatingLi, ret.Average, config);
 			}
-			//ֻ������һ��
+			
 			$E.purgeElement(ratingContainer, true, 'click');
-			//�Ƴ�������li
+			
 			for (var lis = ratingContainer.getElementsByTagName('li'), i = lis.length-1; i > 0; i--) {
 				ratingContainer.removeChild(lis[i]);		
 			}
@@ -1087,15 +1086,15 @@ TB.widget.InputHint = new function() {
 			}
 		}
 
-		//��ʼ��
+		
 		inputField.setAttribute("title", hintMessage);
 		$E.on(inputField, 'focus', focusHandler, handle);
-		$E.on(inputField, 'drop', focusHandler, handle); //for ie/safari
+		$E.on(inputField, 'drop', focusHandler, handle); 
 		
 		if (!config.appearOnce)
 			$E.on(inputField, 'blur', blurHandler, handle);
 		
-		//Ĭ������ʾ
+		
 		handle.appear();
 		return handle;
 	}
@@ -1265,23 +1264,23 @@ TB.util.QueryData = function() {
 }
 TB.util.Pagination = new function() {
 	
-	var PAGE_SEPARATOR = '...'; //ҳʡ�Է���	
+	var PAGE_SEPARATOR = '...'; 	
 
-	//Ĭ�����ò���	
+		
 	var defConfig = {
 		pageUrl: '',
-		prevPageClass: 'PrevPage',  //��һҳ<li>��className
-		noPrevClass: 'NoPrev',       //��һҳ������ʱ<li>��className
+		prevPageClass: 'PrevPage',  
+		noPrevClass: 'NoPrev',       
 		prevPageText: 'prevPageText',
-		nextPageClass: 'NextPage',  //��һҳ<li>��className
+		nextPageClass: 'NextPage',  
 		nextPageText: 'nextPageText',
-		noNextClass: 'NoNext',       //��һҳ������ʱ<li>��className		
-		currPageClass: 'CurrPage',  //��ǰҳ<li>��className
-		pageParamName: 'page',		//��ʶҳ���Ĳ�����
-		appendParams: '',   //���������Ĳ���
-		pageBarMode: 'bound',  //��ҳ������ʽ  bound | eye | line
-		showIndicator: true,   //��ʾ������ʾͼ��,
-		cachePageData: false  //�����ҳ���ￄ1�7
+		noNextClass: 'NoNext',       		
+		currPageClass: 'CurrPage',  
+		pageParamName: 'page',		
+		appendParams: '',   
+		pageBarMode: 'bound',  
+		showIndicator: true,   
+		cachePageData: false  
 	}
 	
 	
@@ -1355,7 +1354,7 @@ TB.util.Pagination = new function() {
 			aEl.innerHTML = (idx=='prev')?$M(config.prevPageText):(idx=='next')?$M(config.nextPageText):idx;
 			liEl.appendChild(aEl);
 		} else {
-			//����Ƿ�ҳʡ�Էָ����ֱ����ʾʡ�Ժ�
+			
 			liEl.innerHTML = PAGE_SEPARATOR;
 		}
 		return liEl;
@@ -1375,7 +1374,7 @@ TB.util.Pagination = new function() {
 		pageDataContainer = $(pageDataContainer);
 		config = TB.applyIf(config||{}, defConfig);
 		
-		//���ݻ�����ￄ1�7
+		
 		if (config.cachePageData) {
 			var pageDataCache = {};
 		}
@@ -1396,13 +1395,13 @@ TB.util.Pagination = new function() {
 				this.pageSize = parseInt(pageObj.PageSize);
 			}
 			
-			//���page UL ���ݲ����¹���
+			
 			ulEl.innerHTML = '';
 			
-			//��ȡ��ҳҳ���б�
+			
 			var list = this.repaginate();
 
-			//��һҳ������Ԫ
+			
 			var prevLiEl = buildPageEntry('prev', config);
 			if (!this.isPrevPageAvailable()) {
 				$D.addClass(prevLiEl, config.noPrevClass);
@@ -1412,7 +1411,7 @@ TB.util.Pagination = new function() {
 			}
 			ulEl.appendChild(prevLiEl);			
 			
-			//ѭ�������ҳ�ￄ1�7
+			
 			for (var i = 0; i < list.length; i++) {
 				var liEl = buildPageEntry(list[i], config);
 				if (list[i] == this.pageIndex) {
@@ -1424,7 +1423,7 @@ TB.util.Pagination = new function() {
 				ulEl.appendChild(liEl);
 			}
 			
-			//��һҳ������Ԫ
+			
 			var nextLiEl = buildPageEntry('next', config);
 			if (!this.isNextPageAvailable()) {
 				$D.addClass(nextLiEl, config.noNextClass);
@@ -1439,17 +1438,17 @@ TB.util.Pagination = new function() {
 		handle.repaginate = function() {
 			var mode = config.pageBarMode;
 			if (mode == 'bound') {
-				//���� bound ��ʽ�ķ�ҳ��������Ե���ʾҳ�ￄ1�7
+				
 				return buildBoundPageList(parseInt(this.pageIndex), parseInt(this.pageCount));
 			} else if (mode == 'line') {
-				//���� line ��ʽ�ķ�ҳ������ʾ����ҳ��
+				
 				var l = [];
 				for (var i = 1; i <= this.pageCount; i++) {
 					l.push(i);
 				}
 				return l;
 			} else if (mode == 'eye') {
-				//���� eye ��ʽ�ķ�ҳ��,ֻ����ǰ���ķ�ҳ��ʽ
+				
 				return [];
 			}
 		}
@@ -1464,7 +1463,7 @@ TB.util.Pagination = new function() {
 			}
 			var url = buildPageUrl(idx, config);
 			
-			//������������ݻ��棬�����ֻ��������Ѵ��ڣ�ֱ����ʾ�����е����ￄ1�7
+			
 			if (config.cachePageData) {
 				if (pageDataCache[url]) {
 					handle.showPage(pageDataCache[url]);
@@ -1515,7 +1514,7 @@ TB.util.Pagination = new function() {
 		
 		handle.disablePageBar = function() {
 			$D.addClass(pageBarContainer, 'Disabled');
-			//����������onclick event handler
+			
 			$E.purgeElement(pageBarContainer, true, 'click');
 			var els = TB.common.toArray(pageBarContainer.getElementsByTagName('a'));
 			els.forEach(function(el, i){
@@ -1548,9 +1547,9 @@ TB.util.CountdownTimer = new function() {
 	var DAY = HOUR*24;	
 	
 	var defConfig = {
-		formatStyle: 'short', // 'long' �� x��xСʱx��x��  or 'short' ��[x��xСʱ | xСʱx�� | x��x��]  or custom
-		formatPattern: '',  // for formatStyle == custom
-		hideZero: true, // for formatStyle == 'long' : if day==0 then show xСʱx��x�룬etc.
+		formatStyle: 'short', 
+		formatPattern: '',  
+		hideZero: true, 
 		timeoutText: 'timeoutText',
 		updatable: true
 	};
@@ -1584,7 +1583,7 @@ TB.util.CountdownTimer = new function() {
 	
 	this.attach = function(container, leftTime, config) {
 		container = $(container);
-		leftTime = $(leftTime);
+		leftTime = parseInt(leftTime);
 		config = TB.applyIf(config||{}, defConfig);
 		var handle = {};
 				
@@ -1654,7 +1653,7 @@ TB.form.TagAssistor = new function() {
 	
 	
 	var defConfig = {
-		separator: ' ', //Ĭ�Ϸָ���ǿոￄ1�7
+		separator: ' ', 
 		selectedClass: 'Selected'
 	}
 	
@@ -1664,7 +1663,7 @@ TB.form.TagAssistor = new function() {
 	}
 	
 	var value2TagArray = function(textField, separator) {
-		//�������Ŀո��滻Ϊ�����ո񣬲�ȥ����β�Ŀո�
+		
 		var val = textField.value.replace(/\s+/g, ' ').trim();
 		if (val.length > 0)
 			return val.split(separator);
@@ -1685,7 +1684,7 @@ TB.form.TagAssistor = new function() {
 		var clickHandler = function(ev) {
 			var tagArray = value2TagArray(textField, config.separator);
 			var target = $E.getTarget(ev);
-			//tag��ѡ��
+			
 			if (tagExists(tagArray, target)) {
 				tagArray.remove(TB.common.trim(target.innerHTML));
 			} else {
@@ -1710,7 +1709,7 @@ TB.form.TagAssistor = new function() {
 		handle.init = function() {
 			var tagArray = value2TagArray(textField, config.separator);
 
-			// ��ÿ��	��ѡtag��<a> ע���¼�������ￄ1�7
+			
 			triggers.forEach(function(o, i){
 				if (tagExists(tagArray, o)) {
 					$D.addClass(o, config.selectedClass);
@@ -1718,7 +1717,7 @@ TB.form.TagAssistor = new function() {
 				$E.on(o, 'click', clickHandler);
 			});
 			
-			// ���ÿ�εļ��̶������������ƥ����߲�ƥ���tag���֣����ӻ�ȡ������Ч��
+			
 			$E.on(textField, 'keyup', function(ev){
 				var tagArray = value2TagArray(textField, config.separator);
 				updateClass(tagArray);				
@@ -1741,7 +1740,7 @@ TB.form.CheckboxGroup = new function() {
 	
 	this.attach = function(checkboxGroup, config) {
 		config = TB.applyIf(config || {}, defConfig);
-		//���ظ������ߵĿ�������ֻ�����Ե����߿ɼ��ķ���/����	
+			
 		var handle = {};
 		var onCheckEvent = new Y.CustomEvent('onCheck', handle, false, Y.CustomEvent.FLAT);			
 	
@@ -1750,7 +1749,7 @@ TB.form.CheckboxGroup = new function() {
 			if(checkboxGroup.length)
 				checkboxes = TB.common.toArray(checkboxGroup);
 			else
-				checkboxes[0] = checkboxGroup; //���ֻ��һ��checkbox		
+				checkboxes[0] = checkboxGroup; 		
 		}
 
 		var checkAllBox = $(config.checkAllBox);

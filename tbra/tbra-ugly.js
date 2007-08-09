@@ -12,7 +12,7 @@ TB.widget.UglyTab4Table = new function() {
 		onSelect: function(){}
 	};
 	this.init = function(config) {
-		config = TB.common.applyConfig(config || {}, defConfig);
+		config = TB.applyIf(config || {}, defConfig);
 		var tabs = Y.Dom.getElementsByClassName(config.tabClass, 'td', config.container);
 		var panels = Y.Dom.getElementsByClassName(config.panelClass, 'table', config.container);
 		panels.forEach(function(o, i) {

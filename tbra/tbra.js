@@ -1,6 +1,5 @@
 /*
- * tbra
- * Copyright(c) 2007, taobao.com.
+ * TBra
  * 
  * Taobao JavaScript Framework base on YUI
  * T-Bra or TB-ra whatever you like name it...
@@ -105,8 +104,8 @@ onScrollEvent.unsubscribeAll();onScrollEvent.subscribe(func);}});handle.onScroll
 TB.widget.SimplePopup=new function(){var Y=YAHOO.util;var popupShowTimeId,popupHideTimeId;var defConfig={position:'right',autoFit:true,eventType:'mouse',delay:.2,width:200,height:200};var checkContains=function(p,c){if(p.contains&&c!=null)
 return p.contains(c);else{while(c){if(c==p)return true;c=c.parentNode;}
 return false;}}
-var triggerClickHandler=function tch(ev){var target=$E.getTarget(ev);if(tch._target==target){this.popup.style.display=='block'?this.hide():this.show();}else{this.show();}
-$E.stopEvent(ev);tch._target=target;}
+var triggerClickHandler=function(ev){var target=$E.getTarget(ev);if(triggerClickHandler._target==target){this.popup.style.display=='block'?this.hide():this.show();}else{this.show();}
+$E.stopEvent(ev);triggerClickHandler._target=target;}
 var triggerMouseOverHandler=function(ev){clearTimeout(popupHideTimeId);var self=this;popupShowTimeId=setTimeout(function(){self.show();},this.config.delay*1000);if(this.config.disableClick&&!this.trigger.onclick){trigger.onclick=function(e){$E.stopEvent($E.getEvent(e));};}}
 var popupMouseOverHandler=function(ev){clearTimeout(popupHideTimeId);$E.stopEvent(ev);}
 var mouseOutHandler=function(ev){clearTimeout(popupShowTimeId);$E.stopEvent(ev);if(!checkContains(this.popup,$E.getRelatedTarget(ev))){this.delayHide();}}
@@ -208,7 +207,7 @@ return handle;}}
 
 TB.util.CountdownTimer=new function(){var Y=YAHOO.util;var MINUTE=60;var HOUR=MINUTE*60;var DAY=HOUR*24;var defConfig={formatStyle:'short',formatPattern:'',hideZero:true,timeoutText:'timeoutText',updatable:true};var leadingZero=function(n){return((n<10)?"0":"")+n;}
 var genTimeFilter=function(lt){return function(val,key){switch(key){case'd':return parseInt(lt/DAY);case'dd':return leadingZero(parseInt(lt/DAY));case'hh':return leadingZero(parseInt(lt%DAY/HOUR));case'h':return parseInt(lt%DAY/HOUR);case'mm':return leadingZero(parseInt(lt%DAY%HOUR/MINUTE));case'm':return parseInt(lt%DAY%HOUR/MINUTE);case'ss':return leadingZero(parseInt(lt%DAY%HOUR%MINUTE));case's':return parseInt(lt%DAY%HOUR%MINUTE);}}}
-this.attach=function(container,leftTime,config){container=$(container);leftTime=$(leftTime);config=TB.applyIf(config||{},defConfig);var handle={};var onStartEvent=new Y.CustomEvent("onStart",null,false,Y.CustomEvent.FLAT);if(config.onStart){onStartEvent.subscribe(config.onStart);}
+this.attach=function(container,leftTime,config){container=$(container);leftTime=parseInt(leftTime);config=TB.applyIf(config||{},defConfig);var handle={};var onStartEvent=new Y.CustomEvent("onStart",null,false,Y.CustomEvent.FLAT);if(config.onStart){onStartEvent.subscribe(config.onStart);}
 var onEndEvent=new Y.CustomEvent("onEnd",null,false,Y.CustomEvent.FLAT);if(config.onEnd){onEndEvent.subscribe(config.onEnd);}
 var currTime=parseInt(new Date().getTime()/1000);var endTime=currTime+leftTime;var updateTimer=function(){handle.update();}
 handle.update=function(){var pattern=config.formatPattern,values={},nu=1;if(config.formatStyle=='long'){pattern='{d}'+$M('day')+'{hh}'+$M('hour')+'{mm}'+$M('minute')+'{ss}'+$M('second');}

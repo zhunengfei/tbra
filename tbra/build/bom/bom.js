@@ -10,6 +10,7 @@
 		_isIE = !_isOpera && ua.indexOf('msie') != -1, 
 		_isIE6 = !_isOpera && ua.indexOf('msie 6') != -1,
 		_isIE7 = !_isOpera && ua.indexOf('msie 7') != -1;
+		
 	TB.bom = {
 		isOpera: _isOpera,
 		isSafari: _isSafari,
@@ -17,6 +18,7 @@
 		isIE: _isIE,
 		isIE6: _isIE6,
 		isIE7: _isIE7,
+			
 		/**
 	     * 获取cookie
 	     * @method getCookie
@@ -73,6 +75,22 @@
 			if (deep>=len || len-deep<2)
 				deep = len-2;
 			return da.slice(deep).join('.');
+		},
+		
+		/**
+		 * 添加到收藏夹
+		 * @param {Object} title
+		 * @param {Object} url
+		 */
+		addBookmark: function(title, url) {
+		    if (window.sidebar) {
+		        window.sidebar.addPanel(title, url,"");
+		    } else if( document.external ) {
+		        window.external.AddFavorite( url, title);
+		    } else {
+				/* TODO */
+			}
 		}
 	}
+
 })();

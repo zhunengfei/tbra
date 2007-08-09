@@ -21,7 +21,7 @@ TB.widget.SimpleTab = new function() {
 	this.decorate = function(container, config) {
 		container = $(container);
 		config = TB.applyIf(config||{}, defConfig);
-		//返回给调用者的控制器，只包含对调用者可见的方法/属性		
+		/* 返回给调用者的控制器，只包含对调用者可见的方法/属性 */		
 		var handle = {};
 	
 		var tabPanels = getImmediateDescendants(container);
@@ -31,7 +31,7 @@ TB.widget.SimpleTab = new function() {
 		if (config.tabClass) {
 			tabTriggers = $D.getElementsByClassName(config.tabClass, '*', container);
 		} else {
-			tabTriggers = TB.common.toArray(tab.getElementsByTagName('a')); //默认取tab下的<a>
+			tabTriggers = TB.common.toArray(tab.getElementsByTagName('a')); /* 默认取tab下的<a> */
 		}
 		var onSwitchEvent = new Y.CustomEvent("onSwitch", null, false, Y.CustomEvent.FLAT);
 		if (config.onSwitch) {
@@ -48,7 +48,7 @@ TB.widget.SimpleTab = new function() {
 				try {
 					$E.stopEvent(ev);
 				}catch (e) {
-					//ignore
+					/* ignore */
 				}
 			}
 			return !config.stopEvent;
@@ -76,7 +76,7 @@ TB.widget.SimpleTab = new function() {
 			}
 		}
 
-		//定义公开的方法
+		/* 定义公开的方法 */
 		TB.apply(handle, {
 			switchTab: function(idx) {
 				$D.setStyle(tabPanels, 'display', 'none');

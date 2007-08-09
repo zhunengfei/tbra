@@ -11,9 +11,9 @@ TB.util.CountdownTimer = new function() {
 	var DAY = HOUR*24;	
 	
 	var defConfig = {
-		formatStyle: 'short', // 'long' ： x天x小时x分x秒  or 'short' ：[x天x小时 | x小时x分 | x分x秒]  or custom
-		formatPattern: '',  // for formatStyle == custom
-		hideZero: true, // for formatStyle == 'long' : if day==0 then show x小时x分x秒，etc.
+		formatStyle: 'short', /* 'long' ： x天x小时x分x秒  or 'short' ：[x天x小时 | x小时x分 | x分x秒]  or custom */
+		formatPattern: '',  /* for formatStyle == custom */
+		hideZero: true, /* for formatStyle == 'long' : if day==0 then show x小时x分x秒，etc. */
 		timeoutText: 'timeoutText',
 		updatable: true
 	};
@@ -47,7 +47,7 @@ TB.util.CountdownTimer = new function() {
 	
 	this.attach = function(container, leftTime, config) {
 		container = $(container);
-		leftTime = $(leftTime);
+		leftTime = parseInt(leftTime);
 		config = TB.applyIf(config||{}, defConfig);
 		var handle = {};
 				

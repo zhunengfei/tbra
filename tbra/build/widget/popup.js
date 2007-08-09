@@ -48,15 +48,15 @@ TB.widget.SimplePopup = new function() {
 	 * scope is handle
 	 * @param {Object} ev
 	 */	
-	var triggerClickHandler = function tch(ev) {
+	var triggerClickHandler = function(ev) {
 		var target = $E.getTarget(ev);
-		if (tch._target == target) {
+		if (triggerClickHandler._target == target) {
 			this.popup.style.display == 'block'? this.hide() : this.show();
 		} else {
 			this.show();
 		}
 		$E.stopEvent(ev);
-		tch._target = target;
+		triggerClickHandler._target = target;
 	}
 	var triggerMouseOverHandler = function(ev) {
 		clearTimeout(popupHideTimeId);
@@ -86,7 +86,7 @@ TB.widget.SimplePopup = new function() {
 	
 	this.decorate = function(trigger, popup, config) {
 		if (YAHOO.lang.isArray(trigger) || (YAHOO.lang.isObject(trigger) && trigger.length)) {
-			//batch操作时处于简单考虑，不返回handle object
+			/* batch操作时处于简单考虑，不返回handle object */
 			for (var i = 0; i < trigger.length; i++) {
 				this.decorate(trigger[i], popup, config);
 			}
@@ -97,7 +97,7 @@ TB.widget.SimplePopup = new function() {
 		popup = $(popup);
 		if (!trigger || !popup) return;
 		config = TB.applyIf(config||{}, defConfig);
-		//返回给调用者的控制器，只包含对调用者可见的方法/属性		
+		/* 返回给调用者的控制器，只包含对调用者可见的方法/属性 */		
 		var handle = {};		
 
 		var onShowEvent = new Y.CustomEvent("onShow", handle, false, Y.CustomEvent.FLAT);
@@ -112,7 +112,7 @@ TB.widget.SimplePopup = new function() {
 		if (config.eventType == 'mouse') {
 			$E.on(trigger, 'mouseover', triggerMouseOverHandler, handle, true);
 			$E.on(trigger, 'mouseout', mouseOutHandler, handle, true);
-			//batch 操作时，Popup 的鼠标事件只注册一次
+			/* batch 操作时，Popup 的鼠标事件只注册一次 */
 			if (!$E.getListeners(popup, 'mouseover')) {
 				$E.on(popup, 'mouseover', popupMouseOverHandler);
 			}
@@ -156,7 +156,7 @@ TB.widget.SimplePopup = new function() {
 				
 				if(this.config.autoFit) {
 					if (t-st+ph > dh) {
-						t = dh-ph+st-2; //2px 偏差
+						t = dh-ph+st-2; /* 2px 偏差 */
 						if (t < 0) {
 							t = 0;
 						}

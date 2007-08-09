@@ -19,7 +19,7 @@ TB.widget.SimpleScroll = new function() {
 	this.decorate = function(container, config) {
 		container = $(container);
 		config = TB.applyIf(config||{}, defConfig);
-		//返回给调用者的控制器，只包含对调用者可见的方法/属性	
+		/* 返回给调用者的控制器，只包含对调用者可见的方法/属性 */	
 		var handle = {};
 		
 		var scrollTimeId = null, pause = false;
