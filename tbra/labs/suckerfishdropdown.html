@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Untitled Document</title>
+<script src="http://www.uitest.com:7473/home/js/tbra/yui-utilities.js"></script>
+<script src="http://www.uitest.com:7473/home/js/tbra/tbra-debug.js"></script>
+</head>
+<body>
+
+
+<style type="text/css">
+.tb-dropdown {
+	overflow: visible !important;
+}
+.tb-dropdown .tb-dropdownitem {
+	display: none;
+}
+
+.tb-dropdown:hover .tb-dropdownitem, .hover .tb-dropdownitem{
+	display: block;
+}
+
+#outer {
+	position: absolute;
+	top: 150px;
+	left: 150px;
+}
+
+#inner {
+	width: 300px;
+	border: 1px solid #ccc;
+	background: #fff;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menu {
+	cursor: pointer;
+	float:left;	
+}
+
+.menu li.menuitem {
+	float: left;
+	width: 200px;	
+}
+
+.menu li.menuitem ul {
+	border: 1px solid #ccc;
+}
+</style>
+<script type="text/javascript">
+	TB.widget.SFDropdown = TB.widget.SuckerfishDropdown = new function() {
+		var defConfig = {
+			dropDownClass: 'tb-dropdown',
+			dropDownItemClass: 'tb-dropdownitem'
+		}
+		this.decorate = function(dropdown, dropdownItem, config) {
+			config = TB.applyIf(config||{}, defConfig);
+			$D.addClass(dropdown, config.dropDownClass);
+			$D.addClass(dropdownItem, config.dropDownItemClass);
+			if (TB.bom.isIE6) {
+				$E.on(dropdown, 'mouseover', function(){
+					$D.addClass(this, 'hover');	
+				})
+				$E.on(dropdown, 'mouseout', function(){
+					$D.removeClass(this, 'hover');	
+				})
+			}
+		}
+	}
+</script>
+
+<h1>TB.widget.SuckerfishDropdown Demo</h1>
+
+<hr />
+
+<h2>Demo 1</h2>
+<div id="outer">
+	<a href="#">Move to here:</a> 
+	<div id="inner">
+		taobao taobao taobao taobao taobao taobao
+		taobao taobao taobao taobao taobao taobao
+		taobao taobao taobao taobao taobao taobao
+		taobao taobao taobao taobao taobao taobao
+		taobao taobao taobao taobao taobao taobao
+	</div>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<hr />
+
+<h2>Demo 2</h2>
+<ul class="menu">
+	<li class="menuitem">Menu1
+		<ul class="submenu">
+			<li><a href="#">1.1</a></li>
+			<li><a href="#">1.2</a></li>
+			<li><a href="#">1.3</a></li>
+		</ul>
+	</li>
+	<li class="menuitem">Menu2
+		<ul class="submenu">
+			<li><a href="#">2.1</a></li>
+			<li><a href="#">2.2</a></li>
+			<li><a href="#">2.3</a></li>
+		</ul>
+	</li>
+	<li class="menuitem">Menu3
+		<ul class="submenu">
+			<li><a href="#">3.1</a></li>
+			<li><a href="#">3.2</a></li>
+			<li><a href="#">3.3</a></li>
+		</ul>
+	</li>
+</ul>
+
+<script type="text/javascript">
+	TB.widget.SuckerfishDropdown.decorate('outer','inner');
+	TB.widget.SFDropdown.decorate($D.getElementsByClassName('menuitem'), $D.getElementsByClassName('submenu'));
+</script>
+</body>
+</html>

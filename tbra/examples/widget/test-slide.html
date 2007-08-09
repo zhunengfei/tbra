@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<script type="text/javascript" src="../../yui-utilities.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+<title>无标题文档</title>
+</head>
+
+
+<body>
+<style type="text/css">
+#Demo1 {
+	background:transparent url(http://pics.taobao.com/bao/album/chl/infohead_070130_08.gif) no-repeat;
+	height:252px;
+	width:250px;
+}
+
+#Demo1 #SlidePlayer {
+	width: 230px;
+	height: 210px;
+	position:relative;
+	top: 32px;
+	left: 0px;
+	margin: 0 auto;
+}
+
+#Demo1 .Slides {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	height: 210px;
+	overflow: hidden; 
+}
+#Demo1 .Slides li {
+	float: left;
+	width: 230px;
+	height:210px;
+}
+
+#Demo1 .Slides img{
+	border:0;
+	display: block;
+}
+
+#Demo1 .SlideTriggers{
+	margin: 0;
+	padding: 0;
+	list-style: none; 
+	padding-right: 2px;
+	position: absolute; 
+	top: -30px; 
+	right: 0px;
+	z-index: 10;
+	width: 120px;
+	height: 25px;	
+}
+#Demo1 .SlideTriggers li{
+	float: left;
+	display: inline;
+	color: #fff;
+	text-align: center;
+	line-height:25px;
+	width: 16px;
+	font-family: Arial;
+	font-size: .9em;
+	cursor: pointer;
+	overflow: hidden; 
+	margin:0 2px;
+	background: url(http://pics.taobao.com/bao/album/chl/infohead_070130_07.gif) no-repeat center center;
+}
+#Demo1 .SlideTriggers li.Current{ 
+	color:#fff; 
+	background: url(http://pics.taobao.com/bao/album/chl/infohead_070130_09.gif) no-repeat center center;
+	border:0; 
+	font-weight:bold; 
+}
+
+
+#Demo2 {
+	width: 440px;
+	height: 303px;
+	position: relative;
+	text-align: left;
+}
+
+#Demo2 #SlidePlayer2 {
+	width: 407px;
+	height: 303px;
+	position:relative;	
+}
+
+#Demo2 .Slides {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	height: 303px;
+	overflow: hidden;
+}
+#Demo2 .Slides li {
+	width: 407px;
+	height:303px;
+	float: left;	
+}
+
+#Demo2 .Slides img{
+	border:0;
+	display: block;
+}
+
+#Demo2 .SlideTriggers{
+	margin: 0;
+	padding: 0;
+	list-style: none; 
+	padding-right: 2px;
+	position: absolute; 
+	top: 0px; 
+	left: 407px;
+}
+#Demo2 .SlideTriggers li{
+	color: #111;
+	text-align: center;
+	width: 33px;
+	height: 56px;
+	font-family: Arial;
+	font-size: .9em;
+	padding-top: 3px;
+	cursor: pointer;
+	background: transparent url(http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_tab01x.gif) no-repeat scroll 0pt;
+}
+#Demo2 .SlideTriggers li.Current{ 
+	color:#fff; 
+	line-height: 59px;
+	font-size: 15px;
+	font-weight: bold;
+	height: 59px;
+	padding: 0;
+	background: transparent url(http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_tab01.gif) no-repeat scroll center;
+}
+</style>
+
+<div id="Demo1">
+	<div id="SlidePlayer">
+		<ul class="Slides">
+			<li>
+				<a href="#" onclick="javascript:alert(1);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_01.gif" border="0" style="display:inline;"></a>
+			</li>
+			<li>
+				<a href="#" onclick="javascript:alert(2);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_02.gif" border="0"></a>				
+			</li>
+			<li>
+				<a href="#" onclick="javascript:alert(3);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_03.gif" border="0"></a>
+			</li>
+			<li>
+				<a href="#" onclick="javascript:alert(4);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_04.gif" border="0"></a>
+			</li>
+			<li>
+				<a href="#" onclick="javascript:alert(5);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_05.gif" border="0"></a>
+			</li>
+			<li>
+				<a href="#" onclick="javascript:alert(6);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_06.gif" border="0"></a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<br />
+<br />
+
+<div id="Demo2">
+	<div id="SlidePlayer2">
+		<ul class="Slides">
+			<li>
+				<a href="#" onclick="return false;"><img src="http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_seapic01.jpg" border="0"></a>				
+			</li>
+			<li>
+				<a href="#" onclick="return false;"><img src="http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_seapic02.jpg" border="0"></a>				
+			</li>
+			<li>
+				<a href="#" onclick="return false;"><img src="http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_seapic03.jpg" border="0"></a>				
+			</li>
+			<li>
+				<a href="#" onclick="return false;"><img src="http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_seapic04.jpg" border="0"></a>				
+			</li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+	TB.widget.SimpleSlide.decorate('SlidePlayer');
+	TB.widget.SimpleSlide.decorate('SlidePlayer2', {eventType:'mouse', effect:'scroll'});
+</script>
+</body>
+</html>

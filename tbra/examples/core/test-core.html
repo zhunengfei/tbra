@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>Untitled Document</title>
+		<script type="text/javascript" src="../../yui-utilities.js"></script>
+		<script type="text/javascript" src="../../tbra-debug.js"></script>
+	</head>
+	<body>
+	<h2>Test TB.env</h2>	
+	<script type="text/javascript">
+		for (e in TB.env) {
+			document.write(e + ' = ' + TB.env[e] + '<br/>');
+		}
+	</script>
+	
+	<h2>Test TB.common.formatMessage</h2>
+	<code>
+		TB.common.formatMessage('{0}天有{1}个小时', [1, 24]);
+	</code>
+	<p>
+	<script type="text/javascript">
+		document.write(TB.common.formatMessage('{0}天有{1}个小时', [1, 24]));
+	</script>
+	</p>
+	
+	<code>
+		TB.common.formatMessage('{day}天有{hour}个小时', {day:1, hour:24}, function(o){return o*2;});
+	</code>
+	<p>
+	<script type="text/javascript">
+		document.write(TB.common.formatMessage('{day}天有{hour}个小时', {day:1, hour:24}, function(o){return o*2;}));
+	</script>
+	</p>	
+	
+	</body>
+</html>
