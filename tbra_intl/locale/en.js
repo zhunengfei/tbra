@@ -1,0 +1,2 @@
+
+TB.locale.Messages={loading:'Loading...',pleaseWait:'Please waiting...',ajaxError:'System Error',prevPageText:'Next Page',nextPageText:'Previous Page',year:'year',month:'month',day:'day',hour:'hour',minute:'minute',second:'second',timeoutText:'Timeout'}
