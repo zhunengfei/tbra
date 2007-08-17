@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>Untitled Document</title>
+	<script type="text/javascript" src="../../yui-utilities.js"></script>
+	<script type="text/javascript" src="../../tbra-debug.js"></script>	
+</head>
+<body>
+	
+	
+<h2>Taobao.com 剩余时间</h2>
+<span id="jLefttime"></span>
+
+<script>
+var leftTime = 0;
+TB.util.CountdownTimer.attach('jLefttime', leftTime, {
+	timeoutText: '交易结束'
+});
+</script>
+
+
+<h2>长格式倒数计时</h2>
+离2008北京奥运会还有 <span id="jLefttime2"></span>
+
+<script>
+var now = new Date();
+var ad = new Date(2008, 8, 8, 8); 
+var leftTime2 = parseInt((ad - now)/1000);
+TB.util.CountdownTimer.attach('jLefttime2', leftTime2, {
+	formatStyle: 'long',
+	onEnd: function() {
+		alert('2008奥运会开始了！！！！');		
+	}
+});
+</script>
+
+<h2>自定义计时显示</h2>
+{d}--{h}--{m}--{s} ---->  <span id="jLefttime3"></span>
+
+<script>
+TB.util.CountdownTimer.attach('jLefttime3', 7230, {
+	formatStyle: 'custom',
+	formatPattern: '{d}--{h}--{m}--{s}'
+});
+</script>
+
+	
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="../../yui-utilities.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+	
+</head>
+<body>
+	
+<style>
+a.Selected {
+	background: #ff0000;
+}
+</style>
+
+<input type="text" name="tags" id="tags" value="标签1" />
+<br />
+<div id="tag_list">
+可选标签： <a href="#">标签1</a> |　<a href="#">标签2</a>　｜　<a href="#">标签3</a> | <a href="#">标签1</a>
+</div>
+<script type="text/javascript">
+TB.form.TagAssistor.attach('tags', 'tag_list',{separator:' '});
+</script>
+	
+</body>
+</html>
