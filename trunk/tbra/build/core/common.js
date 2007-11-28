@@ -88,8 +88,6 @@ TB.common = {
 		return obj;
 	},
 	
-	_messagePattern: /\{([\w-]+)?\}/g,
-	
 	/**
 	 * ¸ñÊ½»¯×Ö·û´®
 	 * eg:
@@ -100,10 +98,13 @@ TB.common = {
 	 * @param {Object} values
 	 */
 	formatMessage: function(msg, values, filter) {
-		return msg.replace(this._messagePattern, function(match, key) {
-			return filter?filter(values[key], key):values[key];
-		});					
-	}
+		var pattern = /\{([\w-]+)?\}/g;
+		return function(msg, values, filter) {
+			return msg.replace(pattern, function(match, key) {
+				return filter?filter(values[key], key):values[key];
+			});	
+		}
+	}()
 	
 };
 
