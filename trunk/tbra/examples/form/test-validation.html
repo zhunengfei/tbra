@@ -1,0 +1,710 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 //EN">
+<html>
+<head>
+<title> TB.form.Validation Demo </title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<script type="text/javascript" src="../../yui-base.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+<script type="text/javascript" src="../../build/form/validation.js"></script>
+</head>
+
+<body>
+<h1>TB.form.Validation Demo</h1>
+
+<style type="text/css">
+body, textarea {
+	font-size: 14px;
+}	
+#demobox {
+	width: 970px;
+}
+#demobox .tb-tab-col {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	bottom: -1px;
+}
+#demobox .tb-tab-col li {
+	float: left;
+	width: 150px;
+	text-align: center;
+	margin-right: 3px;
+	padding: 3px 2px;
+	background: #eee;
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+
+#demobox .tb-tab-col li a {
+	display: block;
+}
+
+#demobox .tb-tab-col li.selected {
+	background: #fff;
+}
+
+#demobox .tb-tab-col li.selected a {
+	border-bottom: 1px solid #fff;
+}
+
+#demobox .tb-tab-panel {
+	padding: 20px;
+	border: 1px solid #ccc;
+}
+
+input.tb-fv-failed, textarea.tb-fv-failed {
+	border: 1px solid #FF3300;
+	color : #FF3300;
+}
+input.tb-fv-passed, textarea.tb-fv-passed {
+	border: 1px solid #00CC00;
+	color : #000;
+}
+
+.tb-fv-advice {
+	margin: 5px 0;
+	padding: 5px;
+	color: #FF8080;
+	border: 1px dotted #FF8080;
+	font-weight: bold;
+}
+
+.form-row {
+	clear: both;
+	padding: 5px;
+}
+
+.button-row {
+	clear: both;
+	padding: 15px 5px;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset {
+	margin: 0;
+	padding: 20px;
+	*padding: 0 20px;
+}
+
+fieldset legend {
+	*margin-bottom: 20px;
+}
+
+label {
+	float: left;
+	width: 70px;
+}
+
+.source textarea {
+	width: 755px;
+	height: 100px;
+	overflow: auto;
+}
+</style>
+
+<div class="tb-tab-container" id="demobox">
+	<ul class="tb-tab-col">
+		<li class="selected"><a href="javascript:void(0)">普通表单校验</a></li>
+		<li><a href="javascript:void(0)">使用Alert提示</a></li>
+		<li><a href="javascript:void(0)">自定义校验器</a></li>
+		<li><a href="http://www.google.cn" target="_blank">自定义错误通知展示</a></li>
+		<li><a href="http://www.google.cn" target="_blank">FCKEditor 集成</a></li>
+		<li><a href="http://www.google.cn" target="_blank">自定义错误通知展示(2)</a></li>
+	</ul>
+	<div class="tb-tab-panel" id="demotab1">
+
+
+		<style type="text/css">
+		#demotab1 .tb-fv-advice {
+			width: 400px;
+		}
+		</style>
+
+
+		<form name="form1" id="form1" action="javascript:alert('Validate Passed!');">
+
+		<div>
+			<input type="radio" name="show-style" checked="checked" onclick="TB.dom.addCSS('#demotab1 .tb-fv-advice {display:block;}')"> 错误提示信息显示在表单域下方(display=block)
+			<br />
+			<input type="radio" name="show-style" onclick="TB.dom.addCSS('#demotab1 .tb-fv-advice {display:inline;}')"> 错误提示信息显示在表单域右方(display=inline)
+			<br /><br />
+		</div>
+			
+		<fieldset>
+			<legend> form1 </legend>
+
+			<div class="form-row">
+				<label>姓名 *</label> 
+				<input name="name" class="fv:required fv:alphanum" title="请输入您由数字和字母组成的姓名!" />
+			</div>
+			<div class="form-row">
+				<label>年龄 *</label> 
+				<input name="age" class="fv:number" fv:params="minValue=18&maxValue=100" title="请输入您的有效年龄。必须为整数！" />
+			</div>
+			<div class="form-row">
+				<label>性别 *</label>
+				<input type="radio" name="sex" class="fv:oneRequired" title="请选择您的性别!" /> 男
+				<input type="radio" name="sex"/> 女
+			</div>
+			<div class="form-row">
+				<label>国籍 *</label>
+				<select name="nationality" class="fv:selection" title="请选择你的国籍!">
+					<option>------</option>
+					<option value="China">中国</option>
+					<option value="USA">美国</option>
+					<option value="JP">日本</option>
+				</select>
+			</div>
+			<div class="form-row">
+				<label>出生日期</label>
+				<input type="text" name="birthday" class="fv:date" title="请输入有效的生日!" />
+			</div>
+			<div class="form-row">
+				<label>手机</label>
+				<input type="text" name="mobile" class="fv:mobile" title="请输入有效的手机号码!"/>
+			</div>
+			<div class="form-row">
+				<label>E-Mail</label>
+				<input type="text" name="email" class="fv:email" title="请输入有效的Email地址!"/>
+			</div>
+			<div class="form-row">
+				<label>主页</label>
+				<input type="text" name="homepage" class="fv:url" title="请输入有效的主页地址!" />
+			</div>
+
+			<div class="form-row">
+				<label style="vertical-align:top;">备注 *</label>
+				<textarea name="memo" rows="3" cols="40" class="fv:required" fv:params="maxLength=50" title="请输入备注信息，字数请限制在50字以内!"></textarea>
+			</div>
+			
+			<div class="button-row">
+				<button type="submit">提交</button>
+				<button type="reset">重置</button>
+			</div>
+
+		</fieldset>
+		</form>
+	
+		<hr style="clear:both;"/>		
+
+		<script type="text/javascript">
+			TB.form.Validation.attach('form1');
+		</script>
+		<div class="source"> 
+			Source: <br />
+			<textarea></textarea>
+		</div>
+	
+	</div>
+
+
+	<div class="tb-tab-panel" id="demotab2">
+		<form name="form2" id="form2"  method="get" action="javascript:alert('Validate Passed!');">
+			
+		<fieldset>
+			<legend> form2 </legend>
+
+			<div class="form-row">
+				<label>姓名 *</label> 
+				<input name="name" class="fv:required" title="请输入您的姓名!" />
+			</div>
+			<div class="form-row">
+				<label>E-Mail</label>
+				<input type="text" name="email" class="fv:email" title="请输入有效的Email地址!"/>
+			</div>
+			<div class="form-row">
+				<label style="vertical-align:top;">评论 *</label>
+				<textarea name="memo" rows="3" cols="40" class="fv:required" fv:params="maxLength=50" title="请输入您的评论，字数请限制在50字以内!"></textarea>
+			</div>
+			
+			<div class="button-row">
+				<button type="submit">提交</button>
+			</div>
+
+		</fieldset>
+		</form>
+
+		<hr style="clear:both;"/>		
+
+		<script type="text/javascript">
+			TB.form.Validation.attach('form2', {advice:'alert'});
+		</script>
+		<div class="source"> 
+			Source: <br />
+			<textarea></textarea>
+		</div>
+	</div>
+	
+	<div class="tb-tab-panel" id="demotab3">
+		<style type="text/css">
+		#demotab3 .tb-fv-advice {
+			border: 1px solid red;
+			color: red;
+			background: none;
+		}
+		#demotab3 #login-row .tb-fv-advice {
+			display: inline;
+		}
+		</style>
+		
+		<form name="form3" id="form3" action="javascript:alert('Validate Passed!');">
+			
+		<fieldset>
+			<legend> form3 </legend>
+
+			<div class="form-row" id="login-row">
+				<div>
+					<label>用户名</label> 
+					<input name="name" id="loginUser" class="fv:username" /> 过滤【马云/小马/xiaoma/比尔/刘德华】
+					<div class="tb-fv-advice" style="display:none;">错误：<strong class='tb-fv-advicemsg'></strong></div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="tb-fv-advice" style="display:none;">错误： <strong class='tb-fv-advicemsg'></strong></div>
+				<div>
+					<label>密 码</label>
+					<input type="text" id="loginPass" name="password" class="fv:password" /> 不能等于登录名, 123456, hello123, xixihaha
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="tb-fv-advice" style="display:none;">错误： <strong class='tb-fv-advicemsg'></strong></div>
+				<div>
+					<label>确认密码</label>
+					<input type="text" name="confirmPassword" class="fv:confirmPassword" />
+				</div>
+			</div>
+
+			
+			<div class="button-row">
+				<button type="submit">提交</button>
+			</div>
+
+		</fieldset>
+		</form>
+	
+
+		<hr style="clear:both;"/>		
+
+		<script type="text/javascript">
+(function() {
+    var v1 = TB.form.Validation.attach('form3', {advice:'default', useTitle: false, immediate: true, adviceContainerClass:'form-row', adviceMsgClass: 'tb-fv-advicemsg'});
+    //添加一个校验器
+    v1.add(
+        'fv:username', 
+        '请输入有效的登录名!', 
+        function(v) {
+            var keys = ['马云', '小马', 'xiaoma', '比尔盖茨', '刘德华']
+            return TB.form.Validation.METHODS['notEmpty'](v) && keys.indexOf(v) == -1;
+        },
+        {
+             /*minLength: 6,*/
+             maxLength: 20
+        }
+    );
+    //批量添加校验器
+    v1.addAll([
+        ['fv:password', '请输入有效的密码，长度6~20，密码不能与用户名相同，不能等于常用密码', {
+            notEmpty: true,
+            minLength: 6,
+            maxLength:  20,
+            notEqualToField: 'loginUser',
+            notOneOf: ['123456', 'hello123', 'xixihaha']
+        }],
+        ['fv:confirmPassword', '<em>确认密码必须与密码相同</em>', {
+            notEmpty: true,
+            equalToField: 'loginPass'
+        }]
+    ]);
+})();
+		</script>
+		<div class="source"> 
+			Source: <br />
+			<textarea></textarea>
+		</div>
+
+
+	</div>
+
+	<div class="tb-tab-panel" id="demotab4">
+
+		<style type="text/css">
+		#demotab4 .tb-fv-advice {
+			padding: 10px;
+			width: 180px;
+			height: 33px;
+			position: absolute;
+			z-index: 2008;
+			background: url('assets/error_bg.gif') no-repeat;
+			border: none;
+			color: #f50;
+			font-size: 12px;
+			font-weight: normal;
+			overflow: hidden;
+			cursor: pointer;
+		}
+		#demotab4 ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			width: 100%;
+			overflow: hidden;
+		}
+		#demotab4 ul li.form-row {
+			float: left;
+			clear: none;
+			width: 340px;
+		}
+
+		</style>
+		<form name="form4" id="form4" action="javascript:alert('Validate Passed!');">
+			
+		<fieldset>
+			<legend> form4 </legend>
+			
+			<ul>
+				<li class="form-row">
+					<label>姓名 *</label> 
+					<input name="name" class="fv:required fv:alphanum" title="请输入您由数字和字母组成的姓名!" />
+				</li>
+				<li class="form-row">
+					<label>年龄 *</label> 
+					<input name="age" class="fv:required fv:number" fv:params="minValue=18&maxValue=100" title="请输入您的有效年龄。必须为整数！" />
+				</li>
+				<li class="form-row">
+					<label>性别 *</label>
+					<input type="radio" name="sex" class="fv:oneRequired" title="请选择您的性别!" /> 男
+					<input type="radio" name="sex"/> 女
+				</li>
+				<li class="form-row">
+					<label>国籍 *</label>
+					<select name="nationality" class="fv:selection" title="请选择你的国籍!">
+						<option>------</option>
+						<option value="China">中国</option>
+						<option value="USA">美国</option>
+						<option value="JP">日本</option>
+					</select>
+				</li>
+				<li class="form-row">
+					<label>手机</label>
+					<input type="text" name="mobile" class="fv:mobile" title="请输入有效的手机号码!"/>
+				</li>
+				<li class="form-row">
+					<label>E-Mail</label>
+					<input type="text" name="email" class="fv:email" title="请输入有效的Email地址!"/>
+				</li>
+
+				<li class="form-row" style="width:99%">
+					<label style="vertical-align:top;">备注 *</label>
+					<textarea name="memo" rows="3" cols="40" class="fv:required" fv:params="maxLength=50" title="请输入备注信息，字数请限制在50字以内!"></textarea>
+				</li>
+			</ul>
+			<div class="button-row">
+				<button type="submit">提交</button>
+				<button type="reset">重置</button>
+			</div>
+
+		</fieldset>
+		</form>
+	
+		<hr style="clear:both;"/>		
+
+		<script type="text/javascript">
+(function() {
+    var Y = YAHOO.util;
+    var myAdvisor = YAHOO.lang.merge(TB.form.Validation.ADVISORS['default'], {
+        doFieldAdvice: function(ret, el, warnMsg) {
+            var advice = this.getAdvice(el);
+            Y.Dom.get('demotab4').appendChild(advice); //把advice移动到form外层，避免校验通知被<li>遮盖而显示不全
+            Y.Dom.setStyle(advice, 'position', 'absolute');
+            if (!ret) {
+                var elPos = Y.Dom.getXY(el);
+                advice.innerHTML = warnMsg;
+                $D.setStyle(advice, 'opacity', 0);
+                $D.setStyle(advice, 'display', 'block');
+                Y.Dom.setXY(advice, [elPos[0]+10, elPos[1]-advice.offsetHeight]);
+                var anim = new Y.Anim(advice, { opacity: {to: 1} }, 0.5);
+                anim.animate();
+                Y.Event.on(advice, 'click', function() {
+                    this.style.display = 'none';
+                });
+            } else {
+                $D.setStyle(advice, 'display', 'none');
+            }
+        }
+    });
+    
+	TB.form.Validation.attach('form4', {
+        immediate: true,
+        advice: myAdvisor
+    });
+})();
+		</script>
+		<div class="source"> 
+			Source: <br />
+			<textarea></textarea>
+		</div>
+	
+	</div>
+
+
+	<div class="tb-tab-panel" id="demotab5">
+		<script type="text/javascript" src="fckeditor/fckeditor.js"></script>
+
+		<form name="form5" id="form5"  method="get" action="javascript:alert('Validate Passed!');">
+		<fieldset>
+			<legend> form5 </legend>
+
+			<div class="form-row">
+				<label>姓名 *</label> 
+				<input name="name" class="fv:required" title="请输入您的姓名!" />
+			</div>
+			<div class="form-row">
+				<label>E-Mail</label>
+				<input type="text" name="email" class="fv:email" title="请输入有效的Email地址!"/>
+			</div>
+			<div class="form-row">
+				<label style="vertical-align:top;">评论 *</label>
+				<textarea name="memo" id="textarea_using_fckeditor" class="fv:fckeditor fv:force" rows="3" cols="40"></textarea>
+			</div>
+			
+			<div class="button-row">
+				<button type="submit">提交</button>
+			</div>
+
+			<input type="hidden" id="invisible-test" class="fv:required fv:force" title="hidden域校验失败!"/>
+			<div class="tb-fv-advice" style="display:none;" id="invisible-test-advice"></div>
+		</fieldset>
+		</form>
+
+		<hr style="clear:both;"/>		
+
+		<script type="text/javascript">
+		(function() {
+			var sBasePath = './fckeditor/';
+			var oFCKeditor = new FCKeditor( 'textarea_using_fckeditor' ) ;
+			oFCKeditor.Config["EditorAreaCSS"] = sBasePath + 'css/fck_editorarea.css' ;
+			oFCKeditor.BasePath	= sBasePath ;
+			oFCKeditor.ToolbarSet = 'Std';
+			oFCKeditor.Height	= 200 ;
+			oFCKeditor.ReplaceTextarea() ;			
+
+			var v2 = TB.form.Validation.attach('form5');
+			v2.add('fv:fckeditor', '请在编辑框中输入内容', function(el) {
+				var editor = FCKeditorAPI.GetInstance( 'textarea_using_fckeditor' );
+				var content = editor.GetXHTML(); //GetXHTML()方法返回的是包含HTML标签的内容
+				return TB.form.Validation.METHODS['notEmpty'](content);				
+			});
+		})();
+		</script>
+
+		<div class="source"> 
+			Source: <br />
+			<textarea></textarea>
+		</div>
+	</div>
+
+
+
+	<div class="tb-tab-panel" id="demotab6">
+
+		<style type="text/css">
+		#demotab6 .tb-fv-advice {
+			display:-moz-inline-block;
+			display:-moz-inline-box;
+			display:inline-block;
+			*display: inline;
+			*zoom: 1;
+			vertical-align: middle;
+			margin-left: 5px;
+			width: 16px;
+			height: 16px;
+			color: #f50;
+			border: none;
+			font-size: 12px;
+			font-weight: normal;
+			overflow: hidden;
+			cursor: pointer;
+			padding: 0;
+		}
+
+		.tb-fv-advice-popup {
+			padding: 10px;
+			width: 180px;
+			height: 33px;
+			position: absolute;
+			z-index: 2008;
+			background: url('assets/error_bg.gif') no-repeat;
+			color: #f50;
+			font-size: 12px;
+			font-weight: normal;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		#demotab6 .failed {
+			background: url('assets/failed.png') no-repeat center center !important;
+		}
+
+		#demotab6 .passed {
+			
+			background: url('assets/passed.png') no-repeat center center !important;
+		}
+
+		#demotab6 ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			width: 100%;
+			overflow: hidden;
+		}
+
+		</style>
+		<form name="form6" id="form6" action="javascript:alert('Validate Passed!');">
+			
+		<fieldset>
+			<legend> form6 </legend>
+			
+			<ul>
+				<li class="form-row">
+					<label>姓名 *</label> 
+					<input name="name" class="fv:required fv:alphanum" title="请输入您由数字和字母组成的姓名!" />
+				</li>
+				<li class="form-row">
+					<label>年龄 *</label> 
+					<input name="age" class="fv:required fv:number" fv:params="minValue=18&maxValue=100" title="请输入您的有效年龄。必须为整数！" />
+				</li>
+				<li class="form-row">
+					<label>性别 *</label>
+					<input type="radio" name="sex" class="fv:oneRequired" title="请选择您的性别!" /> 男
+					<input type="radio" name="sex"/> 女
+				</li>
+				<li class="form-row">
+					<label>国籍 *</label>
+					<select name="nationality" class="fv:selection" title="请选择你的国籍!">
+						<option>------</option>
+						<option value="China">中国</option>
+						<option value="USA">美国</option>
+						<option value="JP">日本</option>
+					</select>
+				</li>
+				<li class="form-row">
+					<label>手机</label>
+					<input type="text" name="mobile" class="fv:mobile" title="请输入有效的手机号码!"/>
+				</li>
+				<li class="form-row">
+					<label>E-Mail</label>
+					<input type="text" name="email" class="fv:email" title="请输入有效的Email地址!"/>
+				</li>
+
+				<li class="form-row" style="width:99%">
+					<label style="vertical-align:top;">备注 *</label>
+					<textarea name="memo" rows="3" cols="40" class="fv:required" fv:params="maxLength=50" title="请输入备注信息，字数请限制在50字以内!"></textarea>
+				</li>
+			</ul>
+			<div class="button-row">
+				<button type="submit">提交</button>
+				<button type="reset">重置</button>
+			</div>
+
+		</fieldset>
+		</form>
+	
+		<hr style="clear:both;"/>		
+
+		<script type="text/javascript">
+(function() {
+    var Y = YAHOO.util;
+    var myAdvisor = YAHOO.lang.merge(TB.form.Validation.ADVISORS['default'], {
+		__popups: {},
+        doFieldAdvice: function(ret, el, warnMsg) {
+            var advice = this.getAdvice(el);
+			var pObj = this.__popups[advice.id];
+			if (!pObj) {
+				var pDiv = document.createElement('div');
+				Y.Dom.get('demotab6').appendChild(pDiv);
+				$D.addClass(pDiv, 'tb-fv-advice-popup');
+				var pObj = TB.widget.SimplePopup.decorate(advice, pDiv, {
+					delay: 0.1,
+					width:180,
+					height: 33,
+					eventType: 'mouse',
+					position: 'top',
+					offset: [-25, -20]
+				});
+				this.__popups[advice.id] = pObj;
+			}
+			if (!ret) {
+				$D.removeClass(advice, 'passed');
+				$D.addClass(advice, 'failed');
+				pObj.popup.innerHTML = warnMsg;
+			} else {
+				this.__resetAdvice(advice.id);
+				$D.removeClass(advice, 'failed');
+				$D.addClass(advice, 'passed');
+            }
+			$D.setStyle(advice, 'display', '');
+        },
+		__resetAdvice: function(aid) {
+			var p = this.__popups[aid];
+			if (p) {
+				p.hide();
+				$E.purgeElement(p.popup, false);
+				$E.purgeElement(p.trigger, false);
+				p.popup.parentNode.removeChild(p.popup);
+				p = null;
+			}
+			delete this.__popups[aid];
+		},
+		resetAdvices: function() {
+			for (var aid in this.__popups) {
+				this.__resetAdvice(aid);
+			};
+			this.__popups = {};
+			for (var a in this.__advices) {
+				$D.setStyle(this.__advices[a], 'display', 'none');
+			}
+		}
+    });
+    
+	TB.form.Validation.attach('form6', {
+        immediate: true,
+        advice: myAdvisor
+    });
+})();
+		</script>
+		<div class="source"> 
+			Source: <br />
+			<textarea></textarea>
+		</div>
+	
+	</div>
+
+
+</div>
+
+<script type="text/javascript">
+TB.widget.SimpleTab.decorate('demobox', {eventType:'click',currentClass:'selected'});
+
+var srcDiv = $D.getElementsByClassName('source', 'div');
+srcDiv.forEach(function(div) {
+	var scriptTag = $D.getPreviousSibling(div);
+	var textarea = div.getElementsByTagName('textarea')[0];
+	div.getElementsByTagName('textarea')[0].value = scriptTag.innerHTML.trim();
+	YAHOO.util.Event.on(textarea, 'mouseover', function() {
+		this.style.height = Math.max(this.scrollHeight, this.offsetHeight) + 10 + 'px';
+	});
+	YAHOO.util.Event.on(textarea, 'mouseout', function() {
+		this.style.height = '100px';
+	});
+});
+</script>
+
+</body>
+</html>

@@ -129,7 +129,7 @@
 		</sync>
 		-->
 		<copy todir="${basedir}/../tbra" >
-		  <fileset dir="${dist.dir}" excludes=".project,.settings/**,**/.svn/**"/>
+		  <fileset dir="${dist.dir}" excludes=".project,.settings/**,**/.svn/**,**/.tmp*"/>
 		</copy>
 	</target>
 
