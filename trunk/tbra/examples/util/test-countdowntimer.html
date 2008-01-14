@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 	<title>Untitled Document</title>
-	<script type="text/javascript" src="../../yui-utilities.js"></script>
+	<script type="text/javascript" src="../../yui-base.js"></script>
 	<script type="text/javascript" src="../../tbra-debug.js"></script>	
 </head>
 <body>
@@ -13,8 +13,9 @@
 <span id="jLefttime"></span>
 
 <script>
-var leftTime = 0;
+var leftTime = 2282;
 TB.util.CountdownTimer.attach('jLefttime', leftTime, {
+	hideZero: true,
 	timeoutText: '交易结束'
 });
 </script>
@@ -41,7 +42,7 @@ TB.util.CountdownTimer.attach('jLefttime2', leftTime2, {
 <script>
 TB.util.CountdownTimer.attach('jLefttime3', 7230, {
 	formatStyle: 'custom',
-	formatPattern: '{d}--{h}--{m}--{s}'
+	formatPattern: '{h}:{m}:{s}'
 });
 </script>
 

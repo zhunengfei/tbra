@@ -129,19 +129,20 @@ Array.prototype.remove = function (obj) {
 if (!String.prototype.toQueryParams) {
 	String.prototype.toQueryParams = function() {
 		var hash = {};
-		var params = this.trim().split('&');
+		var params = this.split('&');
+		var rd = /([^=]*)=(.*)/;
 		for (var j = 0; j < params.length; j++) {
-			var pair = params[j].split('=');
-			var name = decodeURIComponent(pair[0]);
-			var value = pair[1]?decodeURIComponent(pair[1]) : undefined;
-
-			if (hash[name] !== undefined) {
-				if (hash[name].constructor != Array)
-					hash[name] = [hash[name]];
+			var match = rd.exec(params[j]);
+			if (!match) continue;
+			var key = decodeURIComponent(match[1]);
+			var value = match[2]?decodeURIComponent(match[2]) : undefined;
+			if (hash[key] !== undefined) {
+				if (hash[key].constructor != Array)
+					hash[key] = [hash[key]];
 				if (value) 
-					hash[name].push(value);
+					hash[key].push(value);
 			} else {
-				hash[name] = value;
+				hash[key] = value;
 			}
 		}
 		return hash;					

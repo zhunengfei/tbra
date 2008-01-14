@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Calendar Test</title>
+<script type="text/javascript" src="../../yui-base.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+</head>
+<body>
+<style type="text/css">
+body {
+	font-size: 12px;
+}
+
+.yui-calendar {
+	font-family: verdana !important;
+}
+
+.yui-calendar td.calcell.previous {
+	text-decoration: line-through;  
+}
+
+.yui-calendar td.calcell.oom a {
+	color: #ccc !important;  
+}
+
+.yui-calendar select.calyearselector, .yui-calendar select.calmonthselector {
+	height: 18px;
+	line-height: 18px;
+	font-size: 11px;
+	font-family: verdana;
+}
+
+.yui-calcontainer .yui-cal-nav, .yui-calcontainer .yui-cal-nav-b button {
+	font-size: 100% !important;
+}
+
+</style>
+<script type="text/javascript" src="../../build/widget/simplecalendar.js"></script>
+	
+<h2> Test Calendar </h2>
+<form name="demo" id="demo">
+	<input type="text" name="cal" />
+</form>
+<script type="text/javascript">
+TB.widget.SimpleCalendar.init(document.forms['demo'].cal, null, null, {selected: '2007-7-29'});
+</script>
+
+<br />
+<br />
+
+<h2> Test CalendarGroup </h2>
+<form name="demo2" id="demo2">
+	<input type="text" name="cal" /><button id="toggle" type="button">Calendar</button>	
+</form>
+<script type="text/javascript">
+TB.widget.SimpleCalendar.init(document.forms['demo2'].cal, null, 'toggle', {
+	maxdate: '2007-12-30',
+	enableOOM: true,  /* 非本月的日期也可选择 */
+	enableSelectYear:true /* 构造可选择年月的日历表头 */
+});
+</script>
+
+<br /><br />
+
+<h2> Test CalendarGroup Range </h2>
+<form name="demo3" id="demo3">
+	Start : <input type="text" name="cal0" />  ~  End   : <input type="text" name="cal1" />
+	<br />
+	Sick IE6 Bug : <select style="width:200px;">
+		<option>------------------------</option>
+	</select>
+</form>
+<script type="text/javascript">
+$E.onContentReady('demo3', function() {
+	TB.widget.SimpleCalendar.initRange([document.forms['demo3'].cal0,document.forms['demo3'].cal1], null, null, {
+		mindate: 'today', 
+		maxdate: '2008-2-14', 
+		pages: 2, 
+		navigator: true,
+		iframe:true /* for ie6 sick bug */
+	});
+});
+</script>
+
+<br /><br />
+
+</body>
+</html>

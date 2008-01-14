@@ -104,8 +104,23 @@ TB.common = {
 				return filter?filter(values[key], key):values[key];
 			});	
 		}
-	}()
+	}(),
 	
+	/**
+	 * Ω‚ŒˆURI
+	 */
+	parseUri: (function() {
+		var keys = ['source', 'prePath', 'scheme', 'username', 'password', 'host', 'port', 'path', 'dir', 'file', 'query', 'fragment'];
+		var re = /^((?:([^:\/?#.]+):)?(?:\/\/)?(?:([^:@]*):?([^:@]*)?@)?([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?/;	
+		return function(sourceUri) {
+			var uri = {};
+			var uriParts = re.exec(sourceUri);
+			for(var i = 0; i < uriParts.length; ++i){
+				uri[keys[i]] = (uriParts[i] ? uriParts[i] : '');
+			}
+			return uri;
+		}
+	})()
 };
 
 TB.applyIf = TB.common.applyIf;

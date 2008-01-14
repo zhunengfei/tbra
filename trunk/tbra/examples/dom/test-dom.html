@@ -3,8 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Untitled Document</title>
-<script type="text/javascript" src="../../yui-utilities.js"></script>
-<script type="text/javascript" src="../../tbra-debug.js"></script>
+<script type="text/javascript" src="../../yui-base.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js?k1=v1&k2=v2&t=20071230.js"></script>
+<script type="text/javascript" src="fake.js?name=tbra&_a=23.js"></script>
 </head>
 
 <div class="demoDiv">
@@ -53,6 +54,42 @@ document.write(TB.dom.getNextSibling('demoLi').innerHTML);
 document.write(TB.dom.getPreviousSibling('demoLi').innerHTML);		
 //@TODO
 
+</script>
+
+
+<h2>TB.dom.addCSS</h2> 
+
+<button onclick="TB.dom.addCSS('.demoDiv {color:red;}')">TB.dom.addCSS('.demoDiv {color:red;}')</button>
+
+<br />
+
+<div id="demo:holder""></div>
+<script type="text/javascript">
+	var iframe = null;
+	try {
+		iframe = document.createElement('<iframe name="tbra:dom-test">');
+	} catch (e) {
+		iframe = document.createElement('iframe');
+		iframe.name = 'tbra:dom-test';
+	}
+	$('demo:holder').appendChild(iframe);
+	var button = document.createElement('button');
+	button.onclick = function() {
+		TB.dom.addCSS('body {color:red;}', TB.dom.getIframeDocument(iframe));
+	}
+	button.innerHTML = 'TB.dom.addCSS(\'.demoDiv {color:red;}\', TB.dom.getIframeDocument(iframe))';
+	$('demo:holder').appendChild(button);
+	window.frames['tbra:dom-test'].document.write('<html><head></head><body>test TB.dom.addCSS</body></html>');
+	
+</script>
+
+<h2>TB.dom.getScriptParams</h2> 
+
+<br />
+
+<script type="text/javascript">
+	document.write(YAHOO.lang.dump(TB.dom.getScriptParams('tbra-debug.js')) + '<br />');
+	document.write(YAHOO.lang.dump(TB.dom.getScriptParams(/fake(\.source)?\.js/)) + '<br />');
 </script>
 
 <body>

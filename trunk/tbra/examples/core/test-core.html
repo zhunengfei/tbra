@@ -3,14 +3,20 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<title>Untitled Document</title>
-		<script type="text/javascript" src="../../yui-utilities.js"></script>
-		<script type="text/javascript" src="../../tbra-debug.js"></script>
+		<script type="text/javascript" src="../../yui-base.js"></script>
+		<script type="text/javascript" src="../../tbra.js?t=20071101.js"></script>
 	</head>
 	<body>
 	<h2>Test TB.env</h2>	
 	<script type="text/javascript">
 		for (e in TB.env) {
 			document.write(e + ' = ' + TB.env[e] + '<br/>');
+		}
+		
+		var str = '_msg_=0&_msg_v=true&cookie21=IDb1VdmEwQ%3D%3D&cookie14=KPiwCtlxat9pLQ%3D%3D&cookie15=dHJ1ZQ==&cookie16=LAnUCk8IqqUpaP%2FZeVW6SbdjuQ%3D%3D&cookie17=KsdeHsAz8Ao%3D&existShop=false&existXShop=false&lltime=1189652710'
+		var cookieMap = str.toQueryParams();
+		for (k in cookieMap) {
+			document.write(k + ' = ' + cookieMap[k] + '<br/>');
 		}
 	</script>
 	
@@ -31,7 +37,52 @@
 	<script type="text/javascript">
 		document.write(TB.common.formatMessage('{day}天有{hour}个小时', {day:1, hour:24}, function(o){return o*2;}));
 	</script>
-	</p>	
+	</p>
+	
+	
+	<h2>Test TB.applyIf</h2>
+	<script type="text/javascript">
+		var source = {'key':'value', 'key1':'value1', 'key2':45};
+		var config = {'key':'config', 'key3':'value3', 'date':new Date()};
+		document.write(YAHOO.lang.hasOwnProperty(source, 'key'));
+		document.write(YAHOO.lang.hasOwnProperty(source, 'key3'));
+		var targetIf = TB.common.applyIf(source, config);
+		var target = TB.common.apply(source, config);
+		document.write(targetIf);
+		document.write(target);
+	</script>	
+	
+	<h2>Test Math.randomInt</h2>	
+	
+	<script type="text/javascript">
+	(function() {
+		var count = 200;
+		var repeat = 0;
+		var randoms = [];
+		for(var i = 0; i < count; i++) {
+			var random = Math.randomInt(count);
+			if(randoms.contains(random)) {
+				repeat++;
+			} else {
+				randoms.push(random);
+			}
+		}
+		document.write('repeat time: ' + repeat + '<br />');
+		document.write('randoms.length: ' + randoms.length + '<br />');
+	})();			
+	</script>
+	
+	
+	<h2>Test TB.common.parseUri</h2>	
+	
+	<script type="text/javascript">
+	(function() {
+		var uri = TB.common.parseUri('http://list.taobao.com/browse/1512/t-95---------------------------------40--coefp-0-all-1512.htm?at_topsearch=1#ListItem');
+		for (var i in uri) {
+			document.write(i + " = " + uri[i] + "<br />");
+		}		
+	})();			
+	</script>	
 	
 	</body>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>TB.widget.SimpleRating Examples</title>
+	<style type="text/css" media="screen">
+		@import url('../../assets/tbra.css');
+		@import url('../../assets/star-rating.css');
+	</style>
+	<script type="text/javascript" src="../../yui-base.js"></script>
+	<script type="text/javascript" src="../../tbra-debug.js"></script>
+</head>
+<body>
+
+	
+</style>
+
+Show current rating
+<ul class="star-rating" id="demo1">
+	<li class="current-rating" style="width:60%;">Currently 3/5 Stars.</li>	
+	<li><a href="#" title="垃圾" class="one-star">1</a></li>
+	<li><a href="#" title="稍差" class="two-stars">2</a></li>
+	<li><a href="#" title="一般" class="three-stars">3</a></li>
+	<li><a href="#" title="不错" class="four-stars">4</a></li>
+	<li><a href="#" title="最爱" class="five-stars">5</a></li>
+</ul>
+
+
+<br />
+<br />
+
+Show crrent rating at somewhere else 
+<ul class="star-rating" id="StarRating">
+	<li><a href="#" title="垃圾" class="one-star">1</a></li>
+	<li><a href="#" title="稍差" class="two-stars">2</a></li>
+	<li><a href="#" title="一般" class="three-stars">3</a></li>
+	<li><a href="#" title="不错" class="four-stars">4</a></li>
+	<li><a href="#" title="最爱" class="five-stars">5</a></li>
+</ul>
+
+
+
+<script type="text/javascript">
+TB.widget.SimpleRating.decorate('demo1', {
+	rateUrl:'test-rating.js',
+	onRate: function(ret) {
+		alert(1);
+	}
+});
+TB.widget.SimpleRating.decorate('StarRating', {
+	rateUrl:'test-rating.js',
+	onRate: function(ret) {
+		if (!ret.Error) {
+			var c = $('demo2');
+			var msgbox = document.createElement('div');
+			msgbox.innerHTML = '感谢您的评分';
+			c.parentNode.insertBefore(msgbox, c); 
+			c.parentNode.removeChild(c);
+		}
+	}
+});
+</script>
+
+
+</body>
+</html>
