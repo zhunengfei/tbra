@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="http://www.taobao.com/home/js/tbra/yui-utilities.js?v=2.2.2.js"></script>
+<script type="text/javascript" src="http://www.taobao.com/home/js/tbra/tbra.js?t=20070801.js"></script>
+</head>
+<body>
+
+<style>
+#container {
+	width: 200px;
+}
+.tb-fl-title {
+	border: 1px solid #ccc;
+	background: #eee;
+	padding-left: 18px;
+	background: url(http://pics.taobao.com/2k5/sys/forum/icons/icon_open.gif) no-repeat 5px center;
+	zoom: 1;	
+}
+.tb-fl-expand {
+	background: url(http://pics.taobao.com/2k5/sys/forum/icons/icon_open.gif) no-repeat 5px center;
+}
+.tb-fl-collapse {
+	background: url(http://pics.taobao.com/2k5/sys/forum/icons/icon_close.gif) no-repeat 5px center;
+}
+</style>
+
+<div id="container">
+
+<ul>
+		
+	<li>
+		<h2>美人时尚</h2>
+		<ul>
+			<li>
+				<h3 class="tb-fl-title">List 1</h3>
+				<ul class="tb-fl-content">
+					<li>List 1.1</li>
+					<li>List 1.2</li>
+					<li>List 1.3</li>
+					<li>List 1.4</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+			
+	<li>
+		<h2>全球购</h2>
+		<ul>
+			<li>
+				<h3 class="tb-fl-title">List 2</h3>
+				<ul class="tb-fl-content">
+					<li>
+						<h4 class="tb-fl-title"><a href="javascript:alert(1);">List 2.1</a></h4>
+						<ul class="tb-fl-content">
+							<li>
+								<h5 class="tb-fl-title">List 2.1.1</h5>
+								<ul class="tb-fl-content">
+									<li>List 2.1.1.1</li>
+									<li>List 2.1.1.2</li>
+									<li>List 2.1.1.3</li>									
+								</ul>
+							</li>
+							<li>List 2.1.2</li>
+							<li>List 2.1.3</li>
+							<li>List 2.1.4</li>
+						</ul>
+					</li>
+					<li>List 2.2</li>
+					<li>List 2.3</li>
+					<li>List 2.4</li>
+				</ul>
+
+				<h3 class="tb-fl-title">List 3</h3>
+				<ul class="tb-fl-content">
+					<li>List 3.1</li>
+					<li>
+						<h4 class="tb-fl-title"><a href="javascript:alert(1);">List 3.2</a></h4>
+						<ul class="tb-fl-content">
+							<li>List 3.2.1</li>
+							<li>List 3.2.2</li>
+							<li>List 3.2.3</li>
+							<li>List 3.2.4</li>
+						</ul>
+					</li>					
+					<li>List 3.3</li>
+					<li>List 3.4</li>
+				</ul>
+				
+				<h3 class="tb-fl-title">List 4</h3>
+				<ul class="tb-fl-content">
+					<li>List 4.1</li>
+					<li>List 4.2</li>
+					<li>List 4.3</li>
+					<li>List 4.4</li>
+				</ul>
+			</li>
+		</ul>
+		
+	</li>
+
+</ul>
+
+</div>
+
+<button type="button" onclick="fl.expandAll();">Expand All</button>
+<button type="button" onclick="fl.collapseAll();">Collapse All</button>
+
+
+<script>
+TB.widget.FoldingList = new function() {
+	
+	var defConfig = {
+		titleClass: 'tb-fl-title',
+		contentClass: 'tb-fl-content',
+		expandClass: 'tb-fl-expand',
+		collapseClass: 'tb-fl-collapse',
+		multiExpand: true  /* true:允许同时展开多个  false：同一时间只允许展开一个 */
+	}
+
+	this.decorate = function(container, config) {
+		container = $(container);
+		config = TB.applyIf(config || {}, defConfig);
+		var handle = {};
+		var titles = $D.getElementsByClassName(config.titleClass, '*', container);
+		
+
+		handle.expandAll = function() {
+			titles.forEach(handle.expand);
+		};
+
+		handle.collapseAll = function() {
+			titles.forEach(handle.collapse);
+		};
+
+		handle.expand = function(title) {
+			if (!config.multiExpand) {
+				titles.filter(function(o) {
+					var c = TB.dom.getNextSibling(o);
+					return !($D.hasClass(c, config.contentClass) && $D.isAncestor(c, title));
+				}).forEach(handle.collapse);		
+			}
+			$D.addClass(title, config.expandClass);
+			$D.removeClass(title, config.collapseClass);
+			var panel = TB.dom.getNextSibling(title);
+			if ($D.hasClass(panel, config.contentClass)) {
+				$D.setStyle(panel, 'display', ''); 
+			}			
+		}
+		
+		handle.collapse = function(title) {
+			$D.addClass(title, config.collapseClass);
+			$D.removeClass(title, config.expandClass);
+			var panel = TB.dom.getNextSibling(title);
+			if ($D.hasClass(panel, config.contentClass)) {
+				$D.setStyle(panel, 'display', 'none');
+			}
+		}		
+
+		$E.on(titles, 'click', function(ev) {
+			if ($E.getTarget(ev) === this)
+				handle[($D.hasClass(this, config.collapseClass))?'expand':'collapse'](this);
+		});
+		
+		return handle;
+	}
+	
+}
+
+var fl = TB.widget.FoldingList.decorate('container', {multiExpand: false});
+fl.collapseAll();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<script type="text/javascript" src="../../yui-base.js"></script>
+<script type="text/javascript" src="../../tbra-debug.js"></script>
+<title>无标题文档</title>
+</head>
+
+<body>
+<style type="text/css">
+body {
+	font-size: 12px;
+}
+#AnniouBox ul {
+	margin: 0;
+	list-style: none;
+	padding: 0 5px;
+	width: 636px;
+	overflow: hidden;
+}
+#AnniouBox li {
+	float: left;
+	width: 63px;
+	background: url(http://pics.taobao.com/bao/album/promotion/anniou_070417c.gif) no-repeat 0 0;	
+}
+#AnniouBox li.Current {
+	background: url(http://pics.taobao.com/bao/album/promotion/anniou_070417c1.gif) no-repeat 0 0;	
+}
+#AnniouBox li a{
+	height: 32px;
+	line-height: 32px;
+	display: block;
+	text-align: center;
+}
+</style>
+<a name="kkk"></a>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br />
+<div id="AnniouBox">
+	<ul>
+		<li class="Tab Current"><a href="#">手机数码</a></li>
+		<li class="Tab"><a href="http://www.google.cn">女人</a></li>
+		<li class="Tab"><a href="#kkk">男人</a></li>
+		<li class="Tab"><a href="#">运动</a></li>
+	</ul>
+
+	<table width="646" border="0" bgcolor="#CCCCCC">
+	  <tr>
+		<td width="640" height="69">1</td>
+	  </tr>
+	</table>
+
+	<table width="646" border="0" bgcolor="#999999">
+	  <tr>
+		<td width="640" height="69">2</td>
+	  </tr>
+	</table>
+
+	<table width="646" border="0" bgcolor="#666666">
+	  <tr>
+		<td width="640" height="69">3</td>
+	  </tr>
+	</table>
+
+	<table width="646" border="0" bgcolor="#666666">
+	  <tr>
+		<td width="640" height="69">4</td>
+	  </tr>
+	</table>
+
+</div>
+<script type="text/javascript">
+var tab = TB.widget.SimpleTab.decorate('AnniouBox', {eventType:'mouse', onSwitch:function(idx){
+	alert(idx);}});
+/*
+tab.onSwitch(function(idx){
+	alert(idx);
+});
+*/
+</script>
+
+
+
+<h2> Demo 2</h2>
+<style type="text/css">
+.top10 {
+	width: 200px;
+}
+.top10 .tb-tab-col {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	bottom: -1px;
+}
+.top10 .tb-tab-col li {
+	float: left;
+	width: 40px;
+	text-align: center;
+	margin-right: 3px;
+	padding: 3px 2px;
+	background: #eee;
+	border: 1px solid red;
+	border-bottom: none;
+}
+
+.top10 .tb-tab-col li a {
+	display: block;
+}
+
+.top10 .tb-tab-col li.selected {
+	background: #fff;
+}
+
+.top10 .tb-tab-col li.selected a {
+	border-bottom: 1px solid #fff;
+}
+
+.top10 .tb-tab-panel {
+	width: 200px;
+	height: 300px;
+	border: 1px solid red;
+}
+</style>
+<div class="tb-tab-container top10" id="top10_1">
+	<ul class="tb-tab-col">
+		<li class="selected"><a href="javascript:void(0)">毛衣</a></li>
+		<li><a href="javascript:void(0)">夹克</a></li>
+		<li><a href="javascript:void(0)">衬衣</a></li>
+		<li><a href="http://www.google.cn" target="_blank">内裤</a></li>
+	</ul>
+	<div class="tb-tab-panel">
+	</div>
+	<div class="tb-tab-panel">
+	</div>
+	<div class="tb-tab-panel">
+	</div>
+	<div class="tb-tab-panel">
+	</div>
+</div>
+
+<script type="text/javascript">
+TB.widget.SimpleTab.decorate('top10_1', {eventType:'mouse',currentClass:'selected'});
+</script>
+
+</body>
+</html>

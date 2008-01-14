@@ -1,3 +1,4 @@
+/* 简单分页 */
 TB.util.Pagination = new function() {
 	
 	var PAGE_SEPARATOR = '...'; /*页省略符号*/	
@@ -162,12 +163,12 @@ TB.util.Pagination = new function() {
 		 * 	}
 		 */
 		handle.rebuildPageBar = function(pageObj) {
-			if (pageObj) {
-				this.pageIndex = parseInt(pageObj.PageIndex);
-				this.totalCount = parseInt(pageObj.TotalCount);
-				this.pageCount = parseInt(pageObj.PageCount);
-				this.pageSize = parseInt(pageObj.PageSize);
-			}
+			if (!pageObj) return;
+
+			this.pageIndex = parseInt(pageObj.PageIndex);
+			this.totalCount = parseInt(pageObj.TotalCount);
+			this.pageCount = parseInt(pageObj.PageCount);
+			this.pageSize = parseInt(pageObj.PageSize);
 			
 			/* 清除page UL 内容并重新构造 */
 			ulEl.innerHTML = '';
@@ -267,17 +268,21 @@ TB.util.Pagination = new function() {
 						$D.setStyle(pageDataContainer, 'display', 'block');						
 						indicator.hide();
 					}
-					handle.rebuildPageBar();					
+					handle.rebuildPageBar();			
 					alert($M('ajaxError'));
 				}
 			});	
 		}
 		
 		handle.showPage = function(pageObj) {
-			if (pageObj.PageData && YAHOO.lang.isString(pageObj.PageData))
-				pageDataContainer.innerHTML = pageObj.PageData;
+			this._showPage(pageObj);
 			this.rebuildPageBar(pageObj);
 			pageLoadEvent.fire(pageObj);
+		}
+		
+		handle._showPage = function(pageObj) {
+			if (pageObj.PageData && YAHOO.lang.isString(pageObj.PageData))
+				pageDataContainer.innerHTML = pageObj.PageData;
 		}
 
 		/**

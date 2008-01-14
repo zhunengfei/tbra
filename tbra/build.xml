@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     TBra build file    
+                   
+     xiaoma@taobao.com                                                                
+     ====================================================================== -->
+<project name="project" default="build" basedir=".">
+    <description>
+            TBra build file
+    </description>
+
+	<property name="build.dir" location="build"/>
+	<property name="dist.dir" location="."/>
+	<property name="lib.dir" location="lib"/>
+	
+    <target name="build" depends="js.concatenate" description="build TBra">
+
+    	<mkdir dir="${dist.dir}/tmp" />
+    	
+    	<!--
+    		压缩tbra.js
+    	-->
+    	<java jar="${lib.dir}/yuicompressor.jar" fork="true">
+			<arg line="--type js --charset gbk -o ${dist.dir}/tmp/tbra-min.js ${dist.dir}/tbra.source.js"/>
+		</java>
+
+		<!--
+			脚本中的中文转码
+		-->
+		<native2ascii encoding="gbk" src="${dist.dir}/tmp" dest="${dist.dir}"
+		   includes="tbra-min.js"/>
+		
+    	<move file="tbra-min.js" tofile="tbra.js"/>
+    	<move file="tbra.source.js" tofile="tbra-debug.js"/>
+    	<delete dir="${dist.dir}/tmp"/>
+    	
+    	<echo message="Build TBra Done :)" />		
+    </target>
+	
+	<target name="build.yui">
+		<concat destfile="${dist.dir}/yui-base.js.tmp" append="false">
+			<filelist dir="${basedir}/yui/yahoo/" files="yahoo-min.js" />
+			<filelist dir="${basedir}/yui/dom/" files="dom-min.js" />
+			<filelist dir="${basedir}/yui/event/" files="event-min.js" />
+			<filelist dir="${basedir}/yui/connection/" files="connection-min.js" />
+			<filelist dir="${basedir}/yui/animation/" files="animation-min.js" />
+			<!--
+			<filelist dir="${basedir}/yui/dragdrop/" files="dragdrop-min.js" />
+			<filelist dir="${basedir}/yui/element/" files="element-beta-min.js" />
+			-->
+			<filelist dir="${basedir}/yui/json/" files="json-beta-min.js" />
+			<filelist dir="${basedir}/yui/selector/" files="selector-beta-min.js" />	
+			<filelist dir="${basedir}/yui/get/" files="get-beta-min.js" />
+						
+		</concat>
+    	<java jar="${lib.dir}/yuicompressor.jar" fork="true">
+			<arg line="--type js -o ${dist.dir}/yui-base.js ${dist.dir}/yui-base.js.tmp"/>
+		</java>	
+		<delete file="${dist.dir}/yui-base.js.tmp"/>
+	</target>	
+	
+	<!--
+		合并所有TBra组件到tbra.source.js
+	-->
+	<target name="js.concatenate">
+		<concat destfile="${dist.dir}/tbra.source.js" append="false">
+			<filelist dir="${build.dir}/core/" files="lang.js,tb.js,common.js" />
+			<filelist dir="${build.dir}/bom/" files="bom.js" />
+			<filelist dir="${build.dir}/dom/" files="dom.js" />
+			<filelist dir="${build.dir}/anim" files="anim.js" />
+			<fileset dir="${build.dir}/widget/" includes="*.js" excludes="simplecalendar.js,accordion.js" />
+			<fileset dir="${build.dir}/util/" includes="*.js" />
+			<fileset dir="${build.dir}/form/" includes="*.js" />
+		</concat>
+	</target>
+
+	<!--
+		压缩tbra.js
+	-->
+	<target name="js.minify">
+	</target>	
+
+	<!--
+		压缩非核心模块的独立文件
+	-->
+	<target name="js.minify.module">
+	    <apply executable="java" dest="${build.dir}" parallel="false">
+	    	<fileset dir="${build.dir}" includes="util/*.js, widget/*.js, form/*.js"/>
+	    	<arg line="-jar"/>
+	    	<arg path="${lib.dir}/yuicompressor.jar"/>
+	    	<srcfile/>        
+	    	<arg line="--type js --charset gbk -o"/>
+	    	<mapper type="glob" from="*.js" to="*-min.js"/>
+	    	<targetfile/>
+	    </apply>
+	</target>	
+	
+	<!--
+		locale文件压缩转码
+	-->
+    <target name="build.locale" description="build TBra locale file">
+    	<mkdir dir="${dist.dir}/locale/tmp" />
+	    <apply executable="java" dest="${dist.dir}/locale/tmp" parallel="false">
+	    	<fileset dir="${dist.dir}/locale" includes="*.source.js"/>
+	    	<arg line="-jar"/>
+	    	<arg path="${lib.dir}/yuicompressor.jar"/>
+	    	<srcfile/>        
+	    	<arg line="--type js --charset gbk -o"/>
+	    	<mapper type="glob" from="*.source.js" to="*.js"/>
+	    	<targetfile/>
+	    </apply>
+		<native2ascii encoding="gbk" src="${dist.dir}/locale/tmp" dest="${dist.dir}/locale"
+		   includes="*.js"/>
+		<delete dir="${dist.dir}/locale/tmp"/>
+	</target>
+
+	<!--
+		同步到 googlecode svn
+	-->
+	<target name="sync2googlecode" description="build TBra locale file">
+		<!--
+		<sync todir="${basedir}/../tbra" verbose="true">
+		  <fileset dir="${dist.dir}" excludes=".project,.settings/**,**/.svn/**"/>
+		  <preserveintarget>
+		    <include name="**/.svn/**"/>
+		    <include name=".settings/**"/>
+		    <include name=".project"/>
+		  </preserveintarget>
+		</sync>
+		-->
+		<copy todir="${basedir}/../tbra" >
+		  <fileset dir="${dist.dir}" excludes=".project,.settings/**,**/.svn/**"/>
+		</copy>
+	</target>
+
+</project>

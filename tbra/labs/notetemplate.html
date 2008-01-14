@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="http://www.taobao.com/home/js/tbra/yui-utilities.js?v=2.2.2.js"></script>
+<script type="text/javascript" src="http://www.taobao.com/home/js/tbra/tbra.js?t=20070801.js"></script>
+</head>
+<body>
+<style>
+.et-passenger {
+	border: 1px solid #ccc;	
+	height: 100px;
+	background: #eee;
+}
+
+.tb-nodetmpl {
+	height: 0;	
+	display: none;
+}
+</style>
+
+<div class="et-passenger tb-nodetmpl" id="et:passengerNodeTmpl">
+	姓名： <input type="text" name="name" />
+	身份证:  <input type="text" name="idcard" />
+</div>
+
+登机人： <br />
+
+<div id="et:passengerContainer">
+		
+	
+</div>
+
+<script type="text/javascript">
+
+TB.util.NodeTempate = new function() {
+	
+	var Y = YAHOO.util;
+	var defConfig = {
+		nodeTemplateClass: 'tb-nodetmpl',
+		idPrefix: '__tbnt_',
+		initCount: 1,
+		enableDelToggle: true,
+		delToggleClass: 'tb-nodetmpl-del',
+		delToggleText: 'Delete',
+		enableAddToggle: true,
+		addToggleClass: 'tb-nodetmpl-add',
+		addToggleText: 'Add',
+		useAnim: true
+	}
+	
+	this.init = function(container, tmplNode, config) {
+		container = $(container);
+		tmplNode = $(tmplNode);
+		config = TB.applyIf(config || {}, defConfig);
+		
+		var handle = {};
+		
+		handle._nodes = [];
+
+		var onAppendEvent = new Y.CustomEvent("append", handle, false, Y.CustomEvent.FLAT);
+		var onDeleteEvent = new Y.CustomEvent("delete", handle, false, Y.CustomEvent.FLAT);
+		
+		var _appendDelToggle = function(node) {
+			var toggle = document.createElement('button');
+			toggle.setAttribute('type', 'button');
+			$D.addClass(toggle, config.delToggleClass);
+			toggle.innerHTML = $M(config.delToggleText);
+			$E.on(toggle, 'click', function(ev) {
+				handle.remove($E.getTarget(ev).parentNode);
+			});
+			node.appendChild(toggle);
+			return toggle;
+		}
+		
+		var _buildAddToggle = function() {
+			var toggle = document.createElement('button');
+			toggle.setAttribute('type', 'button');
+			$D.addClass(toggle, config.addToggleClass);
+			toggle.innerHTML = $M(config.addToggleText);
+			$E.on(toggle, 'click', function(ev) {
+				handle.append();
+			}, handle, true);
+			return toggle;			
+		}			
+		
+		handle.append = function() {
+			var node = tmplNode.cloneNode(true);
+			$D.removeClass(node, config.nodeTemplateClass);
+			node.id = $D.generateId(null, config.idPrefix);
+			container.appendChild(node);
+			
+			handle._nodes.push(node.id);
+			if (handle._nodes.length > 1) {
+				_appendDelToggle(node);
+				/* 第一个节点增加 delToggle */
+				if ($D.getElementsByClassName(config.delToggleClass, '*', handle._nodes[0]).length == 0)
+					_appendDelToggle($(handle._nodes[0]));
+			} 
+
+			onAppendEvent.fire(node);
+		}
+		
+		var _remove = function(node) {
+			$E.purgeElement(node, true, 'click');
+			container.removeChild(node);
+			handle._nodes.remove(node.id);
+			if (handle._nodes.length == 1) {
+				var delToggle = $D.getElementsByClassName(config.delToggleClass, '*', handle._nodes[0])[0]; 
+				if (delToggle) {
+					$E.purgeElement(delToggle, false, 'click');
+					delToggle.parentNode.removeChild(delToggle);
+				}
+			}
+			
+			onDeleteEvent.fire(node);
+		}
+		
+		handle.remove = function(node) {
+			if (config.useAnim) {
+				var anim = new YAHOO.util.Anim(node, {height:{to:0}}, 0.3);
+				anim.onComplete.subscribe(function(){
+					_remove(node);
+				});
+				anim.animate();
+			} else {
+				_remove(node);
+			}
+		}
+				
+		handle._init = function() {
+			/* 注册 onAppend 事件，添加一个节点时触发 */
+			if (config.onAppend) {
+				onAppendEvent.subscribe(config.onAppend);
+			} 
+			/* 注册 onDelete 事件，删除一个节点时触发 */
+			if (config.onDelete) {
+				onDeleteEvent.subscribe(config.onDelete);
+			}
+			/* 默认初始化节点数 */
+			if (config.initCount > 0) {
+				for (var i = 0; i < config.initCount; ++i)
+					handle.append();		
+			}
+			/* 激活添加按钮 */
+			if (config.enableAddToggle) {
+				var addToggle = _buildAddToggle();
+				TB.dom.insertAfter(addToggle, container);				
+			}
+		}
+		
+		handle._init();
+		return handle;
+	}
+}
+
+TB.util.NodeTempate.init('et:passengerContainer', 'et:passengerNodeTmpl', {
+	initCount: 1,
+	useAnim: false,
+	onAppend: function(node) {
+		alert("add a node");
+	}
+});	
+</script>
+
+</body>
+</html>

@@ -30,7 +30,7 @@ TB.util.Indicator = new function() {
 		indicator.className = 'tb-indic';
 		$D.setStyle(indicator, 'display', 'none');
 		$D.setStyle(indicator, 'position', 'static');
-		indicator.innerHTML = $M(config.message);
+		indicator.innerHTML = '<span>'+$M(config.message)+'</span>';
 		
 		if (config.useShim) {
 			var shim = prepareShim(target, config.useIFrame);

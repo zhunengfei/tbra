@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title>Untitled Document</title>
-<script type="text/javascript" src="../../yui-utilities.js"></script>
+<script type="text/javascript" src="../../yui-base.js"></script>
 <script type="text/javascript" src="../../tbra-debug.js"></script>
 <style>
 table td {
@@ -59,12 +59,20 @@ table tr.H {
 				<td><input type="checkbox" name="c" id="testcb"></td>
 				<td>6666666666666666666666666666666666</td>
 			</tr>
-		</tbody>			
+		</tbody>
+		
+		<tfoot>
+			<tr>
+				<th><input type="checkbox" class="tb:check-all"></th>
+				<th>Title</th>
+			</tr>			
+		</tfoot>			
 		
 	</table>
 	</form>
 	<script type="text/javascript">
-		var handle = TB.form.CheckboxGroup.attach(document.testform.c, {checkAllBox:'CheckAll', checkOnInit:false});
+		
+		var handle = TB.form.CheckboxGroup.attach(document.testform.c, {checkAllBox:'CheckAll', checkAllBoxClass:'tb:check-all', checkOnInit:false});
 		handle.onCheck(function(checkbox) {
 			if (checkbox.checked) {
 				YAHOO.util.Dom.addClass(checkbox.parentNode.parentNode, 'H');
@@ -100,7 +108,7 @@ table tr.H {
 	</script>
 	
 	
-	<h1>CheckboxGroup Demo1</h1>
+	<h1>CheckboxGroup Demo2</h1>
 	<form name="testform2">
 
 	<button id="CheckAllButton" type="button">ȫѡ</button>

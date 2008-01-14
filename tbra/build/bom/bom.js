@@ -55,7 +55,7 @@
 		 * @param {Object} name
 		 */
 		removeCookie: function(name) {
-			setCookie(name, '', -1);
+			this.setCookie(name, '', -1);
 		},
 	
 		/**
@@ -70,7 +70,8 @@
 		 * @return expected document.domain value
 		 */
 		pickDocumentDomain: function() {
-			var da = location.hostname.split('.'), len = da.length;
+			var host = arguments[1] || location.hostname; 
+			var da = host.split('.'), len = da.length;
 			var deep = arguments[0]|| (len<3?0:1);
 			if (deep>=len || len-deep<2)
 				deep = len-2;
@@ -92,5 +93,4 @@
 			}
 		}
 	}
-
 })();

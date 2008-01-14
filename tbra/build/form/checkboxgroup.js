@@ -5,11 +5,18 @@ TB.form.CheckboxGroup = new function() {
 	var Y = YAHOO.util;
 	var defConfig = {
 		checkAllBox: 'CheckAll',
+		checkAllBoxClass: 'tb:chack-all',
 		checkOnInit: true /* 初始化时是否预处理 */
 	}
 	var getChecked = function(o, i) { return o.checked;	}
-	var setChecked = function(o, i) { o.checked = true; }
-	var setUnchecked = function(o, i) {	o.checked = false; }
+	var setChecked = function(o, i) {
+		if (o.type && o.type.toLowerCase()=='checkbox')
+			o.checked = true; 
+	}
+	var setUnchecked = function(o, i) {
+		if (o.type && o.type.toLowerCase()=='checkbox')
+			o.checked = false; 
+	}
 	
 	this.attach = function(checkboxGroup, config) {
 		config = TB.applyIf(config || {}, defConfig);
@@ -24,17 +31,22 @@ TB.form.CheckboxGroup = new function() {
 			else
 				checkboxes[0] = checkboxGroup; /*如果只有一个checkbox*/		
 		}
-
-		var checkAllBox = $(config.checkAllBox);
+		
+		var checkAllBoxes = [];
+		if (config.checkAllBoxClass) {
+			checkAllBoxes = $D.getElementsByClassName(config.checkAllBoxClass, null, checkboxes[0].form);
+		}
+		if ($(config.checkAllBox)) {
+			checkAllBoxes.push($(config.checkAllBox));
+		}
+ 
 		var doCheck = function() {
 			var checkedBoxes = checkboxes.filter(getChecked);
-			if (checkAllBox && checkAllBox.type == 'checkbox') {
-				if (checkedBoxes.length == 0) {
-					checkAllBox.checked = 0;
-				} else {
-					checkAllBox.checked = (checkedBoxes.length == checkboxes.length);
-				}
-			}
+			if (checkboxes.length == 0) {
+				checkAllBoxes.forEach(setUnchecked);
+			} else {
+				checkAllBoxes.forEach((checkedBoxes.length == checkboxes.length)?setChecked:setUnchecked);
+			}			
 			handle._checkedBoxCount = checkedBoxes.length;
 		}		
 		var clickHandler = function(ev) {
@@ -67,13 +79,13 @@ TB.form.CheckboxGroup = new function() {
 				return this._checkedBoxCount > 1;
 			},			
 			toggleCheckAll: function() {
-				if (checkboxes.length == 0) {
-					if (checkAllBox && checkAllBox.type == 'checkbox') 
-						checkAllBox.checked = 0;
-					return false;
-				}
 				var allChecked = checkboxes.every(getChecked);
 				checkboxes.forEach(allChecked?setUnchecked:setChecked);
+				if (checkboxes.length == 0) {
+					checkAllBoxes.forEach(setUnchecked);
+				} else {
+					checkAllBoxes.forEach(allChecked?setUnchecked:setChecked);
+				}
 				handle._checkedBoxCount = (allChecked)?0:checkboxes.length;
 				checkboxes.forEach(function(o){
 					onCheckEvent.fire(o);
@@ -92,8 +104,8 @@ TB.form.CheckboxGroup = new function() {
 		$E.on(checkboxes, 'click', clickHandler);
 		if (config.onCheck && YAHOO.lang.isFunction(config.onCheck)) 
 			onCheckEvent.subscribe(config.onCheck, handle, true);
-		if (checkAllBox) {
-			$E.on(checkAllBox, 'click', handle.toggleCheckAll);
+		if (checkAllBoxes.length > 0) {
+			$E.on(checkAllBoxes, 'click', handle.toggleCheckAll);
 		}
 		if (config.checkOnInit) {
 			doCheck();

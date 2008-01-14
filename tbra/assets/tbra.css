@@ -9,16 +9,16 @@
 
 .tb-indic-shim {
 	position: absolute;
-	z-index: 10;
+	z-index: 11;
 	display: none;
-	background: #ccc;
+	background: #fff;
 	opacity: .8;
 	filter: alpha(opacity=80);
 }
 
 .tb-indic-shim-iframe {
 	position: absolute;
-	z-index: 11;
+	z-index: 10;
 	display: none;
 	border: none;
 	opacity: 0;
