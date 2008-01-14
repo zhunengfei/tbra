@@ -375,7 +375,6 @@ TB.common = {
 			return uri;
 		}
 	})()
-	
 };
 
 TB.applyIf = TB.common.applyIf;
@@ -751,30 +750,16 @@ TB.widget.InputHint = new function() {
 	
 TB.widget.SimplePopup = new function() {
 	var Y = YAHOO.util;
-	var popupShowTimeId, popupHideTimeId;
 
 	var defConfig = {
 		position: 'right',
 		autoFit: true,
 		eventType: 'mouse',
-		delay: 0.2,
+		delay: 0.1,
 		disableClick: true,  /* stopEvent when eventType = mouse */
 		width: 200,
 		height: 200		
 	};
-	
-	/** 判断p是否包含c **/
-	var checkContains = function(p, c) {
-		if (p.contains && c!=null)
-			return p.contains(c);
-		else {
-			while (c) {
-				if (c == p) return true;
-				c = c.parentNode;
-			}
-			return false;
-		}
-	}
 	
 	/**
 	 * 事件处理器
@@ -792,9 +777,9 @@ TB.widget.SimplePopup = new function() {
 		triggerClickHandler._target = target;
 	}
 	var triggerMouseOverHandler = function(ev) {
-		clearTimeout(popupHideTimeId);
+		clearTimeout(this._popupHideTimeId);
 		var self = this;
-		popupShowTimeId = setTimeout(function(){
+		this._popupShowTimeId = setTimeout(function(){
 			self.show();
 		}, this.config.delay * 1000);
 		if (this.config.disableClick && !this.trigger.onclick) {
@@ -803,27 +788,46 @@ TB.widget.SimplePopup = new function() {
 			};
 		}			
 	}
+
+	var triggerMouseOutHandler = function(ev) {
+		clearTimeout(this._popupShowTimeId);
+		if (!$D.isAncestor(this.popup, $E.getRelatedTarget(ev))){
+			this.delayHide();
+		}
+		$E.preventDefault(ev);
+	}
 	
 	var popupMouseOverHandler = function(ev) {
-		clearTimeout(popupHideTimeId);
-		$E.preventDefault(ev);		
+		var handle = this.currentHandle? this.currentHandle : this;
+		clearTimeout(handle._popupHideTimeId);
 	}
 
-	var mouseOutHandler = function(ev) {
-		clearTimeout(popupShowTimeId);
-		$E.preventDefault(ev);
-		if (!checkContains(this.popup, $E.getRelatedTarget(ev))){
-			this.delayHide();
+	var popupMouseOutHandler = function(ev) {
+		var handle = this.currentHandle? this.currentHandle : this;
+		if (!$D.isAncestor(handle.popup, $E.getRelatedTarget(ev))){
+			handle.delayHide();
 		}
 	}
 	
 	this.decorate = function(trigger, popup, config) {
 		if (YAHOO.lang.isArray(trigger) || (YAHOO.lang.isObject(trigger) && trigger.length)) {
+			config.shareSinglePopup = true;
+			var groupHandle = {};
+			groupHandle._handles = [];
 			/* batch操作时处于简单考虑，不返回handle object */
 			for (var i = 0; i < trigger.length; i++) {
-				this.decorate(trigger[i], popup, config);
+				var h = this.decorate(trigger[i], popup, config);
+				h._beforeShow = function(){
+					groupHandle.currentHandle = this;
+					return true;
+				};
+				groupHandle._handles[i] = h; 
 			}
-			return;
+			if (config.eventType == 'mouse') {
+				$E.on(popup, 'mouseover', popupMouseOverHandler, groupHandle, true);
+				$E.on(popup, 'mouseout', popupMouseOutHandler, groupHandle, true);
+			}			
+			return groupHandle;
 		}
 		
 		trigger = $(trigger);
@@ -832,6 +836,10 @@ TB.widget.SimplePopup = new function() {
 		config = TB.applyIf(config||{}, defConfig);
 		/* 返回给调用者的控制器，只包含对调用者可见的方法/属性 */		
 		var handle = {};		
+
+		handle._popupShowTimeId = null;
+		handle._popupHideTimeId = null;
+		handle._beforeShow = function(){return true};
 
 		var onShowEvent = new Y.CustomEvent("onShow", handle, false, Y.CustomEvent.FLAT);
 		if (config.onShow) {
@@ -844,14 +852,12 @@ TB.widget.SimplePopup = new function() {
 
 		if (config.eventType == 'mouse') {
 			$E.on(trigger, 'mouseover', triggerMouseOverHandler, handle, true);
-			$E.on(trigger, 'mouseout', mouseOutHandler, handle, true);
+			$E.on(trigger, 'mouseout', triggerMouseOutHandler, handle, true);
 			/* batch 操作时，Popup 的鼠标事件只注册一次 */
-			if (!$E.getListeners(popup, 'mouseover')) {
-				$E.on(popup, 'mouseover', popupMouseOverHandler);
+			if (!config.shareSinglePopup) {
+				$E.on(popup, 'mouseover', popupMouseOverHandler, handle, true);
+				$E.on(popup, 'mouseout', popupMouseOutHandler, handle, true);
 			}
-			if (!$E.getListeners(popup, 'mouseout')) {
-				$E.on(popup, 'mouseout', mouseOutHandler, handle, true);
-			}		
 		}
 		else if (config.eventType == 'click') {
 			$E.on(trigger, 'click', triggerClickHandler, handle, true);
@@ -862,7 +868,7 @@ TB.widget.SimplePopup = new function() {
 			trigger: trigger,
 			config: config,
 			show: function() {
-				this.hide();
+				if (!this._beforeShow()) return;
 				var pos = $D.getXY(this.trigger);
 				if (YAHOO.lang.isArray(this.config.offset)) {
 					pos[0] += parseInt(this.config.offset[0]);
@@ -901,8 +907,8 @@ TB.widget.SimplePopup = new function() {
 				this.popup.style.left = l + 'px';
 				if (this.config.effect) {
 					if (this.config.effect == 'fade') {
-						this.popup.style.display = 'block';
 						$D.setStyle(this.popup, 'opacity', 0);
+						this.popup.style.display = 'block';
 						var anim = new Y.Anim(this.popup, { opacity: {to: 1} }, 0.4);
 						anim.animate();
 					}
@@ -912,12 +918,12 @@ TB.widget.SimplePopup = new function() {
 				onShowEvent.fire();					
 			},
 			hide: function() {
-				this.popup.style.display = 'none';
+				$D.setStyle(this.popup, 'display', 'none');
 				onHideEvent.fire();
 			},
 			delayHide: function() {
 				var self = this;
-		        popupHideTimeId = setTimeout(function(){
+		        this._popupHideTimeId = setTimeout(function(){
 					self.hide();
 				}, this.config.delay*1000);
 			}			

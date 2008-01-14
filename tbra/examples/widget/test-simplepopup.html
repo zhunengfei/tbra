@@ -5,7 +5,7 @@
 <script type="text/javascript" src="../../yui-base.js"></script>
 <script type="text/javascript" src="../../tbra-debug.js"></script>
 
-<title>无标题文档</title>
+<title>测试 TB.widget.SimplePopup</title>
 <style>
 #box {
 	padding: 10px 0 20px 300px;
@@ -16,6 +16,14 @@
 	left: -9999px;
 	background: #eee;
 }	
+
+#popup2 {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+	background: #eee;
+}	
+
 #demo {
 	line-height: 20px;
 	border: 1px solid red;
@@ -55,7 +63,7 @@
 	<select><option>1</option></option></select>
  </div>
  
-<div style="border:1px solid red;width:200px; height:202px;" id="popup"></div>
+<div style="border:1px solid red;width:200px; height:202px;" id="popup">Popup1</div>
 
 <script type="text/javascript">
 	
@@ -78,15 +86,22 @@
 	<li>Title 4</li>
 </ul>
 
+<div style="border:1px solid blue;width:200px; height:202px;" id="popup2">Popup2</div>
+
 <script type="text/javascript">
-	TB.widget.SimplePopup.decorate($('demo2').getElementsByTagName('li'), 'popup', {
+
+	var groupHandle = TB.widget.SimplePopup.decorate($('demo2').getElementsByTagName('li'), 'popup2', {
 		eventType: 'mouse',
 		width: 202,
 		height: 202,
-		offset: [20, 10],
+		offset: [5, 5],
 		autoFit: true,
-		position: 'right'
+		position: 'right',
+		onShow: function() {
+			groupHandle.currentHandle.popup.innerHTML = groupHandle.currentHandle.trigger.innerHTML;
+		}
 	});
+
 </script>
 
 </body>
