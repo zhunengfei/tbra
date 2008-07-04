@@ -2,51 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<script type="text/javascript" src="../../yui-base.js"></script>
-<script type="text/javascript" src="../../tbra-debug.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<script type="text/javascript" src="../../tbra-widgets.js"></script>
 <title>无标题文档</title>
 </head>
 
 
 <body>
 <style type="text/css">
-#Demo1 {
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none; 
+}
+
+#slide-demo1-container {
 	background:transparent url(http://pics.taobao.com/bao/album/chl/infohead_070130_08.gif) no-repeat;
 	height:252px;
 	width:250px;
+	overflow: hidden;	
 }
 
-#Demo1 #SlidePlayer {
+#slide-demo1 {
 	width: 230px;
 	height: 210px;
 	position:relative;
 	top: 32px;
 	left: 0px;
 	margin: 0 auto;
+	overflow: visible !important;	
 }
 
-#Demo1 .Slides {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	height: 210px;
-	overflow: hidden; 
-}
-#Demo1 .Slides li {
-	float: left;
-	width: 230px;
-	height:210px;
-}
-
-#Demo1 .Slides img{
-	border:0;
-	display: block;
-}
-
-#Demo1 .SlideTriggers{
-	margin: 0;
-	padding: 0;
-	list-style: none; 
+#slide-demo1 .custom-triggers {
 	padding-right: 2px;
 	position: absolute; 
 	top: -30px; 
@@ -55,7 +42,7 @@
 	width: 120px;
 	height: 25px;	
 }
-#Demo1 .SlideTriggers li{
+#slide-demo1 .custom-triggers li{
 	float: left;
 	display: inline;
 	color: #fff;
@@ -69,7 +56,7 @@
 	margin:0 2px;
 	background: url(http://pics.taobao.com/bao/album/chl/infohead_070130_07.gif) no-repeat center center;
 }
-#Demo1 .SlideTriggers li.Current{ 
+#slide-demo1 .custom-triggers li.current { 
 	color:#fff; 
 	background: url(http://pics.taobao.com/bao/album/chl/infohead_070130_09.gif) no-repeat center center;
 	border:0; 
@@ -77,47 +64,20 @@
 }
 
 
-#Demo2 {
-	width: 440px;
-	height: 303px;
+#slide-demo2 {
 	position: relative;
-	text-align: left;
-}
-
-#Demo2 #SlidePlayer2 {
-	width: 407px;
-	height: 303px;
-	position:relative;	
-}
-
-#Demo2 .Slides {
-	padding: 0;
-	margin: 0;
-	list-style: none;
+	width: 440px;
 	height: 303px;
 	overflow: hidden;
 }
-#Demo2 .Slides li {
-	width: 407px;
-	height:303px;
-	float: left;	
-}
 
-#Demo2 .Slides img{
-	border:0;
-	display: block;
-}
-
-#Demo2 .SlideTriggers{
-	margin: 0;
-	padding: 0;
-	list-style: none; 
+#slide-demo2 .custom-triggers {
 	padding-right: 2px;
 	position: absolute; 
 	top: 0px; 
 	left: 407px;
 }
-#Demo2 .SlideTriggers li{
+#slide-demo2 .custom-triggers li{
 	color: #111;
 	text-align: center;
 	width: 33px;
@@ -128,7 +88,7 @@
 	cursor: pointer;
 	background: transparent url(http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_tab01x.gif) no-repeat scroll 0pt;
 }
-#Demo2 .SlideTriggers li.Current{ 
+#slide-demo2 .custom-triggers li.current { 
 	color:#fff; 
 	line-height: 59px;
 	font-size: 15px;
@@ -139,9 +99,9 @@
 }
 </style>
 
-<div id="Demo1">
-	<div id="SlidePlayer">
-		<ul class="Slides">
+<div id="slide-demo1-container">
+	<div id="slide-demo1">
+		<ul>
 			<li>
 				<a href="#" onclick="javascript:alert(1);return false;" target="_blank"><img src="http://pics.taobao.com/bao/album/chl/infohead_070130_01.gif" border="0" style="display:inline;"></a>
 			</li>
@@ -167,9 +127,9 @@
 <br />
 <br />
 
-<div id="Demo2">
-	<div id="SlidePlayer2">
-		<ul class="Slides">
+<div id="slide-demo2-container">
+	<div id="slide-demo2">
+		<ul>
 			<li>
 				<a href="#" onclick="return false;"><img src="http://pics.taobao.com/2k7/mkt/ivoyage/ivoyage_070409_seapic01.jpg" border="0" title="Title0"></a>				
 			</li>
@@ -184,14 +144,14 @@
 			</li>
 		</ul>
 	</div>
-	<div id="slideTitle"></div>
+	<div id="slide-title"></div>
 </div>
 
 <script type="text/javascript">
-	TB.widget.SimpleSlide.decorate('SlidePlayer');
-	TB.widget.SimpleSlide.decorate('SlidePlayer2', {eventType:'mouse', effect:'scroll', 
+	TB.widget.SimpleSlide.decorate('slide-demo1', {triggersClass: 'custom-triggers', currentClass: 'current'});
+	TB.widget.SimpleSlide.decorate('slide-demo2', {triggersClass: 'custom-triggers', currentClass: 'current', eventType:'mouse', effect:'scroll', 
 		onSlide: function(idx){
-			YAHOO.util.Dom.get('slideTitle').innerHTML = this.slides[idx].getElementsByTagName('img')[0].title;
+			YAHOO.util.Dom.get('slide-title').innerHTML = this.slides[idx].getElementsByTagName('img')[0].title;
 		},
 		onInit: function() {
 			var triggers = this.triggersUL.getElementsByTagName('li');

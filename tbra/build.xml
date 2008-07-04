@@ -4,20 +4,25 @@
                    
      xiaoma@taobao.com                                                                
      ====================================================================== -->
-<project name="project" default="build" basedir=".">
+<project name="project" default="build.tbra" basedir=".">
     <description>
             TBra build file
     </description>
 
 	<property name="build.dir" location="build"/>
+	<property name="locale.dir" location="locale"/>
 	<property name="dist.dir" location="."/>
 	<property name="lib.dir" location="lib"/>
-	
-    <target name="build" depends="js.concatenate" description="build TBra">
+	<property name="yui.dir" location="yui"/>
+	<tstamp>
+    	<format property="build.time" pattern="yyyyMMddHHmm" />
+  	</tstamp>
+
+    <target name="build.tbra" depends="js.concatenate" description="build TBra">
 
     	<mkdir dir="${dist.dir}/tmp" />
     	
-    	<!--
+    	<!-- 
     		压缩tbra.js
     	-->
     	<java jar="${lib.dir}/yuicompressor.jar" fork="true">
@@ -34,30 +39,124 @@
     	<move file="tbra.source.js" tofile="tbra-debug.js"/>
     	<delete dir="${dist.dir}/tmp"/>
     	
-    	<echo message="Build TBra Done :)" />		
+    	<echo message="Build TBra Done :)" />
+    </target>
+
+	
+	<target name="build.tbra.css" description="build TBra CSS">
+		<java jar="${lib.dir}/yuicompressor.jar" fork="true">
+			<arg line="--type css --charset gbk -o ${dist.dir}/assets/tbra.css ${dist.dir}/assets/tbra.source.css"/>
+		</java>		
+	</target>
+	
+	<!--
+		构造 yui/utilities.js 与 tbra 集成的版本
+	-->
+    <target name="build.tbra.aio" depends="build.tbra" description="build TBra All-In-One">
+
+		<concat destfile="${dist.dir}/yui-addon.js.tmp" append="false">
+			<filelist dir="${yui.dir}/json/" files="json.js" />
+			<filelist dir="${yui.dir}/selector/" files="selector-beta.js" />	
+		</concat>
+    	<java jar="${lib.dir}/yuicompressor.jar" fork="true">
+			<arg line="--type js -o ${dist.dir}/yui-addon.js ${dist.dir}/yui-addon.js.tmp"/>
+		</java>	
+		
+		<concat destfile="${dist.dir}/tbra-aio.js" append="false">
+			<path path="${yui.dir}/utilities/utilities.js" />
+			<path path="${dist.dir}/yui-addon.js" />
+		</concat>
+
+		<delete file="${dist.dir}/yui-addon.js"/>
+		<delete file="${dist.dir}/yui-addon.js.tmp"/>
+		
+		<concat destfile="${dist.dir}/tbra-aio.js" append="true">
+			<header trimleading="yes">
+				/*
+					Taobao JavaScript Framework base on YUI.
+					T-Bra or TB-ra whatever you like name it...
+				*/
+			</header>
+			<path path="${dist.dir}/tbra.js" />
+		</concat>
+		
+		<echo file="${dist.dir}/tbra-aio.js" append="true">
+/* build @ ${build.time} */ 
+		</echo>		
+
+		<echo message="Build TBra All-In-One Done :)" />	
+    </target>	
+	
+    <target name="build.tbra.widgets" depends="build.yui.base,js.concatenate.widgets" description="build TBra Widgets">
+
+    	<mkdir dir="${dist.dir}/tmp" />
+    	
+    	<!-- 
+    		压缩tbra.js
+    	-->
+    	<java jar="${lib.dir}/yuicompressor.jar" fork="true">
+			<arg line="--type js --charset gbk -o ${dist.dir}/tmp/tbra-widgets-min.js ${dist.dir}/tbra-widgets.source.js"/>
+		</java>
+
+		<!--
+			脚本中的中文转码
+		-->
+		<native2ascii encoding="gbk" src="${dist.dir}/tmp" dest="${dist.dir}/tmp"
+		   includes="tbra-widgets-min.js" ext="-enc.js" />
+		
+		<concat destfile="${dist.dir}/tbra-widgets.js" append="false">
+			<path path="${dist.dir}/yui-base.js" />
+		</concat>
+		
+		<concat destfile="${dist.dir}/tbra-widgets.js" append="true">
+			<header trimleading="yes">
+				/*
+					Taobao JavaScript Framework base on YUI.
+					T-Bra or TB-ra whatever you like name it...
+				*/
+			</header>
+			<path path="${dist.dir}/tmp/tbra-widgets-min-enc.js" />
+		</concat>
+		
+		<echo file="${dist.dir}/tbra-widgets.js" append="true">
+/* build @ ${build.time} */ 
+		</echo>	
+
+		<delete dir="${dist.dir}/tmp"/>
+		<delete file="${dist.dir}/tbra-widgets.source.js"/>
+    	
+    	<echo message="Build TBra Widgets Done :)" />		
     </target>
 	
-	<target name="build.yui">
+	<target name="build.yui.base">
+		<concat destfile="${dist.dir}/yui-base.source.js" append="false">
+			<filelist dir="${basedir}/yui/yuiloader/" files="yuiloader-beta.js" />
+			<filelist dir="${basedir}/yui/dom/" files="dom.js" />
+			<filelist dir="${basedir}/yui/event/" files="event.js" />
+			<filelist dir="${basedir}/yui/connection/" files="connection.js" />
+			<filelist dir="${basedir}/yui/animation/" files="animation.js" />
+			<filelist dir="${basedir}/yui/dragdrop/" files="dragdrop.js" />
+			<filelist dir="${basedir}/yui/element/" files="element-beta.js" />
+			<filelist dir="${basedir}/yui/json/" files="json.js" />
+			<filelist dir="${basedir}/yui/selector/" files="selector-beta.js" />	
+		</concat>
 		<concat destfile="${dist.dir}/yui-base.js.tmp" append="false">
-			<filelist dir="${basedir}/yui/yahoo/" files="yahoo-min.js" />
-			<filelist dir="${basedir}/yui/dom/" files="dom-min.js" />
-			<filelist dir="${basedir}/yui/event/" files="event-min.js" />
+			<filelist dir="${basedir}/yui/yuiloader-dom-event/" files="yuiloader-dom-event.js" />
 			<filelist dir="${basedir}/yui/connection/" files="connection-min.js" />
 			<filelist dir="${basedir}/yui/animation/" files="animation-min.js" />
 			<!--
 			<filelist dir="${basedir}/yui/dragdrop/" files="dragdrop-min.js" />
 			<filelist dir="${basedir}/yui/element/" files="element-beta-min.js" />
 			-->
-			<filelist dir="${basedir}/yui/json/" files="json-beta-min.js" />
+			<filelist dir="${basedir}/yui/json/" files="json-min.js" />
 			<filelist dir="${basedir}/yui/selector/" files="selector-beta-min.js" />	
-			<filelist dir="${basedir}/yui/get/" files="get-beta-min.js" />
-						
 		</concat>
     	<java jar="${lib.dir}/yuicompressor.jar" fork="true">
 			<arg line="--type js -o ${dist.dir}/yui-base.js ${dist.dir}/yui-base.js.tmp"/>
 		</java>	
 		<delete file="${dist.dir}/yui-base.js.tmp"/>
-	</target>	
+		<echo message="Build YUI-Base Done :)" />
+	</target>		
 	
 	<!--
 		合并所有TBra组件到tbra.source.js
@@ -65,12 +164,24 @@
 	<target name="js.concatenate">
 		<concat destfile="${dist.dir}/tbra.source.js" append="false">
 			<filelist dir="${build.dir}/core/" files="lang.js,tb.js,common.js" />
+			<filelist dir="${locale.dir}/" files="zh-cn.js" />
 			<filelist dir="${build.dir}/bom/" files="bom.js" />
 			<filelist dir="${build.dir}/dom/" files="dom.js" />
 			<filelist dir="${build.dir}/anim" files="anim.js" />
-			<fileset dir="${build.dir}/widget/" includes="*.js" excludes="simplecalendar.js,accordion.js" />
-			<fileset dir="${build.dir}/util/" includes="*.js" />
-			<fileset dir="${build.dir}/form/" includes="*.js" />
+			<filelist dir="${build.dir}/widget/" files="simplepopup.js,simplescroll.js,simpleslide.js,simpletab.js,simplerating.js,inputhint.js" />
+			<filelist dir="${build.dir}/util/" files="countdowntimer.js,indicator.js,pagination.js,querydata.js" />
+			<filelist dir="${build.dir}/form/" files="checkboxgroup.js,tagassistor.js" />
+		</concat>
+	</target>
+
+	<target name="js.concatenate.widgets">
+		<concat destfile="${dist.dir}/tbra-widgets.source.js" append="false">
+			<filelist dir="${build.dir}/core/" files="lang.js,tb.js,common.js" />
+			<filelist dir="${locale.dir}/" files="zh-cn.js" />
+			<filelist dir="${build.dir}/bom/" files="bom.js" />
+			<filelist dir="${build.dir}/dom/" files="dom.js" />
+			<filelist dir="${build.dir}/util/" files="indicator.js" />
+			<filelist dir="${build.dir}/widget/" files="simplepopup.js,simplescroll.js,simpleslide.js,simpletab.js,inputhint.js" />
 		</concat>
 	</target>
 

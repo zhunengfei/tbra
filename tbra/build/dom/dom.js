@@ -106,12 +106,12 @@ TB.dom = {
 		doc = doc || document;
 		var styleEl = doc.createElement('style');
 		styleEl.type = "text/css";
+		doc.getElementsByTagName('head')[0].appendChild(styleEl); //先appendChild，否则hack失效
 		if (styleEl.styleSheet) {
 			styleEl.styleSheet.cssText = cssText;
 		} else {
 			styleEl.appendChild(doc.createTextNode(cssText));
 		}
-		doc.getElementsByTagName('head')[0].appendChild(styleEl);
 	},
 	
 	/**
@@ -124,14 +124,13 @@ TB.dom = {
 		//如果是 <script> tag
 		if (YAHOO.lang.isObject(script) && script.tagName && script.tagName.toLowerCase()=='script') {
 			if (script.src && (m = script.src.match(p))) {
-				console.debug(m);
 				return m[1].toQueryParams();  
 			}
 		} else {
 			//如果是 string， 转成 regexp
 			if (YAHOO.lang.isString(script)) {
 				script = new RegExp(script, 'i');
-			}	
+			}
 			var scripts = document.getElementsByTagName("script");
 			var matchs, ssrc;
 			for (var i = 0; i < scripts.length; ++i) {

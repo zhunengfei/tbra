@@ -3,8 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title>Calendar Test</title>
-<script type="text/javascript" src="../../yui-base.js"></script>
-<script type="text/javascript" src="../../tbra-debug.js"></script>
+<script type="text/javascript" src="../../tbra-aio.js"></script>
 </head>
 <body>
 <style type="text/css">
@@ -37,13 +36,15 @@ body {
 
 </style>
 <script type="text/javascript" src="../../build/widget/simplecalendar.js"></script>
+<link rel="stylesheet" href="http://assets.taobaocdn.com/js/tbra/yui/calendar/assets/calendar.css" />	
 	
 <h2> Test Calendar </h2>
 <form name="demo" id="demo">
-	<input type="text" name="cal" />
+	<input type="text" name="cal"/>
 </form>
 <script type="text/javascript">
-TB.widget.SimpleCalendar.init(document.forms['demo'].cal, null, null, {selected: '2007-7-29'});
+cal1 = TB.widget.SimpleCalendar.init(document.forms['demo'].cal, null, null, {selected: '2007-7-29'});
+
 </script>
 
 <br />
@@ -65,7 +66,7 @@ TB.widget.SimpleCalendar.init(document.forms['demo2'].cal, null, 'toggle', {
 
 <h2> Test CalendarGroup Range </h2>
 <form name="demo3" id="demo3">
-	Start : <input type="text" name="cal0" />  ~  End   : <input type="text" name="cal1" />
+	Start : <input type="text" name="cal0" />  ~  End   : <input type="text" name="cal1"/>
 	<br />
 	Sick IE6 Bug : <select style="width:200px;">
 		<option>------------------------</option>
@@ -73,13 +74,16 @@ TB.widget.SimpleCalendar.init(document.forms['demo2'].cal, null, 'toggle', {
 </form>
 <script type="text/javascript">
 $E.onContentReady('demo3', function() {
+	
 	TB.widget.SimpleCalendar.initRange([document.forms['demo3'].cal0,document.forms['demo3'].cal1], null, null, {
 		mindate: 'today', 
-		maxdate: '2008-2-14', 
+		maxdate: '2010-2-14', 
 		pages: 2, 
 		navigator: true,
+		autoMoveToNext: true,
 		iframe:true /* for ie6 sick bug */
 	});
+	
 });
 </script>
 

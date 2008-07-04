@@ -104,7 +104,7 @@ TB.widget.SimpleCalendar = new function() {
 		enhance: function(cal, config) {
 			
 			config = TB.applyIf(config||{}, enhanceConfig);
-
+			
 			if (config.maxdate) { //maxdate 只接受字符创形式
 				config.maxdate = _parseDate(config.maxdate);
 				cal.cfg.setProperty('pagedate', _parsePageDate(config.maxdate));
@@ -119,7 +119,7 @@ TB.widget.SimpleCalendar = new function() {
 				config.selected = _parseDate(config.selected);
 				cal.cfg.setProperty('pagedate', _parsePageDate(config.selected));
 				cal.cfg.setProperty('selected', config.selected);
-			}
+			}			
 			
 			/* 非本月的日子也可选择 */
 			if (config.enableOOM) {
@@ -253,8 +253,13 @@ TB.widget.SimpleCalendar = new function() {
 			$E.on(toggle, (input===toggle)?'focus':'click', _toggleCal, handle, true);
 			$E.on(document, 'mousedown', function(ev) {
 				var target = $E.getTarget(ev);
-				if (!(target === input || target === toggle || $D.isAncestor(container, target)))
+				if (!(target === input || target === toggle || $D.isAncestor(container, target))){
+					//FF3 中 <a class="calnavright"> 居然在 isAncestor 方法中不属于 container
+					if (YAHOO.env.ua.gecko == 1.9 && $D.getAncestorByClassName(target, 'yui-calendar')) {
+						return;
+					}
 					handle.hide();
+				}
 			});	
 			$E.on(document, 'keydown', function(ev) {
 				if (ev.keyCode == 27)
@@ -285,7 +290,7 @@ TB.widget.SimpleCalendar = new function() {
 				partnerCal.hide();
 				var dateVal = partnerCal._input.value;
 				if (dateVal) {
-					//this.calObj.cfg.setProperty('pagedate', _parsePageDate(dateVal));					
+					this.calObj.cfg.setProperty('pagedate', _parsePageDate(dateVal));					
 					this.calObj.cfg.setProperty(idx==1?'mindate':'maxdate', dateVal);
 					this.calObj.render();					
 				}
@@ -296,6 +301,15 @@ TB.widget.SimpleCalendar = new function() {
 			cal1Handle._beforeShowEvent.subscribe(_resetRange, [cal0Handle, 1], cal1Handle);
 			cal1Handle._input = inputs[1];
 			
+			/* cal1选中后自动移动到 cal2 */
+			if (config.autoMoveToNext) {
+				cal0Handle.calObj.selectEvent.subscribe(function(){
+					if (cal1Handle._input.value == '' && !cal1Handle._input.disabled) {
+						cal1Handle.show();
+					}
+				});
+			}
+					
 			return [cal0Handle, cal1Handle];
 		}	
 	}	

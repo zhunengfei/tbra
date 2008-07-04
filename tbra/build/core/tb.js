@@ -6,19 +6,16 @@ $D = YAHOO.util.Dom;
 $E = YAHOO.util.Event;
 $ = $D.get;
 
-TB = {};
+TB = YAHOO.namespace('TB');
 TB.namespace = function() {
-    var a=arguments, o=null, i, j, d;
-    for (i=0; i<a.length; i=i+1) {
-        d=a[i].split(".");
-        o=TB;
-        for (j=(d[0] == "TB") ? 1 : 0; j<d.length; j=j+1) {
-            o[d[j]]=o[d[j]] || {};
-            o=o[d[j]];
-        }
-    }
-    return o;
-};
+	var args = Array.prototype.slice.call(arguments, 0), i;
+	for (i = 0; i < args.length; ++i) {
+		if (args[i].indexOf('TB') != 0) {
+			args[i] = 'TB.' + args[i];
+		}
+	}
+	return YAHOO.namespace.apply(null, args);
+}
 
 /********* Env *********/
 TB.namespace('env');
@@ -78,7 +75,6 @@ TB.init = function() {
 			}
 		}
 	}
-	document.write('<script type="text/javascript" src="' + TB.env['path'] + 'locale/' + TB.env.lang.toLowerCase() + '.js' + (TB.env.timestamp?'?t='+TB.env.timestamp+'.js':'') + '"><\/script>' );
-	document.write('<link type="text/css" rel="stylesheet" href="' + TB.env['path'] + 'assets/tbra.css' + (TB.env.timestamp?'?t='+TB.env.timestamp+'.css':'') + '" />');	
+	YAHOO.util.Get.css(TB.env['path'] + 'assets/tbra.css' + (TB.env.timestamp?'?t='+TB.env.timestamp+'.css':''));	
 }
 TB.init();
