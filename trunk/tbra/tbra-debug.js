@@ -145,7 +145,7 @@ if (!String.prototype.toQueryParams) {
 				hash[key] = value;
 			}
 		}
-		return hash;					
+		return hash;
 	}
 }
 
@@ -177,19 +177,16 @@ $D = YAHOO.util.Dom;
 $E = YAHOO.util.Event;
 $ = $D.get;
 
-TB = {};
+TB = YAHOO.namespace('TB');
 TB.namespace = function() {
-    var a=arguments, o=null, i, j, d;
-    for (i=0; i<a.length; i=i+1) {
-        d=a[i].split(".");
-        o=TB;
-        for (j=(d[0] == "TB") ? 1 : 0; j<d.length; j=j+1) {
-            o[d[j]]=o[d[j]] || {};
-            o=o[d[j]];
-        }
-    }
-    return o;
-};
+	var args = Array.prototype.slice.call(arguments, 0), i;
+	for (i = 0; i < args.length; ++i) {
+		if (args[i].indexOf('TB') != 0) {
+			args[i] = 'TB.' + args[i];
+		}
+	}
+	return YAHOO.namespace.apply(null, args);
+}
 
 /********* Env *********/
 TB.namespace('env');
@@ -249,8 +246,7 @@ TB.init = function() {
 			}
 		}
 	}
-	document.write('<script type="text/javascript" src="' + TB.env['path'] + 'locale/' + TB.env.lang.toLowerCase() + '.js' + (TB.env.timestamp?'?t='+TB.env.timestamp+'.js':'') + '"><\/script>' );
-	document.write('<link type="text/css" rel="stylesheet" href="' + TB.env['path'] + 'assets/tbra.css' + (TB.env.timestamp?'?t='+TB.env.timestamp+'.css':'') + '" />');	
+	YAHOO.util.Get.css(TB.env['path'] + 'assets/tbra.css' + (TB.env.timestamp?'?t='+TB.env.timestamp+'.css':''));	
 }
 TB.init();/**
  * TB Common function
@@ -378,7 +374,8 @@ TB.common = {
 };
 
 TB.applyIf = TB.common.applyIf;
-TB.apply = TB.common.apply;/**
+TB.apply = TB.common.apply;TB.locale.Messages={loading:"\u52a0\u8f7d\u4e2d...",pleaseWait:"\u6b63\u5728\u5904\u7406\uff0c\u8bf7\u7a0d\u5019...",ajaxError:"\u5bf9\u4e0d\u8d77\uff0c\u53ef\u80fd\u56e0\u4e3a\u7f51\u7edc\u6545\u969c\u5bfc\u81f4\u7cfb\u7edf\u53d1\u751f\u5f02\u5e38\u9519\u8bef\uff01",prevPageText:"\u4e0a\u4e00\u9875",nextPageText:"\u4e0b\u4e00\u9875",year:"\u5e74",month:"\u6708",day:"\u5929",hour:"\u5c0f\u65f6",minute:"\u5206\u949f",second:"\u79d2",timeoutText:"\u65f6\u95f4\u5230"};
+/**
  * @author zexin.zhaozx
  */
 
@@ -581,12 +578,12 @@ TB.dom = {
 		doc = doc || document;
 		var styleEl = doc.createElement('style');
 		styleEl.type = "text/css";
+		doc.getElementsByTagName('head')[0].appendChild(styleEl); //先appendChild，否则hack失效
 		if (styleEl.styleSheet) {
 			styleEl.styleSheet.cssText = cssText;
 		} else {
 			styleEl.appendChild(doc.createTextNode(cssText));
 		}
-		doc.getElementsByTagName('head')[0].appendChild(styleEl);
 	},
 	
 	/**
@@ -599,14 +596,13 @@ TB.dom = {
 		//如果是 <script> tag
 		if (YAHOO.lang.isObject(script) && script.tagName && script.tagName.toLowerCase()=='script') {
 			if (script.src && (m = script.src.match(p))) {
-				console.debug(m);
 				return m[1].toQueryParams();  
 			}
 		} else {
 			//如果是 string， 转成 regexp
 			if (YAHOO.lang.isString(script)) {
 				script = new RegExp(script, 'i');
-			}	
+			}
 			var scripts = document.getElementsByTagName("script");
 			var matchs, ssrc;
 			for (var i = 0; i < scripts.length; ++i) {
@@ -680,56 +676,6 @@ TB.anim.Highlight.prototype.init = function(el, config) {
 };
 
 /**
- * @author zexin.zhaozx
- */
-TB.widget.InputHint = new function() {
-	var defConfig = {
-		hintMessage: '',
-		hintClass: 'InputHint',
-		appearOnce: false
-	};
-	var EMPTY_PATTERN = /^\s*$/;
-	
-	var focusHandler = function(ev, handle) {
-		handle.disappear();
-	}
-	var blurHandler = function(ev, handle) {
-		handle.appear();
-	}
-	
-	this.decorate = function(inputField, config) {
-		inputField = $(inputField);
-		config = TB.applyIf(config || {}, defConfig);
-		var hintMessage = config.hintMessage || inputField.title;
-
-		var handle = {};
-		handle.disappear = function() {
-			if (hintMessage == inputField.value) {
-				inputField.value = '';
-				$D.removeClass(inputField, config.hintClass);
-			}
-		};
-		
-		handle.appear = function() {
-			if (EMPTY_PATTERN.test(inputField.value) || hintMessage == inputField.value) {
-				inputField.value = hintMessage;
-				$D.addClass(inputField, config.hintClass);
-			}
-		}
-
-		/* 初始化 */
-		inputField.setAttribute("title", hintMessage);
-		$E.on(inputField, 'focus', focusHandler, handle);
-		$E.on(inputField, 'drop', focusHandler, handle); /* for ie/safari */
-		
-		if (!config.appearOnce)
-			$E.on(inputField, 'blur', blurHandler, handle);
-		
-		/* 默认先显示 */
-		handle.appear();
-		return handle;
-	}
-}/**
  * @author xiaoma<xiaoma@taobao.com>
  */
 
@@ -936,104 +882,6 @@ TB.widget.SimplePopup = new function() {
 }
 	
 /**
- * 评分组件
- * 需要star-rating.css
- */
-
-TB.widget.SimpleRating = new function() {
-	
-	var defConfig = {
-		rateUrl: '',  /* 评分数据发送给的URL */
-		rateParams: '',  /* 其他参数，格式k1=v1&k2=v2 */
-		scoreParamName: 'score', /* 评论参数名 */
-		topScore: 5,  /* 最高分 */
-		currentRatingClass: 'current-rating'
-	};
-
-	var rateHandler = function(ev, handle) {
-		$E.stopEvent(ev);
-		var aEl = $E.getTarget(ev);
-		var score = parseInt(aEl.innerHTML);
-		try {
-			aEl.blur();	
-		} catch (e) {}
-		handle.rate(score);
-	}
-	
-	var updateCurrentRating = function(currentRatingLi, avg, config) {
-		if (currentRatingLi) 
-			currentRatingLi.innerHTML = avg;
-			$D.setStyle(currentRatingLi, 'width', avg*100/config.topScore + '%');
-	} 
-		
-	this.decorate = function(ratingContainer, config) {
-		ratingContainer = $(ratingContainer);  /* 一个<ul> */
-		config = TB.applyIf(config || {}, defConfig);
-		var currentRatingLi = $D.getElementsByClassName(config.currentRatingClass, 'li', ratingContainer)[0];
-		
-		var onRateEvent = new YAHOO.util.CustomEvent('onRate', null, false, YAHOO.util.CustomEvent.FLAT);
-		if (config.onRate)
-			onRateEvent.subscribe(config.onRate);
-		var handle = {};
-		
-		handle.init = function(avg) {
-			/* 检查看是否需要显示当前的分数 */
-			updateCurrentRating(currentRatingLi, avg, config);
-		}
-		
-		handle.update = function(ret) {
-			if (ret && ret.Average && currentRatingLi) {
-				updateCurrentRating(currentRatingLi, ret.Average, config);
-			}
-			/* 只能评分一次 */
-			$E.purgeElement(ratingContainer, true, 'click');
-			/* 移除其他的li */
-			for (var lis = ratingContainer.getElementsByTagName('li'), i = lis.length-1; i > 0; i--) {
-				ratingContainer.removeChild(lis[i]);		
-			}
-			onRateEvent.fire(ret);
-		}
-		
-		handle.rate = function(score) {
-			var indicator = TB.util.Indicator.attach(ratingContainer, {message:$M('pleaseWait')});
-			indicator.show();		
-			ratingContainer.style.display = 'none';
-			var postData = config.scoreParamName + '=' + score;
-			if (config.rateParams) 
-				postData += '&' + config.rateParams;
-			YAHOO.util.Connect.asyncRequest('POST', config.rateUrl, {
-				success: function(req) {
-					indicator.hide();
-					ratingContainer.style.display = '';					
-					var ret = eval('(' + req.responseText + ')');
-					if (ret.Error) {
-						alert(ret.Error.Message);
-						return;
-					} else {
-						handle.update(ret);	
-					}
-				},
-				failure: function(req) {
-					indicator.hide();
-					ratingContainer.style.display = '';							
-					TB.trace($M('ajaxError'));
-				}
-			}, postData);				
-		}
-		
-		handle.onRate = function(callback) {
-			if (YAHOO.lang.isFunction(callback))
-				onRateEvent.subscribe(callback);		
-		}				
-		
-		var triggers = ratingContainer.getElementsByTagName('a');
-		for (var i = 0; i < triggers.length; i++) {
-			$E.on(triggers[i], 'click', rateHandler, handle);
-		}
-				
-		return handle;
-	}
-}/**
  * @author xiaoma
  */
 /** 简单滚动 */
@@ -1203,6 +1051,14 @@ TB.widget.SimpleScroll = new function() {
 			this.config = TB.applyIf(config||{}, TB.widget.Slide.defConfig);
 			try {
 				this.slidesUL = $D.getElementsByClassName(this.config.slidesClass, 'ul', this.container)[0];
+				
+				if(!this.slidesUL) {
+					//取第一个 ul 子节点
+					this.slidesUL = $D.getFirstChild(this.container, function(node) {
+						return node.tagName.toLowerCase === 'ul';
+					});
+				}
+				
 				this.slides = $D.getChildren(this.slidesUL); //只取直接的子<li>元素
 				if (this.slides.length == 0) {
 					throw new Error();
@@ -1219,6 +1075,16 @@ TB.widget.SimpleScroll = new function() {
 			if (YAHOO.lang.isFunction(this.config.onSlide)){
 				this.onSlide.subscribe(this.config.onSlide, this, true);
 			}
+			
+			this.beforeSlide = new Y.CustomEvent("beforeSlide", this, false, Y.CustomEvent.FLAT);
+			if (YAHOO.lang.isFunction(this.config.beforeSlide)){
+				this.beforeSlide.subscribe(this.config.beforeSlide, this, true);
+			}			
+			
+			/* 指定tbra.css中设定的 class */
+			$D.addClass(this.container, 'tb-slide');
+			$D.addClass(this.slidesUL, 'tb-slide-list');
+			$D.setStyle(this.slidesUL, 'height', (this.config.slideHeight || this.container.offsetHeight) + 'px');
 			
 			this.initSlides(); /* 初始化幻灯片设置 */
 			this.initTriggers();
@@ -1244,7 +1110,7 @@ TB.widget.SimpleScroll = new function() {
 				li.innerHTML = i+1;
 				ul.appendChild(li);
 			}
-			ul.className = this.config.triggersClass;
+			$D.addClass(ul, this.config.triggersClass);
 			this.triggersUL = ul;
 			if (this.config.eventType == 'mouse') {
 				$E.on(this.triggersUL, 'mouseover', this.mouseHandler, this, true);
@@ -1254,7 +1120,7 @@ TB.widget.SimpleScroll = new function() {
 				}, this, true);
 			} else {
 				$E.on(this.triggersUL, 'click', this.clickHandler, this, true);
-			}		
+			}
 		},
 		
 		/**
@@ -1322,6 +1188,7 @@ TB.widget.SimpleScroll = new function() {
 			var triggersLis = this.triggersUL.getElementsByTagName('li');
 			triggersLis[curSlide].className = ''; 
 			triggersLis[n].className = this.config.currentClass;
+			this.beforeSlide.fire(n);
 			this.slide(n);
 			this.curSlide = n;
 			if (flag && !this.config.disableAutoPlay)
@@ -1422,6 +1289,7 @@ TB.widget.SimpleScroll = new function() {
 			/* 第一次运行 */
 			if (this.curSlide == -1) {
 				$D.setStyle(this.slides[n], 'display', 'block');
+				this.onSlide.fire(n);
 			} else {
 				var curSlideLi = this.slides[this.curSlide];
 				$D.setStyle(curSlideLi, 'display', 'block');
@@ -1455,19 +1323,18 @@ TB.widget.SimpleSlide = new function() {
 		config = config || {};
 		if (config.effect == 'scroll') {
 			/** <li>下包含<iframe>时，firefox显示异常 */ 
-			if (TB.bom.isGecko) {
+			if (YAHOO.env.ua.gecko) {
 				if (YAHOO.util.Dom.get(container).getElementsByTagName('iframe').length > 0) {
-					new TB.widget.Slide(container, config);
-					return;
+					return new TB.widget.Slide(container, config);
 				}
 			}
-			new TB.widget.ScrollSlide(container, config);
+			return new TB.widget.ScrollSlide(container, config);
 		}
 		else if (config.effect == 'fade') {
-			new TB.widget.FadeSlide(container, config);
+			return new TB.widget.FadeSlide(container, config);
 		}
 		else {
-			new TB.widget.Slide(container, config);
+			return new TB.widget.Slide(container, config);
 		}
 	}	
 }/* 简单Tab切换 */
@@ -1569,6 +1436,165 @@ TB.widget.SimpleTab = new function() {
 		return handle;
 	}
 };/**
+ * 评分组件
+ * 需要star-rating.css
+ */
+
+TB.widget.SimpleRating = new function() {
+	
+	var defConfig = {
+		rateUrl: '',  /* 评分数据发送给的URL */
+		rateParams: '',  /* 其他参数，格式k1=v1&k2=v2 */
+		scoreParamName: 'score', /* 评论参数名 */
+		topScore: 5,  /* 最高分 */
+		currentRatingClass: 'current-rating'
+	};
+
+	var rateHandler = function(ev, handle) {
+		$E.stopEvent(ev);
+		var aEl = $E.getTarget(ev);
+		var score = parseInt(aEl.innerHTML);
+		try {
+			aEl.blur();	
+		} catch (e) {}
+		handle.rate(score);
+	}
+	
+	var updateCurrentRating = function(currentRatingLi, avg, config) {
+		if (currentRatingLi) 
+			currentRatingLi.innerHTML = avg;
+			$D.setStyle(currentRatingLi, 'width', avg*100/config.topScore + '%');
+	} 
+		
+	this.decorate = function(ratingContainer, config) {
+		ratingContainer = $(ratingContainer);  /* 一个<ul> */
+		config = TB.applyIf(config || {}, defConfig);
+		var currentRatingLi = $D.getElementsByClassName(config.currentRatingClass, 'li', ratingContainer)[0];
+		
+		var onRateEvent = new YAHOO.util.CustomEvent('onRate', null, false, YAHOO.util.CustomEvent.FLAT);
+		if (config.onRate)
+			onRateEvent.subscribe(config.onRate);
+		var handle = {};
+		
+		handle.init = function(avg) {
+			/* 检查看是否需要显示当前的分数 */
+			updateCurrentRating(currentRatingLi, avg, config);
+		}
+		
+		handle.update = function(ret) {
+			if (ret && ret.Average && currentRatingLi) {
+				updateCurrentRating(currentRatingLi, ret.Average, config);
+			}
+			/* 只能评分一次 */
+			$E.purgeElement(ratingContainer, true, 'click');
+			/* 移除其他的li */
+			for (var lis = ratingContainer.getElementsByTagName('li'), i = lis.length-1; i > 0; i--) {
+				ratingContainer.removeChild(lis[i]);		
+			}
+			onRateEvent.fire(ret);
+		}
+		
+		handle.rate = function(score) {
+			var indicator = TB.util.Indicator.attach(ratingContainer, {message:$M('pleaseWait')});
+			indicator.show();		
+			ratingContainer.style.display = 'none';
+			var postData = config.scoreParamName + '=' + score;
+			if (config.rateParams) 
+				postData += '&' + config.rateParams;
+			YAHOO.util.Connect.asyncRequest('POST', config.rateUrl, {
+				success: function(req) {
+					indicator.hide();
+					ratingContainer.style.display = '';					
+					var ret = eval('(' + req.responseText + ')');
+					if (ret.Error) {
+						alert(ret.Error.Message);
+						return;
+					} else {
+						handle.update(ret);	
+					}
+				},
+				failure: function(req) {
+					indicator.hide();
+					ratingContainer.style.display = '';							
+					TB.trace($M('ajaxError'));
+				}
+			}, postData);				
+		}
+		
+		handle.onRate = function(callback) {
+			if (YAHOO.lang.isFunction(callback))
+				onRateEvent.subscribe(callback);		
+		}				
+		
+		var triggers = ratingContainer.getElementsByTagName('a');
+		for (var i = 0; i < triggers.length; i++) {
+			$E.on(triggers[i], 'click', rateHandler, handle);
+		}
+				
+		return handle;
+	}
+}/**
+ * @author zexin.zhaozx
+ */
+TB.widget.InputHint = new function() {
+	var defConfig = {
+		hintMessage: '',
+		hintClass: 'tb-input-hint',
+		appearOnce: false
+	};
+	var EMPTY_PATTERN = /^\s*$/;
+	
+	var focusHandler = function(ev, handle) {
+		if (!handle.disabled)
+			handle.disappear();
+	}
+	var blurHandler = function(ev, handle) {
+		if (!handle.disabled)
+			handle.appear();
+	}
+	
+	this.decorate = function(inputField, config) {
+		inputField = $(inputField);
+		config = TB.applyIf(config || {}, defConfig);
+		var hintMessage = config.hintMessage || inputField.title;
+		var handle = {};
+		handle.disabled = false;
+		
+		handle.disappear = function() {
+			if (hintMessage == inputField.value) {
+				inputField.value = '';
+				$D.removeClass(inputField, config.hintClass);
+			}
+		};
+		
+		handle.appear = function() {
+			if (EMPTY_PATTERN.test(inputField.value) || hintMessage == inputField.value) {
+				$D.addClass(inputField, config.hintClass);
+				inputField.value = hintMessage;				
+			}
+		}
+		
+		handle.purge = function() {
+			this.disappear();
+			$E.removeListener(inputField, 'focus', focusHandler);
+			$E.removeListener(inputField, 'drop', focusHandler);
+			$E.removeListener(inputField, 'blur', blurHandler);
+		}
+		
+		/* 初始化 */
+		if (!inputField.title)
+			inputField.setAttribute("title", hintMessage);
+		$E.on(inputField, 'focus', focusHandler, handle);
+		$E.on(inputField, 'drop', focusHandler, handle); /* for ie/safari */
+		
+		if (!config.appearOnce)
+			$E.on(inputField, 'blur', blurHandler, handle);
+		
+		/* 默认先显示 */
+		handle.appear();
+		return handle;
+	}
+}/**
  * Countdown Timer
  * @author xiaoma<xiaoma@taobao.com>
  */
@@ -1692,7 +1718,7 @@ TB.util.Indicator = new function() {
 	}
 	
 	var prepareShim = function(target, useIFrame) {
-		shim = document.createElement('div');
+		var shim = document.createElement('div');
 		shim.className = 'tb-indic-shim';
 		$D.setStyle(shim, 'display', 'none');
 		target.parentNode.insertBefore(shim, target);
@@ -1719,7 +1745,7 @@ TB.util.Indicator = new function() {
 			var shim = prepareShim(target, config.useIFrame);
 			shim.appendChild(indicator);
 		} else {
-			target.parentNode.insertBefore(indicator, target);			
+			target.parentNode.insertBefore(indicator, target);	
 		}
 		
 		var handle = {};

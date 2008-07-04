@@ -9,7 +9,7 @@ TB.util.Indicator = new function() {
 	}
 	
 	var prepareShim = function(target, useIFrame) {
-		shim = document.createElement('div');
+		var shim = document.createElement('div');
 		shim.className = 'tb-indic-shim';
 		$D.setStyle(shim, 'display', 'none');
 		target.parentNode.insertBefore(shim, target);
@@ -36,7 +36,7 @@ TB.util.Indicator = new function() {
 			var shim = prepareShim(target, config.useIFrame);
 			shim.appendChild(indicator);
 		} else {
-			target.parentNode.insertBefore(indicator, target);			
+			target.parentNode.insertBefore(indicator, target);	
 		}
 		
 		var handle = {};

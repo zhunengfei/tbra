@@ -33,6 +33,14 @@
 			this.config = TB.applyIf(config||{}, TB.widget.Slide.defConfig);
 			try {
 				this.slidesUL = $D.getElementsByClassName(this.config.slidesClass, 'ul', this.container)[0];
+				
+				if(!this.slidesUL) {
+					//取第一个 ul 子节点
+					this.slidesUL = $D.getFirstChild(this.container, function(node) {
+						return node.tagName.toLowerCase === 'ul';
+					});
+				}
+				
 				this.slides = $D.getChildren(this.slidesUL); //只取直接的子<li>元素
 				if (this.slides.length == 0) {
 					throw new Error();
@@ -49,6 +57,16 @@
 			if (YAHOO.lang.isFunction(this.config.onSlide)){
 				this.onSlide.subscribe(this.config.onSlide, this, true);
 			}
+			
+			this.beforeSlide = new Y.CustomEvent("beforeSlide", this, false, Y.CustomEvent.FLAT);
+			if (YAHOO.lang.isFunction(this.config.beforeSlide)){
+				this.beforeSlide.subscribe(this.config.beforeSlide, this, true);
+			}			
+			
+			/* 指定tbra.css中设定的 class */
+			$D.addClass(this.container, 'tb-slide');
+			$D.addClass(this.slidesUL, 'tb-slide-list');
+			$D.setStyle(this.slidesUL, 'height', (this.config.slideHeight || this.container.offsetHeight) + 'px');
 			
 			this.initSlides(); /* 初始化幻灯片设置 */
 			this.initTriggers();
@@ -74,7 +92,7 @@
 				li.innerHTML = i+1;
 				ul.appendChild(li);
 			}
-			ul.className = this.config.triggersClass;
+			$D.addClass(ul, this.config.triggersClass);
 			this.triggersUL = ul;
 			if (this.config.eventType == 'mouse') {
 				$E.on(this.triggersUL, 'mouseover', this.mouseHandler, this, true);
@@ -84,7 +102,7 @@
 				}, this, true);
 			} else {
 				$E.on(this.triggersUL, 'click', this.clickHandler, this, true);
-			}		
+			}
 		},
 		
 		/**
@@ -152,6 +170,7 @@
 			var triggersLis = this.triggersUL.getElementsByTagName('li');
 			triggersLis[curSlide].className = ''; 
 			triggersLis[n].className = this.config.currentClass;
+			this.beforeSlide.fire(n);
 			this.slide(n);
 			this.curSlide = n;
 			if (flag && !this.config.disableAutoPlay)
@@ -252,6 +271,7 @@
 			/* 第一次运行 */
 			if (this.curSlide == -1) {
 				$D.setStyle(this.slides[n], 'display', 'block');
+				this.onSlide.fire(n);
 			} else {
 				var curSlideLi = this.slides[this.curSlide];
 				$D.setStyle(curSlideLi, 'display', 'block');
@@ -285,19 +305,18 @@ TB.widget.SimpleSlide = new function() {
 		config = config || {};
 		if (config.effect == 'scroll') {
 			/** <li>下包含<iframe>时，firefox显示异常 */ 
-			if (TB.bom.isGecko) {
+			if (YAHOO.env.ua.gecko) {
 				if (YAHOO.util.Dom.get(container).getElementsByTagName('iframe').length > 0) {
-					new TB.widget.Slide(container, config);
-					return;
+					return new TB.widget.Slide(container, config);
 				}
 			}
-			new TB.widget.ScrollSlide(container, config);
+			return new TB.widget.ScrollSlide(container, config);
 		}
 		else if (config.effect == 'fade') {
-			new TB.widget.FadeSlide(container, config);
+			return new TB.widget.FadeSlide(container, config);
 		}
 		else {
-			new TB.widget.Slide(container, config);
+			return new TB.widget.Slide(container, config);
 		}
 	}	
 }

@@ -15,7 +15,8 @@ TB.form.Validation = new function() {
 		advice: 'default',					//错误信息通知类型
 		adviceClass: 'tb-fv-advice',		//校验信息通知层的 class
 		adviceContainerClass: null,			//校验信息通知层的父容器的 class， 有时通知层和表单域不是同一个parentNode
-		adviceMsgClass: 'tb-fv-advicemsg'	//校验信息通知层中放信息的标签 class，有时通知层可能包含其他标签
+		adviceMsgClass: 'tb-fv-advicemsg',	//校验信息通知层中放信息的标签 class，有时通知层可能包含其他标签
+		attachEvent: true					//是否注册 onSubmit 和 onReset 事件，默认为 true ，只有静态调用时为false
 	};
 
 	//校验器对象
@@ -63,6 +64,7 @@ TB.form.Validation = new function() {
 						//如果设置了 adviceContainerClass，根据该class找到父容器，因为表单域可能存在多层嵌套(在<table>或多层<div>下)，而advice可能要求显示在父容器指定处
 						var container = this.adviceContainerClass? $D.getAncestorByClassName(el, this.adviceContainerClass) : el.parentNode;
 						advice = $D.getElementsByClassName(this.adviceClass, 'div', container)[0];
+						if (advice && advice.id && advice.id != aid) { advice = null; } //两个表单域同parentNode时，避免覆盖
 						if (!advice) {
 							//创建advice
 							advice = document.createElement('div');
@@ -224,12 +226,12 @@ TB.form.Validation = new function() {
 		}
 		return result;
 	}
-
+	
 	var _validateField = function(el, handle) {
 		var hooks = el.className.split(/\s+/).filter(_isVHook);  //得到所有fv:xxx hook
 		var result = hooks.every(function(h) {
 			//根据hook取得对应校验器对象
-			var validator = handle.validators[h] || _.VALIDATORS[h];
+			var validator = (handle.validators)? (handle.validators[h] || _.VALIDATORS[h]) : _.VALIDATORS[h]; 
 			if (!validator) return true;
 			//执行校验，并得到结果
 			if (el.getAttribute('fv:params')) {
@@ -265,6 +267,18 @@ TB.form.Validation = new function() {
 		$D.removeClass(els, handle.passedClass);
 		if (handle.resetAdvices)
 			handle.resetAdvices();
+	}
+
+	/**
+	 * 静态调用
+	 * @param {Object} frm
+	 * @param {Object} config
+	 */
+	_.validate = function(frm, config) {
+		return this.attach(frm, Y.lang.merge(config || {}, {
+			attachEvent: false,
+			immediate: false
+		})).validate();
 	}
 
 	/**
@@ -335,9 +349,11 @@ TB.form.Validation = new function() {
 				return _validate(frm, handle);
 		};
 
-		$E.on(frm, 'submit', onSubmit);
-		$E.on(frm, 'reset', onReset);
-
+		if (handle.attachEvent) {
+			$E.on(frm, 'submit', onSubmit);
+			$E.on(frm, 'reset', onReset);
+		}
+		
 		if (handle.immediate) {
 			var els = _getElements(frm);
 			$E.on(els, 'blur', function() {
@@ -379,7 +395,7 @@ TB.form.Validation = new function() {
 		}],
 		//中国手机号码
 		['fv:mobile', '请输入有效的手机号码！', function(v) {
-			return _isEmpty(v) || /^(86)*0*13\d{9}$/.test(v);
+			return _isEmpty(v) || /^(86)*0*1[3|5]\d{9}$/.test(v);
 		}],
 		//中国邮编
 		['fv:postcode', '请输入有效的邮政编码！', function(v) {
@@ -397,7 +413,7 @@ TB.form.Validation = new function() {
 		['fv:selection', '请选择一个选项！', function(v, el){
 			return el.options ? el.selectedIndex > 0 : !_isEmpty(v);
 		}],
-		//是否选定 for <input type=radio|checkbox>
+		//是否选定 for <input type=radio|checkbox />
 		['fv:oneRequired', '请选择其中一个选项！', function (v,el) {
 			var name = el.name;
 			var group = el.form.elements[name];
@@ -412,3 +428,4 @@ TB.form.Validation = new function() {
 	]);
 
 }
+

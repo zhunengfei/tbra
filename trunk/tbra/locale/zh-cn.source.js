@@ -17,5 +17,4 @@ TB.locale.Messages = {
 	second: '√Î',
 	
 	timeoutText: ' ±º‰µΩ'
-		
-}
+};

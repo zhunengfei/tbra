@@ -4,24 +4,27 @@
 TB.widget.InputHint = new function() {
 	var defConfig = {
 		hintMessage: '',
-		hintClass: 'InputHint',
+		hintClass: 'tb-input-hint',
 		appearOnce: false
 	};
 	var EMPTY_PATTERN = /^\s*$/;
 	
 	var focusHandler = function(ev, handle) {
-		handle.disappear();
+		if (!handle.disabled)
+			handle.disappear();
 	}
 	var blurHandler = function(ev, handle) {
-		handle.appear();
+		if (!handle.disabled)
+			handle.appear();
 	}
 	
 	this.decorate = function(inputField, config) {
 		inputField = $(inputField);
 		config = TB.applyIf(config || {}, defConfig);
 		var hintMessage = config.hintMessage || inputField.title;
-
 		var handle = {};
+		handle.disabled = false;
+		
 		handle.disappear = function() {
 			if (hintMessage == inputField.value) {
 				inputField.value = '';
@@ -31,13 +34,21 @@ TB.widget.InputHint = new function() {
 		
 		handle.appear = function() {
 			if (EMPTY_PATTERN.test(inputField.value) || hintMessage == inputField.value) {
-				inputField.value = hintMessage;
 				$D.addClass(inputField, config.hintClass);
+				inputField.value = hintMessage;				
 			}
 		}
-
+		
+		handle.purge = function() {
+			this.disappear();
+			$E.removeListener(inputField, 'focus', focusHandler);
+			$E.removeListener(inputField, 'drop', focusHandler);
+			$E.removeListener(inputField, 'blur', blurHandler);
+		}
+		
 		/* ≥ı ºªØ */
-		inputField.setAttribute("title", hintMessage);
+		if (!inputField.title)
+			inputField.setAttribute("title", hintMessage);
 		$E.on(inputField, 'focus', focusHandler, handle);
 		$E.on(inputField, 'drop', focusHandler, handle); /* for ie/safari */
 		

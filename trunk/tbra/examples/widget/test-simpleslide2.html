@@ -3,107 +3,105 @@
 <head>
 <title>无标题文档</title>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<script type="text/javascript" src="../../yui-base.js"></script>
-<script type="text/javascript" src="../../tbra-debug.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+<style type="text/css">
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+
+.slide-demo {
+	width:360px;
+	height:190px;
+	overflow: hidden;
+}
+
+.custom-triggers {
+	width: 100%;
+	background: #eee;
+	padding:2px 0 2px 300px;
+	position: absolute;
+	bottom: 1px;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+.custom-triggers li {
+	display: inline;
+	float:left;
+	width:15px;
+	height:15px;
+	line-height:15px;
+	margin:0pt 0pt 0pt 2px;
+	text-align:center;
+	font-family: arial;
+	font-size:0.9em;
+	cursor: pointer;
+	border: 1px solid #dcdcdc;
+	color: #9f9f9f;
+}
+
+.custom-triggers li.current {
+	background:#c00100;
+	border: 1px solid #a00100;
+	color: #fff;
+	font-size:1.1em;
+	font-weight:bold;
+}
+</style>
+<script type="text/javascript" src="../../tbra-widgets.js"></script>
 </head>
 
 
 <body>
-<style type="text/css">
-body {
-	margin: 0;
-	padding: 0;
-}
-#MainPromotionBanner {
-	width:360px;
-	height:190px;
-}
 
-#MainPromotionBanner #SlidePlayer {
-	position:relative;
-	margin: 0 auto;
-}
-
-#MainPromotionBanner .Slides {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	height: 190px;
-	overflow: hidden;
-}
-#MainPromotionBanner .Slides li {
-	float: left;
-	width: 360px;
-	height: 190px;
-}
-
-#MainPromotionBanner .Slides img{
-	border:0;
-	display: block;
-	width: 360px;
-	height: 190px;	
-}
-
-#MainPromotionBanner .SlideTriggers{
-	margin: 0;
-	padding: 0;
-	list-style: none; 
-	position: absolute; 
-	top: 165px; 
-	right: 0px;
-	z-index: 10;
-	height: 25px;	
-}
-#MainPromotionBanner .SlideTriggers li{
-	float: left;
-	display: inline;
-	color: #74a8ed;
-	text-align: center;
-	line-height:16px;
-	width: 16px;
-	height: 16px;
-	font-family: Arial;
-	font-size: .9em;
-	cursor: pointer;
-	overflow: hidden; 
-	margin:3px 2px;
-	background: url(http://pics.taobao.com/bao/album/chl/fp/slide_trigger.gif) no-repeat center center;
-}
-#MainPromotionBanner .SlideTriggers li.Current{ 
-	color:#fff; 
-	background: url(http://pics.taobao.com/bao/album/chl/fp/slide_trigger_c.gif) no-repeat center center;
-	border:0; 
-	font-weight:bold;
-	font-size: 1.1em;
-	line-height: 21px;
-	height: 21px;
-	width: 21px;
-	margin:0 6px; 
-}
-</style>
-
-<div id="MainPromotionBanner">
-			<div id="SlidePlayer">
-				<ul class="Slides">
-					<li>
-						<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
-					</li>
-					<li>
-						<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
-					</li>
-					<li>
-						<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
-					</li>
-				</ul>
-			</div>
+<h2>缺省样式</h2>
+<div id="tb:slideDemo" class="slide-demo">
+	<ul class="Slides">
+		<li>
+			<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
+		</li>
+		<li>
+			<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
+		</li>
+		<li>
+			<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
+		</li>
+	</ul>
 </div>
 
-<div id="logDiv"></div>
 <script type="text/javascript">
-	TB.widget.SimpleSlide.decorate('SlidePlayer', {eventType:'click', effect:'scroll'});
-	if (YAHOO.widget.Logger) {
-		//var reader = new YAHOO.widget.LogReader( "logDiv", { height: "400px" } );
-	}	
+TB.widget.SimpleSlide.decorate('tb:slideDemo', {triggersClass:'tb-slide-triggers', currentClass:'current', eventType:'mouse', effect:'scroll', 
+	onSlide:function(idx){/*alert(idx)*/},
+	beforeSlide: function(idx) {/*alert('before ' + idx)*/}
+});
+</script>
+
+<hr />
+
+<h2>自定义样式</h2>
+<div id="tb:slideDemo2" class="slide-demo">
+	<ul class="Slides">
+		<li>
+			<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner1&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
+		</li>
+		<li>
+			<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner2&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
+		</li>
+		<li>
+			<iframe width="360" scrolling="no" height="190" frameborder="0" src="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp&border=0&local=yes" marginwidth="0" marginheight="0"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp&local=yes&js=on"></SCRIPT><NOSCRIPT><A HREF="http://taobaoafp.allyes.com/main/adfclick?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp"><IMG SRC="http://taobaoafp.allyes.com/main/adfshow?user=taobao|homepage|Firstscreen_lunbo_banner3&db=taobaoafp" WIDTH=360 HEIGHT=190 BORDER=0></a></NOSCRIPT></iframe>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+TB.widget.SimpleSlide.decorate('tb:slideDemo2', {triggersClass:'custom-triggers', currentClass:'current', eventType:'mouse', effect:'scroll', 
+	onSlide:function(idx){/*alert(idx)*/},
+	beforeSlide: function(idx) {/*alert('before ' + idx)*/}
+});
 </script>
 </body>
 </html>

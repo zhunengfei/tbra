@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Untitled Document</title>
+<script src="../../yui-base.js"></script>
+<script src="../../tbra-debug.js"></script>
+<script src="../../build/widget/accordion.js"></script>
+</head>
+<body>
+
+<div id="demo">
+	
+<h2 class="tb-accordion-toggle">Introduce</h2>
+<div class="tb-accordion-content">
+	<p>
+		TBra 是淘宝的JavaScript开发框架，基于YUI，目前包含的组件包括:
+		<ul>
+			<li>TB.common</li>
+			<li>TB.dom</li>
+			<li>TB.bom</li>
+			<li>TB.util</li>
+			<li>TB.widget</li>
+			<li>TB.form</li>
+		</ul>
+		<button onclick="kkk.activate(1);">Next</button>
+	</p>
+</div>
+
+<h2 class="tb-accordion-toggle">Example</h2>
+<div class="tb-accordion-content">
+	<pre>
+	(function() {
+		var ua = navigator.userAgent.toLowerCase();
+		var _isOpera = ua.indexOf('opera') != -1,
+			_isSafari = ua.indexOf('safari') != -1,
+			_isGecko = !_isOpera && !_isSafari && ua.indexOf('gecko') > -1,
+			_isIE = !_isOpera && ua.indexOf('msie') != -1, 
+			_isIE6 = !_isOpera && ua.indexOf('msie 6') != -1;
+			
+		TB.bom = {
+			isOpera: _isOpera,
+			isSafari: _isSafari,
+			isGecko: _isGecko,
+			isIE: _isIE,
+			isIE6: _isIE6
+		}
+	});	
+	</prv>
+</div>
+
+
+<h2 class="tb-accordion-toggle">About Taobao UED</h2>
+<div class="tb-accordion-content">
+	<img src="http://pics.taobao.com/bao/album/promotion/ui_team_board.jpg" />
+</div>
+	
+</div>
+
+<style type="text/css">
+#demo {
+	width: 600px;
+}
+#demo h2 {
+	margin:0;
+}
+.tb-accordion-toggle {
+	color: #000;
+	background: #eee;
+}
+.tb-accordion-toggle-active {
+	color: #fff;
+	background: #000;
+}
+.tb-accordion-content {
+	background: #fff;
+	overflow: hidden;	
+}
+</style>
+
+<br />
+<br />
+<hr />
+<br />
+<br />
+
+<style>
+#demo2 {
+	width: 800px;
+}
+#demo2 h2.tb-accordion-toggle {
+	float: left;
+	width: 25px;
+	margin:0;
+	padding:0;
+	text-align: center;
+	font: normal 20px 'SimHei';
+}
+#demo2 div.tb-accordion-content {
+	float: left;
+	width: 100px;
+	overflow:hidden;
+}	
+</style>
+
+<div id="demo2">
+	
+<h2 class="tb-accordion-toggle">简介</h2>
+<div class="tb-accordion-content">
+	<p style="width:300px;">
+		TBra 是淘宝的JavaScript开发框架，基于YUI，目前包含的组件包括:
+		<ul>
+			<li>TB.common</li>
+			<li>TB.dom</li>
+			<li>TB.bom</li>
+			<li>TB.util</li>
+			<li>TB.widget</li>
+			<li>TB.form</li>
+		</ul>
+	</p>
+</div>
+
+<h2 class="tb-accordion-toggle">范例</h2>
+<div class="tb-accordion-content">
+	<pre>
+	(function() {
+		var ua = navigator.userAgent.toLowerCase();
+		var _isOpera = ua.indexOf('opera') != -1,
+			_isSafari = ua.indexOf('safari') != -1,
+			_isGecko = !_isOpera && !_isSafari && ua.indexOf('gecko') > -1,
+			_isIE = !_isOpera && ua.indexOf('msie') != -1, 
+			_isIE6 = !_isOpera && ua.indexOf('msie 6') != -1;
+			
+		TB.bom = {
+			isOpera: _isOpera,
+			isSafari: _isSafari,
+			isGecko: _isGecko,
+			isIE: _isIE,
+			isIE6: _isIE6
+		}
+	});	
+	</prv>
+</div>
+
+
+<h2 class="tb-accordion-toggle">关于淘宝U<br/>E<br/>D</h2>
+<div class="tb-accordion-content">
+	<img src="http://pics.taobao.com/bao/album/promotion/ui_team_board.jpg" />
+</div>
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var kkk = TB.widget.Accordion.decorate('demo', {
+	animate:true,
+	disableActivateMultiple: false,	
+	/*eventType:'mouse',*/
+	/*fixedHeight: 300,*/
+	onActivate: function(idx){
+		//alert(idx);
+	}
+});
+
+var a2 = TB.widget.Accordion.decorate('demo2', {
+	animate:false,
+	fixedWidth:300,
+	direction:'h',
+	autoActivateFirst: false
+});
+//a2.activate(2);
+</script>	
+	
+</body>
+</html>
+	
+	

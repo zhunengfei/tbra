@@ -145,7 +145,7 @@ if (!String.prototype.toQueryParams) {
 				hash[key] = value;
 			}
 		}
-		return hash;					
+		return hash;
 	}
 }
 

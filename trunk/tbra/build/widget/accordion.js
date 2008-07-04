@@ -19,11 +19,19 @@ TB.widget.Accordion = new function() {
 		autoActivateFirst: true
 	}
 	
+	var classMatcher = function(node) {
+		return $D.hasClass()
+	}
+	
 	this.decorate = function(container, config) {
 		container = $(container);
 		config = TB.applyIf(config || {}, defConfig);
-		var toggles = $D.getElementsByClassName(config.toggleClass, null, container);
-		var contentPanels = $D.getElementsByClassName(config.contentClass, null, container);
+		var toggles = $D.getChildrenBy(container, function(node){
+			return $D.hasClass(node, config.toggleClass);
+		});
+		var contentPanels = $D.getChildrenBy(container, function(node) {
+			return $D.hasClass(node, config.contentClass);	
+		});
 		var isHorizontal = (config.direction.toLowerCase() == 'horizontal') || (config.direction.toLowerCase() == 'h');
 		
 		var handle = {};
