@@ -90,6 +90,8 @@ TB.widget.SimpleSlide.decorate('fp:slide', {triggersClass:'tb-slide-triggers', c
 
 其使用的是默认样式，控制条会通过绝对定位显示在右下角。可以很容易的自定义一套控制条的样式，例如可以修改上面的例子：
 
+*自定义轮播卡盘控制条*
+
 CSS:
 {{{
 .custom-triggers {
