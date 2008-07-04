@@ -50,7 +50,7 @@ TB.widget.SimpleSlide 会自动产生一个控制条<ul>，并插入到轮播卡
 == Config 参数说明 == 
 
 || 参数名 || 可选值 || 备注 ||
-|| slidesClass || 自定义/空 || container下第一个className 命名为该值的<ul>将会被认为是轮播卡盘的标签，默认为 _Slides_ 。如果不提供，将自动取container下的第一个<ul> ||
+|| slidesClass || 自定义/空 || container下第一个拥有该className 命名的<ul>将会被认为是轮播卡盘的标签，默认为 _Slides_ 。如果不提供，将自动取container下的第一个<ul> ||
 || triggersClass || 自定义 || 自动生成的控制条<ul>的className，用于定义控制条的样式，为兼容之前的版本，默认值为 _SlideTriggers_ ，TBra默认样式使用 _tb-slide-triggers_ 。参见后面的版本说明。||
 || currentClass || 自定义 || 控制条<ul>的显示当前状态的<li>的className。TBra默认样式使用 current。参见后面的版本说明。 ||
 || eventType || mouse / click || click 即鼠标点击触发切换，mouse 即鼠标移动到控制条<li>上便触发。默认值为 _click_ 。 ||
