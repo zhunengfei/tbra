@@ -131,9 +131,12 @@ JavaScript:
 TB.widget.SimpleSlide.decorate('fp:slide', {triggersClass:'custom-triggers', currentClass:'current', eventType:'mouse', effect:'scroll'});
 }}}
 
-详细参见：http://
+详细参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide2.html
+更多自定义控制条的例子参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide.html
 
 
 =版本说明=
 
+以前的版本中，缺省的 triggersClass 参数值为 SlideTriggers，缺省的 currentClass 参数值为 Current 。 也就是说，如果不带任何配置参数地去调用 TB.widget.SimpleSlide , 那么它默认会从当前 css 中寻找这些类的定义。
 
+新版本中，为配合TBSP的css命名规范，TBra缺省提供了一套符合规范的控制条CSS实现，对应的 triggersClass=tb-slide-triggers, currentClass=current。建议不要再使用原来的css定义。
