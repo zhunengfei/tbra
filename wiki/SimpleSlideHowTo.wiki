@@ -60,7 +60,7 @@ TB.widget.SimpleSlide 会自动产生一个控制条<ul>，并插入到轮播卡
 
 =范例=
 
-* 淘宝首页的轮播卡盘：
+*淘宝首页的轮播卡盘*：
 
 xHTML:
 {{{
@@ -132,6 +132,7 @@ TB.widget.SimpleSlide.decorate('fp:slide', {triggersClass:'custom-triggers', cur
 }}}
 
 详细参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide2.html
+
 更多自定义控制条的例子参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide.html
 
 
