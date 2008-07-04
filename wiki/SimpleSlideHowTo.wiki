@@ -56,7 +56,7 @@ TB.widget.SimpleSlide 会自动产生一个控制条<ul>，并插入到轮播卡
 || eventType || mouse / click || click 即鼠标点击触发切换，mouse 即鼠标移动到控制条<li>上便触发。默认值为 _click_ 。 ||
 || disableAutoPlay || true / false || 禁用自动播放，默认为 _false_ ||
 || autoPlayTimeout || 自定义秒数 || 激活自动播放时，切换的时间间隔，默认值为5，表示5秒||
-
+|| effect || scroll / fade || scroll 即滚动切换， fade 为淡入淡出切换 ||
 
 =范例=
 
@@ -130,10 +130,12 @@ CSS:
 
 JavaScript:
 {{{
-TB.widget.SimpleSlide.decorate('fp:slide', {triggersClass:'custom-triggers', currentClass:'current', eventType:'mouse', effect:'scroll'});
+TB.widget.SimpleSlide.decorate('fp:slide', {triggersClass:'custom-triggers', currentClass:'current', eventType:'mouse', effect:'fade'});
 }}}
 
-详细参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide2.html
+上面的例子自定义了控制条的样式，且使用淡入淡出的切换效果。
+
+可运行的范例参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide2.html
 
 更多自定义控制条的例子参见：http://tbra.googlecode.com/svn/trunk/tbra/examples/widget/test-simpleslide.html
 
